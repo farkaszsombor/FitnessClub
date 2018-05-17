@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitnessClub", "FitnessClub\FitnessClub.csproj", "{F2A8AE45-A649-45D1-A221-E02D7DF240BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{C0DA14EA-AFDB-4F4A-99D9-4A58FD1E0C72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F2A8AE45-A649-45D1-A221-E02D7DF240BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2A8AE45-A649-45D1-A221-E02D7DF240BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A8AE45-A649-45D1-A221-E02D7DF240BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0DA14EA-AFDB-4F4A-99D9-4A58FD1E0C72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0DA14EA-AFDB-4F4A-99D9-4A58FD1E0C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0DA14EA-AFDB-4F4A-99D9-4A58FD1E0C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0DA14EA-AFDB-4F4A-99D9-4A58FD1E0C72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAccessLayer.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,11 @@ namespace FitnessClub.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+            //CreateDatabase.InitDatabase();
+            //Ezt csak egyszer kell elvegezni hogy az adatbazist letrehozza
+        }
         public ActionResult Index()
         {
             return View();
