@@ -16,6 +16,12 @@ namespace FitnessClub
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Admin",
+                url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Admin", action = "Index", id = UrlParameter.Optional }
             );
         }

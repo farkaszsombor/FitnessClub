@@ -24,7 +24,7 @@ namespace FitnessClub.Controllers
         {
             if(EmployeeUtils.AuthenticationEmployee(user.Name,user.Password))
             {
-                return Content("bejelentkezve");
+                return RedirectToAction("Index", "Admin");
             }
             return RedirectToAction("LoginError");
     
