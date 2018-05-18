@@ -1,24 +1,60 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
+﻿
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
+
 .dl-horizontal dt {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.content {
+    width: 100%;
+    max-width: 1366px;
+}
+.login-title {
+    width:261px;
+    margin: 0 auto;
+}
+.login-title p {
+    font-size: 50px;
+    font-family: 'Lobster', cursive;
+    color:black;
+}
+.login-title img {
+    width:100%
+}
+.login-title hr {
+    background-color: #000;
+    height: 1px;
+}
+.content-center {
+    padding-top:40px;
+    width: 30%;
+    margin: 0 auto;
+}
+.content-center h1{
+    text-align:center;
+}
+.login-form p {
+    display: inline-block;
+    width: 20%;
+    color: black;
+}
+.input {
+    display: inline-block;
+    width: 75%;
+    color:black;
+}
+input[type=submit] {
+    width: 100px;
+    padding: 5px;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid black;
+}
+input[type=submit]:hover {
+    background-color: black;
+    color: white;
 }

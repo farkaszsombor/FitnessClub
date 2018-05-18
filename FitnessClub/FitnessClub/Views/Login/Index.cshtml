@@ -1,0 +1,19 @@
+﻿@model FitnessClub.Models.Employee
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Login/_LoginLayout.cshtml";
+}
+
+<div class="content-center">
+    @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { @class = "login-form" }))
+    {
+        <p>User Name:</p>
+        @Html.TextBoxFor(user => user.Name, new { @class = "input" })
+
+        <br />
+        <p>Password:</p>
+        @Html.PasswordFor(user => user.Password, new { @class = "input" })
+        <input type="submit" name="submit" value="Login" />
+    }
+</div>
+
