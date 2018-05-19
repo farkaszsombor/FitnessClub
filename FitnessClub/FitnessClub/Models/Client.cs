@@ -13,7 +13,8 @@ namespace FitnessClub.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string ImagePath { get; set; }
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
+        public int BirthYear { get; set; }
         public DateTime InsertedDate { get; set; }
         public string IdentityNumber { get; set; }
         public bool Sex { get; set; }
