@@ -1,0 +1,34 @@
+﻿@model IEnumerable<FitnessClub.Models.TicketType>
+@{
+    ViewBag.Title = "ListTicketTypes";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h2>Ticket Types</h2>
+
+<div>
+    <hr />
+    <table class="info">
+        <tr>
+            <th>ID</th>
+            <th>Number of Daya</th>
+            <th>Occasion</th>
+            <th>Status</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in (dynamic)Model)
+        {
+            <tr>
+                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(item.DayNum)</td>
+                <td>@Html.Encode(item.OccasionNum)</td>
+                <td>@Html.Encode(item.Status)</td>
+                <td>@Html.Encode(item.Price)</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
+            </tr>
+        }
+    </table>
+</div>

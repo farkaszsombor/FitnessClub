@@ -89,5 +89,16 @@ namespace DataAccessLayer.Utils
             return temp;
         }
 
+
+        public static List<Room> GetAllRooms()
+        {
+            List<Room> roomContextList = new List<Room>();
+            using(var ctx = new NorthwindContext())
+            {
+                var query = ctx.Rooms.Select(x => x);
+                roomContextList.AddRange(query);
+            }
+            return roomContextList;
+        }
     }
 }

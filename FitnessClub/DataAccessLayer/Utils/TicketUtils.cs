@@ -3,8 +3,7 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DataAccessLayer.Utils
 {
@@ -39,12 +38,12 @@ namespace DataAccessLayer.Utils
             List<Ticket> ticketList = new List<Ticket>();
             using (var ctx = new NorthwindContext())
             {
-                
-                var query = from x in ctx.Tickets select x;
+                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type) select ticket;
                 ticketList.AddRange(query);
             }
             return ticketList;
         }
+
         //var query = from x in ctx.Clients.Include(b => b.Inserter) select x;
         public static bool InsertTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type, bool sure)
         {

@@ -65,5 +65,17 @@ namespace DataAccessLayer.Utils
             return temp;
         }
 
+        public static List<Event> GetAllEvents()
+        {
+            List<Event> eventContextList = new List<Event>();
+            using(var ctx = new NorthwindContext())
+            {
+                var query = from e in ctx.Events.Include(x => x.Card).Include(y => y.Ticket).Include(z => z.Room).Include(w => w.Inserter) select e;
+                eventContextList.AddRange(query);
+            }
+
+            return eventContextList;
+        }
+
     }
 }

@@ -1,8 +1,7 @@
-﻿using FitnessClub.Models;
+﻿using DataAccessLayer.Utils;
+using FitnessClub.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace FitnessClub.Controllers
@@ -37,6 +36,115 @@ namespace FitnessClub.Controllers
                 clientList.Add(client);
             }
             return View(clientList);
+        }
+
+        public ActionResult ListEmployees()
+        {
+            List<DataAccessLayer.Entities.Employee> empContextList = EmployeeUtils.GetAllEmplyees();
+            List<Employee> empList = new List<Employee>();
+            Employee emp = new Employee();
+            foreach(DataAccessLayer.Entities.Employee element in empContextList)
+            {
+                emp.ID = element.Id;
+                emp.Name = element.Name;
+                emp.isDeleted = element.IsDeleted;
+                emp.Department = element.Department;
+                emp.WorkPlaceName = element.WorkPlace.Name;
+                empList.Add(emp);
+                empList.Add(emp);
+            }
+            return View(empList);
+        }
+
+        public ActionResult ListTickets()
+        {
+            //it can be finished when there will be data in table not just null everywhere :P 
+            List<DataAccessLayer.Entities.Ticket> ticketContextList = TicketUtils.GetAllTickets();
+            List<Ticket> ticketList = new List<Ticket>();
+            Ticket ticket = new Ticket();
+            foreach(DataAccessLayer.Entities.Ticket element in ticketContextList)
+            {
+                ticket.ID = 1;
+                ticket.BuyingDate = DateTime.Now;
+                ticket.StartDate = DateTime.Now;
+                ticket.Price = 12.3;
+                ticket.EmployeeName = "Admin";
+                ticket.TicketName = "WeightLifting";
+            }
+            ticket.ID = 1;
+            ticket.BuyingDate = DateTime.Now;
+            ticket.StartDate = DateTime.Now;
+            ticket.Price = 12.3;
+            ticket.EmployeeName = "Admin";
+            ticket.TicketName = "WeightLifting";
+
+            ticketList.Add(ticket);
+            ticketList.Add(ticket);
+
+            return View(ticketList);
+        }
+
+        public ActionResult ListEvents()
+        {
+            List<DataAccessLayer.Entities.Event> eventContextList = EventUtils.GetAllEvents();
+            List<Event> eventList = new List<Event>();
+            Event @event = new Event();//masked event is a keyword and we do not want use it as keyword
+            foreach (DataAccessLayer.Entities.Event element in eventContextList)
+            {
+                @event.ID = element.Id;
+                @event.Date = element.Date;
+                @event.Type = element.Type;
+                @event.ClientName = element.Card.FirstName + " " + element.Card.LastName;
+                @event.EmployeeName = element.Inserter.Name;
+                @event.RoomName = element.Room.Name;
+            }
+            @event.ID = 1;
+            @event.Date = DateTime.Now;
+            @event.Type = true;
+            @event.ClientName = "Farkas Zsombor";
+            @event.EmployeeName = "Admin";
+            @event.RoomName = "Gyurunk wazzeg";
+
+            eventList.Add(@event);
+            eventList.Add(@event);
+
+            return View(eventList);
+        }
+
+        public ActionResult ListTicketTypes()
+        {
+            List<DataAccessLayer.Entities.TicketType> typesContextList = TicketTypeUtils.GetAllTicketTypes();
+            List<TicketType> typeList = new List<TicketType>();
+            TicketType type = new TicketType();
+            foreach(DataAccessLayer.Entities.TicketType element in typesContextList)
+            {
+                
+            }
+            type.Id = 1;
+            type.DayNum = 30;
+            type.OccasionNum = 1;
+            type.Status = true;
+            type.Price = 12.12;
+            typeList.Add(type);
+            typeList.Add(type);
+            return View(typeList);
+        }
+
+        public ActionResult ListRooms()
+        {
+            List<DataAccessLayer.Entities.Room> roomContextList = RoomUtils.GetAllRooms();
+            List<Room> roomList = new List<Room>();
+            Room room = new Room();
+            foreach(DataAccessLayer.Entities.Room element in roomContextList)
+            {
+                room.Id = element.Id;
+                room.Name = element.Name;
+                room.IsDeleted = element.IsDeleted;
+                roomList.Add(room);
+                roomList.Add(room);
+            }
+
+            return View(roomList);
         }
     }
 }
