@@ -35,7 +35,7 @@ namespace FitnessClub.Controllers
                 {
                     return RedirectToAction("Index", "Admin");
                 }
-               // return RedirectToAction("Index", "Employee");
+                return RedirectToAction("Index", "Employee");
             }
             return RedirectToAction("LoginError");
     
