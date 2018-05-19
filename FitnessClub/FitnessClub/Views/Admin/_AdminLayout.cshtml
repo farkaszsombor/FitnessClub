@@ -13,10 +13,11 @@
     <nav class="navi">
         <ul>
             <li>@Html.ActionLink("Clients", "List", "Admin")</li>
-            <li>Tickets</li>
-            <li>Item1</li>
-            <li>Item2</li>
-            <li>Item3</li>
+            <li>@Html.ActionLink("Employees", "ListEmployees","Admin")</li>
+            <li>@Html.ActionLink("Tickets","ListTickets","Admin")</li>
+            <li>@Html.ActionLink("Events","ListEvents","Admin")</li>
+            <li>@Html.ActionLink("Ticket Types", "ListTicketTypes","Admin")</li>
+            <li>@Html.ActionLink("Rooms", "ListRooms","Admin")</li>
         </ul>
     </nav>
     <div>

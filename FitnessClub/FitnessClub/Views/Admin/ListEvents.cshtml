@@ -1,0 +1,37 @@
+﻿@model IEnumerable<FitnessClub.Models.Event>
+@{
+    ViewBag.Title = "ListEvents";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<h2>Event List</h2>
+
+<div>
+    <hr />
+    <table class="info">
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Client Name</th>
+            <th>Employee Name</th>
+            <th>Room Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in (dynamic)Model)
+        {
+            <tr>
+                <td>@Html.Encode(item.ID)</td>
+                <td>@Html.Encode(item.Date)</td>
+                <td>@Html.Encode(item.Type)</td>
+                <td>@Html.Encode(item.ClientName)</td>
+                <td>@Html.Encode(item.EmployeeName)</td>
+                <td>@Html.Encode(item.RoomName)</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
+                <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
+            </tr>
+        }
+    </table>
+</div>
+
