@@ -3,8 +3,7 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DataAccessLayer.Utils
 {
@@ -39,12 +38,12 @@ namespace DataAccessLayer.Utils
             List<Ticket> ticketList = new List<Ticket>();
             using (var ctx = new NorthwindContext())
             {
-                
-                var query = from x in ctx.Tickets select x;
+                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type) select ticket;
                 ticketList.AddRange(query);
             }
             return ticketList;
         }
+
         //var query = from x in ctx.Clients.Include(b => b.Inserter) select x;
         public static bool InsertTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type, bool sure)
         {
@@ -83,29 +82,77 @@ namespace DataAccessLayer.Utils
 
         }
 
-        public static bool DeleteTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type)
+        public static bool DeleteTicketFromDatabase(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type)
         {
+            bool temp = false;
             using (var ctx = new NorthwindContext())
             {
                 //testing if tisket already exist
-                int resultTicket = 0;
+                Ticket resultTicket;
                 var queryTicket = from t in ctx.Tickets
                                   where t.Card == client &&
                                       //t.BuyingDate == buyingDate &&
                                       t.StartDate == startDate &&
                                       t.Type == type
-                                  select t.Id;
+                                  select t;
                 resultTicket = queryTicket.FirstOrDefault();
-                if (resultTicket != 0)
+                if (resultTicket != null)
                 {   //if ticket doesent exists
-                    ctx.Tickets.Remove(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                    return true;
+                    ctx.Tickets.Remove(resultTicket);
+                    temp = true;
                 }
                 else
                 {   //if ticket already exists
-                    return false;
+                    temp = false;
                 }
             }
+            return temp;
+        }
+
+        public static bool DeleteTicketFromDatabase(int ticketId)
+        {
+            bool temp = false;
+
+            using (var ctx = new NorthwindContext())
+            {
+                Ticket delTicket = (from e in ctx.Tickets
+                                  where e.Id == ticketId
+                                  select e).FirstOrDefault();
+                if (delTicket != null)
+                {
+                    ctx.Tickets.Remove(delTicket);
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }
+
+            return temp;
+        }
+
+        public static bool DeleteTicket(int ticketId)
+        {
+            bool temp = false;
+
+            using (var ctx = new NorthwindContext())
+            {
+                Ticket delTicket = (from e in ctx.Tickets
+                                    where e.Id == ticketId
+                                    select e).FirstOrDefault();
+                if (delTicket != null)
+                {
+                    delTicket.IsDeleted = true;
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }
+
+            return temp;
         }
         
     }
