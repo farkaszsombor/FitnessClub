@@ -15,7 +15,8 @@ namespace DataAccessLayer.Utils
             List<Client> clientList = new List<Client>();
             using (var ctx = new NorthwindContext())
             {
-                var query = from x in ctx.Clients select x;
+                var query = (from x in ctx.Clients select x).ToList();
+
                 clientList.AddRange(query);
             }
             return clientList;

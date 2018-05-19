@@ -11,15 +11,22 @@ namespace DataAccessLayer.Utils
     {
         public static bool AuthenticationEmployee(string name, string pwd)
         {
-            int result = 0;
+            bool result;
             using (var ctx=new NorthwindContext())
             {
-                var query = from emp in ctx.Employees
+                var query = (from emp in ctx.Employees
                             where emp.Name==name &&
-                                   emp.Password==pwd &&
                                    emp.IsDeleted == false
-                            select emp.Id;
-                result = query.FirstOrDefault();
+                            select emp.Password.ToString()).ToList();
+
+                if(query.FirstOrDefault().ToString()==pwd)
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
             }
             return Convert.ToBoolean(result);
 
