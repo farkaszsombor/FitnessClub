@@ -16,7 +16,7 @@ namespace FitnessClub.Models
         public bool isDeleted { get; set; }
         public DateTime InsertedDate { get; set; }
         public string IdentityNumber { get; set; }
-        public string Sex { get; set; }
+        public bool Sex { get; set; }
         public string InserterName { get; set; }
     }
 }

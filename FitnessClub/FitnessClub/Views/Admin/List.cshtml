@@ -1,46 +1,47 @@
-﻿@model FitnessClub.Models.Client
+﻿@model IEnumerable<FitnessClub.Models.Client>
 @{
     ViewBag.Title = "List";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
 }
 
 <h2>Client list</h2>
 
 <div>
     <hr />
-    <h2>@ViewBag.Message</h2>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IdentityNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sex)
-        </dd>
-
-    </dl>
+    <table class="info">
+        <tr>
+            <th>ID</th>
+            <th>FirstName</th>
+            <th>Lastname</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>ImagePath</th>
+            <th>Deleted</th>
+            <th>InsertedDate</th>
+            <th>CNP</th>
+            <th>Sex</th>
+            <th>InserterName</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        @foreach (var item in (dynamic)Model){
+        <tr>
+            <td>@Html.Encode(item.Id)</td>
+            <td>@Html.Encode(item.FirstName)</td>
+            <td>@Html.Encode(item.LastName)</td>
+            <td>@Html.Encode(item.Phone)</td>
+            <td>@Html.Encode(item.Email)</td>
+            <td>@Html.Encode(item.ImagePath)</td>
+            <td>@Html.Encode(item.isDeleted)</td>
+            <td>@Html.Encode(item.InsertedDate)</td>
+            <td>@Html.Encode(item.IdentityNumber)</td>
+            <td>@Html.Encode(item.Sex)</td>
+            <td>@Html.Encode(item.InserterName)</td>
+            <td>@Html.ActionLink("Edit","Edit","Admin")</td>
+            <td>@Html.ActionLink("Delete","Delete","Admin")</td>
+        </tr>
+        }
+    </table>
 </div>
 

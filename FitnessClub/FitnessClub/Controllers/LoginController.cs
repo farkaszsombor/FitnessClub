@@ -22,7 +22,7 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult Login(Employee user)
         {
-            if(EmployeeUtils.AuthenticationEmployee(user.Name,user.Password))
+            if (EmployeeUtils.AuthenticationEmployee(user.Name,user.Password))
             {
                 return RedirectToAction("Index", "Admin");
             }

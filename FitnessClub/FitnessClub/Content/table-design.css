@@ -1,0 +1,29 @@
+﻿.info {
+    width: 100%;
+}
+.info tr th{
+    background-color : dimgrey;
+    color : white;
+}
+.navi {
+    background-color: dimgray;
+}
+
+.nav ul {
+    width: 100%;
+}
+
+.navi ul li {
+    padding: 12px;
+    font-size: 18px;
+    color: white;
+    display: inline-block;
+}
+.navi ul li:hover {
+    background-color: black;
+}
+.navi ul li a{
+    list-style-type : none;
+    text-decoration:none;
+    color: white;
+}

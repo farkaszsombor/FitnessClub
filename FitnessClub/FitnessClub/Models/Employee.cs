@@ -7,7 +7,11 @@ namespace FitnessClub.Models
 {
     public class Employee
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
+        public bool isDeleted { get; set; }
+        public string Department { get; set; }
+        public string WorkPlaceName { get; set; }
     }
 }
