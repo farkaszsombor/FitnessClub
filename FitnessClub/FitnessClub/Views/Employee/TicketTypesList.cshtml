@@ -1,4 +1,4 @@
-﻿@model List<FitnessClub.Models.TicketType> 
+﻿@model List<FitnessClub.Models.TicketType>
 @{
     ViewBag.Title = "TicketTypesList";
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
@@ -6,5 +6,5 @@
 
 @foreach (var item in (dynamic)Model)
 {
-   
+    @Html.Encode(item.OccasionNum)
 }

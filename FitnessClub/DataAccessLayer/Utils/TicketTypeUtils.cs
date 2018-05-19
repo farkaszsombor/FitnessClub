@@ -15,7 +15,8 @@ namespace DataAccessLayer.Utils
             List<TicketType> result = new List<TicketType>();
             using (var ctx = new NorthwindContext())
             {
-                var query = ctx.TicketTypes.Select(x=>x).ToList();
+                var query = from c in ctx.TicketTypes
+                            select c;
                 result.AddRange(query);
             }
             return result;
