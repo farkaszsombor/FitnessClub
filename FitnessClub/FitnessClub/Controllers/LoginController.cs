@@ -10,6 +10,13 @@ namespace FitnessClub.Controllers
 {
     public class LoginController : Controller
     {
+        public LoginController()
+        {
+            //ez azert kell, hogy letrehozza az adatbazist
+
+            //CreateDatabase.InitDatabase();
+
+        }
         // GET: Login
         public ActionResult Index()
         {
@@ -24,7 +31,11 @@ namespace FitnessClub.Controllers
         {
             if (EmployeeUtils.AuthenticationEmployee(user.Name,user.Password))
             {
-                return RedirectToAction("Index", "Admin");
+                if (user.Name == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+               // return RedirectToAction("Index", "Employee");
             }
             return RedirectToAction("LoginError");
     

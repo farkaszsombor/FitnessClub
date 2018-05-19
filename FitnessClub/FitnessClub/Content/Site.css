@@ -58,3 +58,92 @@ input[type=submit]:hover {
     background-color: black;
     color: white;
 }
+.navigation-bar {
+    float: left;
+    list-style-type: none;
+}
+.navigation-bar li {
+    display: inline-block;
+    width: 80px;
+    padding: 15px;
+    cursor: pointer;
+}
+.navigation-bar li a {
+    color: black;
+    text-decoration: none;
+}
+#navbar-logo {
+    width: 280px;
+    font-size: 30px;
+    font-family: 'Lobster', cursive;
+    color: black;
+    cursor: default;
+}
+/* NAVIGATION */
+nav {
+    width: 80%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 50px 0;
+}
+
+nav ul {
+    list-style: none;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 10px;
+}
+
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+    transition: all .5s;
+}
+
+
+
+/* SHIFT */
+nav.shift ul li a {
+    position: relative;
+    z-index: 1;
+}
+
+nav.shift ul li a:hover {
+    color: white;
+}
+
+nav.shift ul li a:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    height: 1px;
+    content: '.';
+    color: transparent;
+    background: black;
+    opacity: 0;
+    z-index: -1;
+}
+
+nav.shift ul li a:hover:after {
+    opacity: 1;
+    visibility: visible;
+    height: 100%;
+}
