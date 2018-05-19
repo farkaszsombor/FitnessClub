@@ -162,6 +162,9 @@
     </Compile>
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -170,12 +173,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Erik\Site.css" />
     <Content Include="Content\Images\gym.png" />
     <Content Include="Content\table-design.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -213,6 +216,11 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\TicketTypesList.cshtml" />
     <Content Include="Views\Employee\_EmployeeLayout.cshtml" />
+    <Content Include="Views\Admin\ListEmployees.cshtml" />
+    <Content Include="Views\Admin\ListEvents.cshtml" />
+    <Content Include="Views\Admin\ListRooms.cshtml" />
+    <Content Include="Views\Admin\ListTickets.cshtml" />
+    <Content Include="Views\Admin\ListTicketTypes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

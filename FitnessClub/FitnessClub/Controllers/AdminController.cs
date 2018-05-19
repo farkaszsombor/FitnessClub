@@ -18,9 +18,10 @@ namespace FitnessClub.Controllers
         {
             List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.getAllClients();
             List<Client> clientList = new List<Client>();
-            Client client = new Client();
-            foreach(DataAccessLayer.Entities.Client element in layerClientList)
+            Client client;
+            foreach (DataAccessLayer.Entities.Client element in layerClientList)
             {
+                client = new Client();
                 client.Id = element.Id;
                 client.FirstName = element.FirstName;
                 client.LastName = element.LastName;
