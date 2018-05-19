@@ -83,29 +83,77 @@ namespace DataAccessLayer.Utils
 
         }
 
-        public static bool DeleteTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type)
+        public static bool DeleteTicketFromDatabase(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type)
         {
+            bool temp = false;
             using (var ctx = new NorthwindContext())
             {
                 //testing if tisket already exist
-                int resultTicket = 0;
+                Ticket resultTicket;
                 var queryTicket = from t in ctx.Tickets
                                   where t.Card == client &&
                                       //t.BuyingDate == buyingDate &&
                                       t.StartDate == startDate &&
                                       t.Type == type
-                                  select t.Id;
+                                  select t;
                 resultTicket = queryTicket.FirstOrDefault();
-                if (resultTicket != 0)
+                if (resultTicket != null)
                 {   //if ticket doesent exists
-                    ctx.Tickets.Remove(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                    return true;
+                    ctx.Tickets.Remove(resultTicket);
+                    temp = true;
                 }
                 else
                 {   //if ticket already exists
-                    return false;
+                    temp = false;
                 }
             }
+            return temp;
+        }
+
+        public static bool DeleteTicketFromDatabase(int ticketId)
+        {
+            bool temp = false;
+
+            using (var ctx = new NorthwindContext())
+            {
+                Ticket delTicket = (from e in ctx.Tickets
+                                  where e.Id == ticketId
+                                  select e).FirstOrDefault();
+                if (delTicket != null)
+                {
+                    ctx.Tickets.Remove(delTicket);
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }
+
+            return temp;
+        }
+
+        public static bool DeleteTicket(int ticketId)
+        {
+            bool temp = false;
+
+            using (var ctx = new NorthwindContext())
+            {
+                Ticket delTicket = (from e in ctx.Tickets
+                                    where e.Id == ticketId
+                                    select e).FirstOrDefault();
+                if (delTicket != null)
+                {
+                    delTicket.IsDeleted = true;
+                    temp = true;
+                }
+                else
+                {
+                    temp = false;
+                }
+            }
+
+            return temp;
         }
         
     }

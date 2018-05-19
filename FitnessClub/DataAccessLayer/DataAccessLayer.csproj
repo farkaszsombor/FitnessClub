@@ -58,7 +58,10 @@
     <Compile Include="Utils\ClientUtils.cs" />
     <Compile Include="Utils\CreateDatabase.cs" />
     <Compile Include="Utils\EmployeeUtils.cs" />
+    <Compile Include="Utils\EventUtils.cs" />
+    <Compile Include="Utils\RoomUtils.cs" />
     <Compile Include="Utils\TicketTypeUtils.cs" />
+    <Compile Include="Utils\TicketUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
