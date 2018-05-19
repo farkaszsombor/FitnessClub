@@ -3,8 +3,24 @@
     ViewBag.Title = "TicketTypesList";
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
 }
+<div class="content">
+    @foreach (var item in (dynamic)Model)
+    {
 
-@foreach (var item in (dynamic)Model)
-{
-    @Html.Encode(item.OccasionNum)
+    <div class="list-box">
+        <div>
+            <p>Napok szama:</p>
+            <p>@Html.Encode(item.DayNum)</p>
+        </div>
+        <div>
+            <p>Alkalmak szama:</p>
+            <p>@Html.Encode(item.OccasionNum)</p>
+        </div>
+        <div>
+            <p>Ar:</p>
+            <p>@Html.Encode(item.Price)</p>
+        </div>
+
+    </div>
 }
+</div>

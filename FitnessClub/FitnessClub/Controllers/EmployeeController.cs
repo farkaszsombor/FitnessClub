@@ -30,6 +30,18 @@ namespace FitnessClub.Controllers
                 temp.Price = item.Price;
                 temp.DayNum = item.DayNum;
                 list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
+                list.Add(temp);
             }
             return View(list);
         }
