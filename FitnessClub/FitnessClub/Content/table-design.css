@@ -1,12 +1,15 @@
 ﻿.info {
     width: 100%;
 }
-.info tr th{
-    background-color : dimgrey;
-    color : white;
-}
+
+    .info tr th {
+        background-color: dimgrey;
+        color: white;
+    }
+
 .navi {
     background-color: dimgray;
+    font-size: 0;
 }
 
 .nav ul {
@@ -14,16 +17,22 @@
 }
 
 .navi ul li {
-    padding: 12px;
     font-size: 18px;
     color: white;
     display: inline-block;
 }
+
 .navi ul li:hover {
     background-color: black;
+    transition: background-color 0.5s ease-out;
 }
-.navi ul li a{
-    list-style-type : none;
-    text-decoration:none;
+
+.navi ul li a {
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 12px;
     color: white;
+    display: inline-block;
+    margin-right:-4px;
 }
