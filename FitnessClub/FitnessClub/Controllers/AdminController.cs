@@ -32,7 +32,7 @@ namespace FitnessClub.Controllers
                 client.Phone = element.Phone;
                 client.Email = element.Email;
                 client.ImagePath = String.IsNullOrEmpty(element.ImagePath) ? "nincs" : element.ImagePath;
-                client.isDeleted = element.IsDeleted;
+                client.IsDeleted = element.IsDeleted;
                 client.InsertedDate = element.InsertedDate;
                 client.IdentityNumber = element.IdentityNumber;
                 client.Sex = element.Sex;
@@ -50,9 +50,9 @@ namespace FitnessClub.Controllers
             Employee emp = new Employee();
             foreach(DataAccessLayer.Entities.Employee element in empContextList)
             {
-                emp.ID = element.Id;
+                emp.Id = element.Id;
                 emp.Name = element.Name;
-                emp.isDeleted = element.IsDeleted;
+                emp.IsDeleted = element.IsDeleted;
                 emp.Department = element.Department;
                 emp.WorkPlaceName = element.WorkPlace.Name;
                 empList.Add(emp);
@@ -69,14 +69,14 @@ namespace FitnessClub.Controllers
             Ticket ticket = new Ticket();
             foreach(DataAccessLayer.Entities.Ticket element in ticketContextList)
             {
-                ticket.ID = 1;
+                ticket.Id = 1;
                 ticket.BuyingDate = DateTime.Now;
                 ticket.StartDate = DateTime.Now;
                 ticket.Price = 12.3;
                 ticket.EmployeeName = "Admin";
                 ticket.TicketName = "WeightLifting";
             }
-            ticket.ID = 1;
+            ticket.Id = 1;
             ticket.BuyingDate = DateTime.Now;
             ticket.StartDate = DateTime.Now;
             ticket.Price = 12.3;
@@ -96,14 +96,14 @@ namespace FitnessClub.Controllers
             Event @event = new Event();//masked event is a keyword and we do not want use it as keyword
             foreach (DataAccessLayer.Entities.Event element in eventContextList)
             {
-                @event.ID = element.Id;
+                @event.Id = element.Id;
                 @event.Date = element.Date;
                 @event.Type = element.Type;
                 @event.ClientName = element.Card.FirstName + " " + element.Card.LastName;
                 @event.EmployeeName = element.Inserter.Name;
                 @event.RoomName = element.Room.Name;
             }
-            @event.ID = 1;
+            @event.Id = 1;
             @event.Date = DateTime.Now;
             @event.Type = true;
             @event.ClientName = "Farkas Zsombor";
