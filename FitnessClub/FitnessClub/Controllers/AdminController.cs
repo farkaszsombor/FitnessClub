@@ -16,23 +16,12 @@ namespace FitnessClub.Controllers
 
         public ActionResult List()
         {
-            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.getAllClients();
+            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
             List<Client> clientList = new List<Client>();
             Client client;
             foreach (DataAccessLayer.Entities.Client element in layerClientList)
             {
-                client = new Client();
-                client.Id = element.Id;
-                client.FirstName = element.FirstName;
-                client.LastName = element.LastName;
-                client.Phone = element.Phone;
-                client.Email = element.Email;
-                client.ImagePath = String.IsNullOrEmpty(element.ImagePath) ? "nincs" : element.ImagePath;
-                client.IsDeleted = element.IsDeleted;
-                client.InsertedDate = element.InsertedDate;
-                client.IdentityNumber = element.IdentityNumber;
-                client.Sex = element.Sex;
-                client.InserterName = element.Inserter.Name;
+                client = Mappings.MappingDtos.EntityClientToModelClient(element);
                 clientList.Add(client);
                 clientList.Add(client);
             }

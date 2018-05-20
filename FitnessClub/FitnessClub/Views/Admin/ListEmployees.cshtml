@@ -21,9 +21,9 @@
         @foreach (var item in (dynamic)Model)
         {
         <tr>
-            <td>@Html.Encode(item.ID)</td>
+            <td>@Html.Encode(item.Id)</td>
             <td>@Html.Encode(item.Name)</td>
-            <td>@Html.Encode(item.isDeleted)</td>
+            <td>@Html.Encode(item.IsDeleted)</td>
             <td>@Html.Encode(item.Department)</td>
             <td>@Html.Encode(item.WorkPlaceName)</td>
             <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
