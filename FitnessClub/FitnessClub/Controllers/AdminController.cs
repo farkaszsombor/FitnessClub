@@ -11,7 +11,11 @@ namespace FitnessClub.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            if ((Session["LoginedUser"] ?? "").ToString() == "Admin")
+            {
+                return View();
+            }
+            return RedirectToAction("LoginError", "Login");
         }
 
         public ActionResult List()

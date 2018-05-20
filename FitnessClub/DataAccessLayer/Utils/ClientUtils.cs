@@ -19,5 +19,13 @@ namespace DataAccessLayer.Utils
             }
             return clientList;
         }
+        public static void InsertClient(string fName,string lName, string phone, string email, string identityNum,int InserterId, bool sex)
+        {
+            using (var ctx = new NorthwindContext())
+            {
+                ctx.Clients.Add(new Client { FirstName = fName, LastName = lName,IdentityNumber=identityNum,Phone=phone,Email=email,IsDeleted=false,Sex=false,BirthYear=0,ImagePath=null,Inserter=null,InsertedDate=DateTime.Now });
+                ctx.SaveChanges();
+            }
+        }
     }
 }

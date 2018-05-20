@@ -1,7 +1,30 @@
-﻿@{
+﻿@model IEnumerable<FitnessClub.Models.Client>
+@{
     ViewBag.Title = "ClientsList";
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
 }
 
 
+<div>Kereses</div>
+<div class="content">
+    <div class="list-table">
+        <div class="list-header">
+            <p>Csalad nev</p>
+            <p>Kereszt nev</p>
+            <p>Telefon szam</p>
+            <p>E-mail</p>
+            <p>CNP</p>
+        </div>
+        @foreach (var item in (dynamic)Model)
+        {
 
+        <div class="list-item">
+            <p>@Html.Encode(item.LastName)</p>
+            <p>@Html.Encode(item.FirstName)</p>
+            <p>@Html.Encode(item.Phone)</p>
+            <p>@Html.Encode(item.Email)</p>
+            <p>@Html.Encode(item.IdentityNumber)</p>
+        </div>
+        }
+    </div>
+</div>

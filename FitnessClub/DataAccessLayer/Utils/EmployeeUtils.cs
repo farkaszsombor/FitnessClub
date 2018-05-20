@@ -19,9 +19,9 @@ namespace DataAccessLayer.Utils
                 var query = (from emp in ctx.Employees
                             where emp.Name==name &&
                                    emp.IsDeleted == false
-                            select emp.Password.ToString()).ToList();
+                            select emp.Password).ToList();
 
-                if(query.FirstOrDefault().ToString()==pwd)
+                if((query.FirstOrDefault()??"").ToString()==pwd)
                 {
                     result = true;
                 }

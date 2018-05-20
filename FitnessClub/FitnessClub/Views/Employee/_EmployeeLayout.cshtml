@@ -20,9 +20,9 @@
     <nav class="shift">
         <ul>
             <li id="navbar-logo"> <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="60px" /> <span>YouGym Club</span></li>
-            <li>@Html.ActionLink("Kliensek", "Index", "Employee")</li>
+            <li>@Html.ActionLink("Kliensek", "ClientsList", "Employee")</li>
             <li>@Html.ActionLink("Berletek", "TicketTypesList", "Employee")</li>
-            <li>@Html.ActionLink("Kliens Bejelentkezes", "Contact", "Home")</li>
+            <li>@Html.ActionLink("Kliens Bejelentkezes", "SignUp", "Employee")</li>
         </ul>
     </nav>
     @RenderBody()
