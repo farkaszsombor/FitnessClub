@@ -11,12 +11,16 @@ namespace FitnessClub.Controllers
         // GET: Admin
         public ActionResult Index()
         {
-            return View();
+            if ((Session["LoginedUser"] ?? "").ToString() == "Admin")
+            {
+                return View();
+            }
+            return RedirectToAction("LoginError", "Login");
         }
 
         public ActionResult List()
         {
-            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.getAllClients();
+            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
             List<Client> clientList = new List<Client>();
             Client client;
             foreach (DataAccessLayer.Entities.Client element in layerClientList)

@@ -221,6 +221,7 @@
     <Content Include="Views\Admin\ListRooms.cshtml" />
     <Content Include="Views\Admin\ListTickets.cshtml" />
     <Content Include="Views\Admin\ListTicketTypes.cshtml" />
+    <Content Include="Views\Employee\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

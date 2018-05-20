@@ -1,0 +1,24 @@
+﻿@model FitnessClub.Models.Client
+@{
+                /**/
+
+                ViewBag.Title = "SignUp";
+                Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
+}
+
+@using (Html.BeginForm("Insert", "Employee", FormMethod.Post, new { @class = "login-form" }))
+{
+<div class="content-center">
+    <p>First Name</p>
+    @Html.TextBoxFor(client => client.FirstName, new { @class = "input" })
+    <p>Last Name</p>
+    @Html.TextBoxFor(client => client.LastName, new { @class = "input" })
+    <p>Phone</p>
+    @Html.TextBoxFor(client => client.Phone, new { @class = "input" })
+    <p>E-mail</p>
+    @Html.TextBoxFor(client => client.Email, new { @class = "input" })
+    <p>CNP</p>
+    @Html.TextBoxFor(client => client.IdentityNumber, new { @class = "input" })
+    <input type="submit" name="submit" value="Sign Up" />
+</div>
+}

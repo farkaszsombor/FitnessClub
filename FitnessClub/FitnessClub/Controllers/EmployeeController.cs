@@ -14,8 +14,40 @@ namespace FitnessClub.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            return View();
+            if ((Session["LoginedUser"] ?? "").ToString() == "")
+            {
+                return View();
+            }
+            return RedirectToAction("LoginError","Login");
+
         }
+
+        // GET: Employee
+        public ActionResult ClientsList()
+        {
+            var layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
+            List<Client> clientList = new List<Client>();
+            Client client;
+            foreach (var element in layerClientList)
+            {
+                client = new Client();
+                client.Id = element.Id;
+                client.FirstName = element.FirstName;
+                client.LastName = element.LastName;
+                client.Phone = element.Phone;
+                client.Email = element.Email;
+                client.ImagePath = String.IsNullOrEmpty(element.ImagePath) ? "nincs" : element.ImagePath;
+                client.isDeleted = element.IsDeleted;
+                client.InsertedDate = element.InsertedDate;
+                client.IdentityNumber = element.IdentityNumber;
+                client.Sex = element.Sex;
+                clientList.Add(client);
+            }
+            clientList=clientList.OrderBy(x=>x.LastName).ToList();
+            return View(clientList);
+       
+        }
+
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
@@ -30,20 +62,18 @@ namespace FitnessClub.Controllers
                 temp.Price = item.Price;
                 temp.DayNum = item.DayNum;
                 list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
-                list.Add(temp);
             }
             return View(list);
+        }
+
+        public ActionResult SignUp()
+        {
+            return View();
+        }
+        public ActionResult Insert(Client user)
+        {
+            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, user.Sex);
+            return RedirectToAction("Index");
         }
     }
 }

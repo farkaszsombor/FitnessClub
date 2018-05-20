@@ -11,7 +11,7 @@ namespace DataAccessLayer.Utils
 {
     public class ClientUtils
     {
-        public static List<Client> getAllClients()
+        public static List<Client> GetAllClients()
         {
             List<Client> clientList = new List<Client>();
             using (var ctx = new NorthwindContext())
@@ -20,6 +20,14 @@ namespace DataAccessLayer.Utils
                 clientList.AddRange(query);
             }
             return clientList;
+        }
+        public static void InsertClient(string fName,string lName, string phone, string email, string identityNum,int InserterId, bool sex)
+        {
+            using (var ctx = new NorthwindContext())
+            {
+                ctx.Clients.Add(new Client { FirstName = fName, LastName = lName,IdentityNumber=identityNum,Phone=phone,Email=email,IsDeleted=false,Sex=false,BirthYear=0,ImagePath=null,Inserter=null,InsertedDate=DateTime.Now });
+                ctx.SaveChanges();
+            }
         }
     }
 }

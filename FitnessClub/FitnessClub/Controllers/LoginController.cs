@@ -31,6 +31,7 @@ namespace FitnessClub.Controllers
         {
             if (EmployeeUtils.AuthenticationEmployee(user.Name,user.Password))
             {
+                Session["LoginedUser"] = user.Name;
                 if (user.Name == "Admin")
                 {
                     return RedirectToAction("Index", "Admin");
@@ -41,8 +42,5 @@ namespace FitnessClub.Controllers
     
         }
 
-
-
-        
     }
 }
