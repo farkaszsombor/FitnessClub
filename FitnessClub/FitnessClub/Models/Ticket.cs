@@ -18,5 +18,7 @@ namespace FitnessClub.Models
         public string EmployeeName{ get; set; }
         public string TicketName { get; set; }
         public bool IsDeleted { get; set; }
+        public int RemaningLoginNum { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

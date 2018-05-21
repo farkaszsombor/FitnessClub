@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DataAccessLayer.Utils
 {
@@ -12,11 +13,26 @@ namespace DataAccessLayer.Utils
     {
         public static bool InsertRoom(string name)
         {
-            using (var ctx = new NorthwindContext())
+            bool ret = false;
+            using (TransactionScope ts = new TransactionScope())
             {
-                ctx.Rooms.Add(new Room {Name = name});
-                return true;
+                try
+                {
+                    using (var ctx = new NorthwindContext())
+                    {
+                        ctx.Rooms.Add(new Room { Name = name });
+                        ret = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    ts.Dispose();
+                    ret = false;
+                }
             }
+            return ret;
+            
         }
 
         public static bool DeleteRoomFromDatabase(string name)

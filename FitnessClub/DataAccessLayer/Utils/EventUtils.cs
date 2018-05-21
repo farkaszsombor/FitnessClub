@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Transactions;
+
 namespace DataAccessLayer.Utils
 {
     public class EventUtils
@@ -13,32 +15,45 @@ namespace DataAccessLayer.Utils
         public static bool InsertEvent(Client client, Ticket ticket, DateTime date, bool type, Room room, Employee inserter)
         {
             bool temp = false;
-            using (var ctx = new NorthwindContext())
+            using (TransactionScope ts = new TransactionScope())
             {
-                // checking if client can acces to the gym
-
-
-                var tickType = (from c in ctx.TicketTypes
-                                where c == ticket.Type
-                                select c).FirstOrDefault();
-
-                if (ticket.LastLoginDate.Day == date.Day)
+                try
                 {
+                    using (var ctx = new NorthwindContext())
+                    {
+                        // checking if client can acces to the gym
+
+
+                        var tickType = (from c in ctx.TicketTypes
+                                        where c == ticket.Type
+                                        select c).FirstOrDefault();
+
+                        if (ticket.LastLoginDate.Day == date.Day)
+                        {
+                            temp = false;
+                        }
+                        else
+                        {
+                            if (ticket.LoginsNum < tickType.OccasionNum && ticket.StartDate.AddDays(tickType.DayNum).Day >= date.Day)
+                            {
+                                temp = true;
+                                ctx.Events.Add(new Event { Card = client, Ticket = ticket, Date = date, Type = type, Room = room, Inserter = inserter });
+                            }
+                            else
+                            {
+                                temp = false;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    ts.Dispose();
                     temp = false;
                 }
-                else
-                {
-                    if (ticket.LoginsNum < tickType.OccasionNum && ticket.StartDate.AddDays(tickType.DayNum).Day >= date.Day)
-                    {
-                        temp = true;
-                        ctx.Events.Add(new Event { Card = client, Ticket = ticket, Date = date, Type = type, Room = room, Inserter = inserter });
-                    }
-                    else
-                    {
-                        temp = false;
-                    }
-                }
             }
+            
             return temp;
         }
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using System.Transactions;
 
 namespace DataAccessLayer.Utils
 {
@@ -38,7 +39,7 @@ namespace DataAccessLayer.Utils
             List<Ticket> ticketList = new List<Ticket>();
             using (var ctx = new NorthwindContext())
             {
-                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type) select ticket;
+                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type).Include(z => z.Card) select ticket;
                 ticketList.AddRange(query);
             }
             return ticketList;
@@ -47,38 +48,54 @@ namespace DataAccessLayer.Utils
         //var query = from x in ctx.Clients.Include(b => b.Inserter) select x;
         public static bool InsertTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type, bool sure)
         {
-            if (!sure)
+
+            bool ret = false;
+            using (TransactionScope ts = new TransactionScope())
             {
-                using (var ctx = new NorthwindContext())
+                try
                 {
-                    //testing if tisket already exist
-                    int resultTicket = 0;
-                    var queryTicket = from t in ctx.Tickets
-                                      where t.Card == client &&
-                                          //t.BuyingDate == buyingDate &&
-                                          t.StartDate == startDate &&
-                                          t.Type == type
-                                      select t.Id;
-                    resultTicket = queryTicket.FirstOrDefault();
-                    if (resultTicket == 0)
-                    {   //if ticket doesent exists
-                        ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                        return true;
+                    if (!sure)
+                    {
+                        using (var ctx = new NorthwindContext())
+                        {
+                            //testing if tisket already exist
+                            int resultTicket = 0;
+                            var queryTicket = from t in ctx.Tickets
+                                              where t.Card == client &&
+                                                  //t.BuyingDate == buyingDate &&
+                                                  t.StartDate == startDate &&
+                                                  t.Type == type
+                                              select t.Id;
+                            resultTicket = queryTicket.FirstOrDefault();
+                            if (resultTicket == 0)
+                            {   //if ticket doesent exists
+                                ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
+                                ret=true;
+                            }
+                            else
+                            {   //if ticket already exists
+                                ret=false;
+                            }
+                        }
                     }
                     else
-                    {   //if ticket already exists
-                        return false;
+                    {
+                        using (var ctx = new NorthwindContext())
+                        {
+                            ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
+                            ret=true;
+                        }
                     }
                 }
-            }
-            else
-            {
-                using (var ctx = new NorthwindContext())
+                catch (Exception e)
                 {
-                    ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                    return true;
+                    Console.WriteLine(e);
+                    ts.Dispose();
+                    ret = false;
                 }
             }
+            return ret;
+            
 
         }
 
