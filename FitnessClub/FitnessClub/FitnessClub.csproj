@@ -207,7 +207,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Admin\List.cshtml" />
+    <Content Include="Views\Admin\ListClient.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\LoginError.cshtml" />
     <Content Include="Views\Login\_LoginLayout.cshtml" />
@@ -223,6 +223,9 @@
     <Content Include="Views\Admin\ListTickets.cshtml" />
     <Content Include="Views\Admin\ListTicketTypes.cshtml" />
     <Content Include="Views\Employee\SignUp.cshtml" />
+    <Content Include="Views\Admin\EditClient.cshtml" />
+    <Content Include="Views\Admin\CreateClient.cshtml" />
+    <Content Include="Views\Admin\EditEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

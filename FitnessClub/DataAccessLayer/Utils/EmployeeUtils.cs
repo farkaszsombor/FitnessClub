@@ -43,5 +43,16 @@ namespace DataAccessLayer.Utils
             }
             return empContextList;
         }
+
+        public static Employee GetEmployeeByName(string name)
+        {
+            Employee e;
+            using(var ctx = new NorthwindContext())
+            {
+                e = (from emp in ctx.Employees where emp.Name == name select emp).First();
+                
+            }
+            return e;
+        }
     }
 }

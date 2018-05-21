@@ -18,20 +18,55 @@ namespace FitnessClub.Controllers
             return RedirectToAction("LoginError", "Login");
         }
 
-        public ActionResult List()
+        // GET:Client
+        public ActionResult ListClient()
         {
             List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
-            List<Client> clientList = new List<Client>();
-            Client client;
-            foreach (DataAccessLayer.Entities.Client element in layerClientList)
-            {
-                client = Mappings.MappingDtos.EntityClientToModelClient(element);
-                clientList.Add(client);
-                clientList.Add(client);
-            }
+            List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
             return View(clientList);
         }
 
+        //EDIT : Client
+        public ActionResult EditClient(Client client)
+        {
+             return View(client);
+        }
+        //EDIT : Client HTTP Post
+        [HttpPost]
+        public ActionResult EditClient(int Id,Client client)
+        {
+            if (ModelState.IsValid)
+            {
+                bool Sex = client.Sex == "Male" ? false : true;
+                ClientUtils.UpdateClient(client.Id, client.FirstName, client.LastName, client.Phone, client.Email, Sex);
+                return RedirectToAction("ListClient");
+            }
+            return View(client);
+
+        }
+        //DELETE : Client
+        public ActionResult DeleteClient(int Id)
+        {
+            ClientUtils.DeleteClient(Id);
+            return RedirectToAction("ListClient");
+        }
+
+        //CREATE : Client
+        public ActionResult CreateClient()
+        {
+            return View();
+        }
+
+        //CREATE : Client HTTP Post
+        [HttpPost]
+        public ActionResult CreateClient(Client Client)
+        {
+            ClientUtils.InsertClient(Mappings.MappingDtos.ModelClientToEntityClient(Client));
+            return View(Client);
+        }
+
+
+        //GET: Employees
         public ActionResult ListEmployees()
         {
             List<DataAccessLayer.Entities.Employee> empContextList = EmployeeUtils.GetAllEmplyees();
@@ -39,16 +74,29 @@ namespace FitnessClub.Controllers
             Employee emp = new Employee();
             foreach(DataAccessLayer.Entities.Employee element in empContextList)
             {
-                emp.Id = element.Id;
-                emp.Name = element.Name;
-                emp.IsDeleted = element.IsDeleted;
-                emp.Department = element.Department;
-                emp.WorkPlaceName = element.WorkPlace.Name;
-                empList.Add(emp);
-                empList.Add(emp);
+                empList.Add(Mappings.MappingDtos.EntityEmployeeToModelEmployee(element));
             }
             return View(empList);
         }
+
+        //EDIT: Employee
+        public ActionResult EditEmployee(Employee employee)
+        {
+            return View(employee);
+        }
+
+        //EDIT: Employee Http Post
+        [HttpPost]
+        public ActionResult EditEmployee(int Id,Employee employee)
+        {
+            return View(employee);
+        }
+
+
+
+
+
+
 
         public ActionResult ListTickets()
         {

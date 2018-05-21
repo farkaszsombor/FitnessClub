@@ -25,7 +25,7 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        @foreach (var item in (dynamic)Model){
+        @foreach (var item in Model){
         <tr>
             <td>@Html.Encode(item.Id)</td>
             <td>@Html.Encode(item.FirstName)</td>
@@ -38,10 +38,23 @@
             <td>@Html.Encode(item.IdentityNumber)</td>
             <td>@Html.Encode(item.Sex)</td>
             <td>@Html.Encode(item.InserterName)</td>
-            <td>@Html.ActionLink("Edit","Edit","Admin")</td>
-            <td>@Html.ActionLink("Delete","Delete","Admin")</td>
+            <td>@Html.ActionLink("Edit","EditClient",item)</td>
+            <td>
+                @if (!item.IsDeleted)
+                {
+                    @Html.ActionLink("Delete","DeleteClient",new { Id = item.Id})
+                }
+                else
+                {
+                    @Html.Encode("Delete")
+                }
+            </td>
         </tr>
         }
     </table>
+</div>
+
+<div>
+    @Html.ActionLink("Add new client","CreateClient")
 </div>
 

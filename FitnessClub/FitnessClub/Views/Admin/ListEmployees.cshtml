@@ -18,7 +18,7 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        @foreach (var item in (dynamic)Model)
+        @foreach (var item in Model)
         {
         <tr>
             <td>@Html.Encode(item.Id)</td>
@@ -26,7 +26,7 @@
             <td>@Html.Encode(item.IsDeleted)</td>
             <td>@Html.Encode(item.Department)</td>
             <td>@Html.Encode(item.WorkPlaceName)</td>
-            <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
+            <td>@Html.ActionLink("Edit", "EditEmployee",item)</td>
             <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
         </tr>
         }

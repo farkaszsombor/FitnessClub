@@ -8,27 +8,57 @@ namespace FitnessClub.Mappings
 {
     public class MappingDtos
     {
-        public static FitnessClub.Models.Client EntityClientToModelClient(DataAccessLayer.Entities.Client entityClient)
+        public static Models.Client EntityClientToModelClient(DataAccessLayer.Entities.Client entityClient)
         {
 
-            FitnessClub.Models.Client modelClient = new FitnessClub.Models.Client ();
-
-            modelClient.Id = entityClient.Id;
-            modelClient.FirstName = entityClient.FirstName;
-            modelClient.LastName = entityClient.LastName;
-            modelClient.Phone = entityClient.Phone;
-            modelClient.Email = entityClient.Email;
-            modelClient.ImagePath = entityClient.ImagePath;
-            modelClient.IsDeleted = entityClient.IsDeleted;
-            modelClient.BirthYear = entityClient.BirthYear;
-            modelClient.InsertedDate = entityClient.InsertedDate;
-            modelClient.IdentityNumber = entityClient.IdentityNumber;
-            modelClient.Sex = entityClient.Sex;
-            modelClient.InserterName = entityClient.Inserter.Name;
-
+            Models.Client modelClient = new Models.Client
+            {
+                Id = entityClient.Id,
+                FirstName = entityClient.FirstName,
+                LastName = entityClient.LastName,
+                Phone = entityClient.Phone,
+                Email = entityClient.Email,
+                ImagePath = String.IsNullOrEmpty(entityClient.ImagePath) ? "-" : entityClient.ImagePath,
+                IsDeleted = entityClient.IsDeleted,
+                BirthYear = entityClient.BirthYear,
+                InsertedDate = entityClient.InsertedDate,
+                IdentityNumber = entityClient.IdentityNumber,
+                Sex = entityClient.Sex ? "Female" : "Male",
+                InserterName = entityClient.Inserter.Name,
+            };
             return modelClient;
         }
-        
+
+        public static List<Models.Client> EntityClientToModelClientAsList(List<DataAccessLayer.Entities.Client> entityClientList)
+        {
+            List<Models.Client> clientList = new List<Models.Client>();
+            foreach (DataAccessLayer.Entities.Client element in entityClientList)
+            {
+                clientList.Add(EntityClientToModelClient(element));
+            }
+            return clientList;
+        }
+
+        public static DataAccessLayer.Entities.Client ModelClientToEntityClient(Models.Client clientModel)
+        {
+            DataAccessLayer.Entities.Client entityClient = new DataAccessLayer.Entities.Client
+            {
+                Id = clientModel.Id,
+                FirstName = clientModel.FirstName,
+                LastName = clientModel.LastName,
+                Phone = clientModel.Phone,
+                Email = clientModel.Email,
+                ImagePath = clientModel.ImagePath,
+                IsDeleted = clientModel.IsDeleted,
+                BirthYear = clientModel.BirthYear,
+                InsertedDate = clientModel.InsertedDate,
+                IdentityNumber = clientModel.IdentityNumber,
+                Sex = clientModel.Sex == "Male" ? false : true,
+                Inserter = DataAccessLayer.Utils.EmployeeUtils.GetEmployeeByName(clientModel.InserterName),
+            };
+            return entityClient;
+        }
+
         public static FitnessClub.Models.Employee EntityEmployeeToModelEmployee(DataAccessLayer.Entities.Employee entityEmployee)
         {
             FitnessClub.Models.Employee modelEmployee = new FitnessClub.Models.Employee();

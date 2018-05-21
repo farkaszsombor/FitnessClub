@@ -37,13 +37,13 @@ namespace FitnessClub.Controllers
                 client.Phone = element.Phone;
                 client.Email = element.Email;
                 client.ImagePath = String.IsNullOrEmpty(element.ImagePath) ? "nincs" : element.ImagePath;
-                client.isDeleted = element.IsDeleted;
+                client.IsDeleted = element.IsDeleted;
                 client.InsertedDate = element.InsertedDate;
                 client.IdentityNumber = element.IdentityNumber;
-                client.Sex = element.Sex;
+                client.Sex = element.Sex ? "Male" : "Female";
                 clientList.Add(client);
             }
-            clientList=clientList.OrderBy(x=>x.LastName).ToList();
+            clientList = clientList.OrderBy(x=>x.LastName).ToList();
             return View(clientList);
        
         }
@@ -72,7 +72,7 @@ namespace FitnessClub.Controllers
         }
         public ActionResult Insert(Client user)
         {
-            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, user.Sex);
+            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, true);
             return RedirectToAction("Index");
         }
     }
