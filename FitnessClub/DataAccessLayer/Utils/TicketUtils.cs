@@ -11,7 +11,8 @@ namespace DataAccessLayer.Utils
     public class TicketUtils
     {
         //ONLY FOR TEST
-        public static Client TestGetClientById() {
+        public static Client TestGetClientById()
+        {
             Client c = new Client();
             using (var ctx = new NorthwindContext())
             {
@@ -48,15 +49,14 @@ namespace DataAccessLayer.Utils
         //var query = from x in ctx.Clients.Include(b => b.Inserter) select x;
         public static bool InsertTicket(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type, bool sure)
         {
-
             bool ret = false;
-            using (TransactionScope ts = new TransactionScope())
+            if (!sure)
             {
-                try
+                using (var ctx = new NorthwindContext())
                 {
-                    if (!sure)
+                    using (var dbContextTransaction = ctx.Database.BeginTransaction())
                     {
-                        using (var ctx = new NorthwindContext())
+                        try
                         {
                             //testing if tisket already exist
                             int resultTicket = 0;
@@ -70,33 +70,45 @@ namespace DataAccessLayer.Utils
                             if (resultTicket == 0)
                             {   //if ticket doesent exists
                                 ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                                ret=true;
+                                ctx.SaveChanges();
+                                ret = true;
                             }
                             else
                             {   //if ticket already exists
-                                ret=false;
+                                ret = false;
                             }
+                            dbContextTransaction.Commit();
                         }
-                    }
-                    else
-                    {
-                        using (var ctx = new NorthwindContext())
+                        catch (Exception)
                         {
-                            ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
-                            ret=true;
+                            dbContextTransaction.Rollback();
+                            ret = false;
                         }
                     }
                 }
-                catch (Exception e)
+            }
+            else
+            {
+                using (var ctx = new NorthwindContext())
                 {
-                    Console.WriteLine(e);
-                    ts.Dispose();
-                    ret = false;
+                    using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            ctx.Tickets.Add(new Ticket { Card = client, BuyingDate = buyingDate, StartDate = startDate, Price = price, Inserter = inserter, Type = type });
+                            ctx.SaveChanges();
+                            dbContextTransaction.Commit();
+                            ret = true;                         
+                        }
+                        catch (Exception)
+                        {
+                            dbContextTransaction.Rollback();
+                            ret = false;
+                        }
+                    }
                 }
             }
             return ret;
-            
-
         }
 
         public static bool DeleteTicketFromDatabase(Client client, DateTime buyingDate, DateTime startDate, double price, Employee inserter, TicketType type)
@@ -104,23 +116,36 @@ namespace DataAccessLayer.Utils
             bool temp = false;
             using (var ctx = new NorthwindContext())
             {
-                //testing if tisket already exist
-                Ticket resultTicket;
-                var queryTicket = from t in ctx.Tickets
-                                  where t.Card == client &&
-                                      //t.BuyingDate == buyingDate &&
-                                      t.StartDate == startDate &&
-                                      t.Type == type
-                                  select t;
-                resultTicket = queryTicket.FirstOrDefault();
-                if (resultTicket != null)
-                {   //if ticket doesent exists
-                    ctx.Tickets.Remove(resultTicket);
-                    temp = true;
-                }
-                else
-                {   //if ticket already exists
-                    temp = false;
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        //testing if tisket already exist
+                        Ticket resultTicket;
+                        var queryTicket = from t in ctx.Tickets
+                                          where t.Card == client &&
+                                              //t.BuyingDate == buyingDate &&
+                                              t.StartDate == startDate &&
+                                              t.Type == type
+                                          select t;
+                        resultTicket = queryTicket.FirstOrDefault();
+                        if (resultTicket != null)
+                        {   //if ticket doesent exists
+                            ctx.Tickets.Remove(resultTicket);
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {   //if ticket already exists
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
             return temp;
@@ -132,17 +157,30 @@ namespace DataAccessLayer.Utils
 
             using (var ctx = new NorthwindContext())
             {
-                Ticket delTicket = (from e in ctx.Tickets
-                                  where e.Id == ticketId
-                                  select e).FirstOrDefault();
-                if (delTicket != null)
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    ctx.Tickets.Remove(delTicket);
-                    temp = true;
-                }
-                else
-                {
-                    temp = false;
+                    try
+                    {
+                        Ticket delTicket = (from e in ctx.Tickets
+                                            where e.Id == ticketId
+                                            select e).FirstOrDefault();
+                        if (delTicket != null)
+                        {
+                            ctx.Tickets.Remove(delTicket);
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
 
@@ -155,20 +193,32 @@ namespace DataAccessLayer.Utils
 
             using (var ctx = new NorthwindContext())
             {
-                Ticket delTicket = (from e in ctx.Tickets
-                                    where e.Id == ticketId
-                                    select e).FirstOrDefault();
-                if (delTicket != null)
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    delTicket.IsDeleted = true;
-                    temp = true;
-                }
-                else
-                {
-                    temp = false;
+                    try
+                    {
+                        Ticket delTicket = (from e in ctx.Tickets
+                                            where e.Id == ticketId
+                                            select e).FirstOrDefault();
+                        if (delTicket != null)
+                        {
+                            delTicket.IsDeleted = true;
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
-
             return temp;
         }
         
