@@ -223,6 +223,7 @@
     <Content Include="Views\Admin\ListTickets.cshtml" />
     <Content Include="Views\Admin\ListTicketTypes.cshtml" />
     <Content Include="Views\Employee\SignUp.cshtml" />
+    <Content Include="Views\Employee\TicketsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

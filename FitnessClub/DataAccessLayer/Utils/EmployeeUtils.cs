@@ -43,5 +43,10 @@ namespace DataAccessLayer.Utils
             }
             return empContextList;
         }
+
+        public static Employee GetEmployeeByName(string inserterName) //Zsombi a sajatodat tarsd meg ezert kell gyakabban commitolj
+        {
+            throw new NotImplementedException();
+        }
     }
 }

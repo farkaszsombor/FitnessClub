@@ -38,7 +38,7 @@ namespace DataAccessLayer.Utils
             List<Ticket> ticketList = new List<Ticket>();
             using (var ctx = new NorthwindContext())
             {
-                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type) select ticket;
+                var query = from ticket in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type).Include(z => z.Card) select ticket;
                 ticketList.AddRange(query);
             }
             return ticketList;

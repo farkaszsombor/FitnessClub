@@ -17,7 +17,7 @@ namespace FitnessClub.Models
         public int BirthYear { get; set; }
         public DateTime InsertedDate { get; set; }
         public string IdentityNumber { get; set; }
-        public bool Sex { get; set; }
+        public string Sex { get; set; }
         public string InserterName { get; set; }
     }
 }

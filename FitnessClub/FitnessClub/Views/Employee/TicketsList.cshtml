@@ -1,0 +1,34 @@
+﻿@model List<FitnessClub.Models.Ticket>
+
+@{
+    ViewBag.Title = "TicketsList";
+    Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
+}
+
+
+
+<div class="content">
+    <div class="">
+        Beszuras
+    </div>
+    <div class="list-table">
+        <div class="list-header">
+            <p>Nev</p>
+            <p>Kezdeti datum</p>
+            <p>Lejarati datum</p>
+            <p>Utolso belepes</p>
+            <p>Belepesek szama</p>
+        </div>
+        @foreach (var item in (dynamic)Model)
+            {
+                <div class="list-item">
+                    <p>@Html.Encode(item.TicketName)</p>
+                    <p>@Html.Encode(item.StartDate)</p>
+                    <p>@Html.Encode(item.EndDate)</p>
+                    <p>@Html.Encode(item.LastLoginDate)</p>
+                    <p>@Html.Encode(item.RemaningLoginNum)</p>
+                </div>
+         }
+    </div>
+</div>
+

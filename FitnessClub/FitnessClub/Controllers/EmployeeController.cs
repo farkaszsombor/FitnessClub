@@ -1,6 +1,7 @@
 ﻿
 using DataAccessLayer.Utils;
 using FitnessClub.Models;
+using FitnessClub.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FitnessClub.Controllers
         // GET: Employee
         public ActionResult Index()
         {
-            if ((Session["LoginedUser"] ?? "").ToString() == "")
+            if ((Session["LoginedUser"] ?? "").ToString() != "")
             {
                 return View();
             }
@@ -37,7 +38,7 @@ namespace FitnessClub.Controllers
                 client.Phone = element.Phone;
                 client.Email = element.Email;
                 client.ImagePath = String.IsNullOrEmpty(element.ImagePath) ? "nincs" : element.ImagePath;
-                client.isDeleted = element.IsDeleted;
+                client.IsDeleted = element.IsDeleted;
                 client.InsertedDate = element.InsertedDate;
                 client.IdentityNumber = element.IdentityNumber;
                 client.Sex = element.Sex;
@@ -65,7 +66,10 @@ namespace FitnessClub.Controllers
             }
             return View(list);
         }
-
+        public ActionResult TicketsList()
+        {
+            return View(MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetAllTickets()));
+        }
         public ActionResult SignUp()
         {
             return View();
