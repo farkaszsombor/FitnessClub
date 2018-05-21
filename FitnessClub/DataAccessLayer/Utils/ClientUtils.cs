@@ -6,6 +6,7 @@ using System.Data.Entity;//required for Inlcude
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using System;
 
 namespace DataAccessLayer.Utils
 {
@@ -34,15 +35,6 @@ namespace DataAccessLayer.Utils
         }
 
 
-        public static void InsertClient(string fName,string lName, string phone, string email, string identityNum,int InserterId, bool sex)
-        {
-            using (var ctx = new NorthwindContext())
-            {
-                ctx.Clients.Add(new Client { FirstName = fName, LastName = lName,IdentityNumber=identityNum,Phone=phone,Email=email,IsDeleted=false,Sex=false,BirthYear=0,ImagePath=null,Inserter=null,InsertedDate=DateTime.Now });
-                ctx.SaveChanges();
-            }
-        }
-
         public static void UpdateClient(int Id,string Fname,string Lname,string Phone,string Email,bool Sex)
         {
             using(var ctx = new NorthwindContext())
@@ -59,7 +51,7 @@ namespace DataAccessLayer.Utils
 
         public static bool DeleteClient(int Id)
         {
-            using(var ctx = new NorthwindContext())
+            using (var ctx = new NorthwindContext())
             {
                 Client query = (from client in ctx.Clients where client.Id == Id select client).First();
                 if (!query.IsDeleted)
@@ -70,6 +62,7 @@ namespace DataAccessLayer.Utils
                 }
                 else return false;
             }
+        }
         public static bool InsertClient(string fName,string lName, string phone, string email, string identityNum,int InserterId, bool sex)
         {
             bool ret = false;

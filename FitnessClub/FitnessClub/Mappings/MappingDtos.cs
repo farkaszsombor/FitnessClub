@@ -70,25 +70,6 @@ namespace FitnessClub.Mappings
             return modelList;
         }
 
-        public static DataAccessLayer.Entities.Client ModelClientToEntityClient(Models.Client clientModel)
-        {
-            DataAccessLayer.Entities.Client entityClient = new DataAccessLayer.Entities.Client
-            {
-                Id = clientModel.Id,
-                FirstName = clientModel.FirstName,
-                LastName = clientModel.LastName,
-                Phone = clientModel.Phone,
-                Email = clientModel.Email,
-                ImagePath = clientModel.ImagePath,
-                IsDeleted = clientModel.IsDeleted,
-                BirthYear = clientModel.BirthYear,
-                InsertedDate = clientModel.InsertedDate,
-                IdentityNumber = clientModel.IdentityNumber,
-                Sex = clientModel.Sex == "Male" ? false : true,
-                Inserter = DataAccessLayer.Utils.EmployeeUtils.GetEmployeeByName(clientModel.InserterName),
-            };
-            return entityClient
-}
 
         public static FitnessClub.Models.Employee EntityEmployeeToModelEmployee(DataAccessLayer.Entities.Employee entityEmployee)
         {
