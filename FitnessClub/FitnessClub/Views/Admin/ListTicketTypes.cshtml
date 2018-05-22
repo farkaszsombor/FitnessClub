@@ -18,7 +18,7 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        @foreach (var item in (dynamic)Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>@Html.Encode(item.Id)</td>
@@ -26,9 +26,21 @@
                 <td>@Html.Encode(item.OccasionNum)</td>
                 <td>@Html.Encode(item.Status)</td>
                 <td>@Html.Encode(item.Price)</td>
-                <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
+                <td>@Html.ActionLink("Edit", "EditTicketTypes", item)</td>
+                <td>
+                    @if (!false)//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    {
+                        @Html.ActionLink("Delete", "DeleteTicketType", new { Id = item.Id })
+                    }
+                    else
+                    {
+                        @Html.Encode("Delete")
+                    }
+                </td>
             </tr>
         }
     </table>
+</div>
+<div>
+    @Html.ActionLink("Add new ticket type", "CreateTicketType")
 </div>

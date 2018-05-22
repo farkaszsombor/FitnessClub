@@ -60,14 +60,14 @@
             @Html.Label("Male", htmlAttributes: new { @class = "control-label col-md-1" })
         </div>
         <div class="col-md-1">
-            @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.RadioButtonFor(model => model.Sex, "Male")
             @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-1">
             @Html.Label("Female", htmlAttributes: new { @class = "control-label col-md-1" })
         </div>
         <div class="col-md-1">
-            @Html.EditorFor(model => model.Sex, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.RadioButtonFor(model => model.Sex, "Female")
             @Html.ValidationMessageFor(model => model.Sex, "", new { @class = "text-danger" })
         </div>
     </div>

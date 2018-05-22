@@ -16,8 +16,6 @@
             <th>Price</th>
             <th>Employee Name</th>
             <th>Ticket Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
         @foreach (var item in (dynamic)Model)
         {
@@ -28,10 +26,7 @@
             <td>@Html.Encode(item.Price)</td>
             <td>@Html.Encode(item.EmployeeName)</td>
             <td>@Html.Encode(item.TicketName)</td>
-            <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
-            <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
         </tr>
         }
     </table>
 </div>
-
