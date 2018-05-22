@@ -1,5 +1,4 @@
-﻿
-using DataAccessLayer.Utils;
+﻿using DataAccessLayer.Utils;
 using FitnessClub.Models;
 using FitnessClub.Mappings;
 using System;
@@ -78,8 +77,17 @@ namespace FitnessClub.Controllers
         }
         public ActionResult Insert(Client user)
         {
-            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, true);
-            return RedirectToAction("Index");
+            user.InserterName = Session["LoginedUser"].ToString();
+            
+            if(ClientUtils.InsertClient(MappingDtos.ModelClientToEntityClient(user)))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+           
         }
     }
 }

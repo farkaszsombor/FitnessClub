@@ -39,8 +39,9 @@ namespace DataAccessLayer.Utils
                         dbContextTransaction.Commit();
                         result = true;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Console.WriteLine(e);
                         dbContextTransaction.Rollback();
                         result = false;
                     }
