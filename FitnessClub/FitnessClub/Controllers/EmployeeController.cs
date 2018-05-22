@@ -52,25 +52,19 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var tickType = TicketTypeUtils.GetAllTicketTypes();
-            List <TicketType> list = new List<TicketType>();
-            TicketType temp = new TicketType();
-            foreach (var item in tickType)
-            {
-                temp.Id = item.Id;
-                temp.OccasionNum = item.OccasionNum;
-                temp.Status = item.Status;
-                temp.Price = item.Price;
-                temp.DayNum = item.DayNum;
-                list.Add(temp);
-            }
-            return View(list);
+            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeList(TicketTypeUtils.GetAllTicketTypes());
+            return View(data);
         }
         public ActionResult TicketsList(Client client)
         {
             var data=MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id));
             return View(data);
 
+        }
+
+        public ActionResult TicketTypeItem(TicketType tic)
+        {
+            return View(tic);
         }
         public ActionResult SignUp()
         {

@@ -1,0 +1,38 @@
+﻿.button{
+    border: solid 1px black;
+    padding: 18px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    cursor: pointer;
+    background-color: white;
+}
+
+.button:hover{
+    background-color: black;
+    color: white;
+}
+
+.name{
+    display: inline-block;
+    width: 250px;
+    color: white;
+    list-style-type: none;
+    border: solid 1px black;
+    padding: 18px 32px;
+    margin-right: 42px;
+    overflow: hidden;
+    background-color: black;
+}
+
+.value{
+    display: inline-block;
+    width: 250px;
+    color: black;
+    list-style-type: none;
+    border: solid 1px black;
+    padding: 18px 32px;
+    overflow: hidden;
+    background-color: white;
+}
