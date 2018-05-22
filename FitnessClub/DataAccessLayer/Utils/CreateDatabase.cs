@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Contexts;
 using DataAccessLayer.Entities;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace DataAccessLayer.Utils
         {
             using (var ctx = new NorthwindContext())
             {
+
                 var boolean = false;
                 Room r = new Room { Name = "Work", IsDeleted = boolean };
                 Room b = new Room { Name = "Blue", IsDeleted = boolean };

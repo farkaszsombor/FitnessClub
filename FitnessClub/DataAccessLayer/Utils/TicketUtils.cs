@@ -222,5 +222,19 @@ namespace DataAccessLayer.Utils
             return temp;
         }
         
+        public static List<Ticket> GetListOfTicketByClientId(int id)
+        {
+            List<Ticket> result = new List<Ticket>();
+            using (var ctx = new NorthwindContext())
+            {
+                var query = (from x in ctx.Tickets.Include(x => x.Inserter).Include(y => y.Type).Include(z => z.Card)
+                             where x.Card.Id == id
+                            select x).ToList();
+
+                result.AddRange(query);
+            }
+            return result;
+        }
+
     }
 }
