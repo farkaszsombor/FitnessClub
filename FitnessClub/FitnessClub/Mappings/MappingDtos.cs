@@ -8,9 +8,9 @@ namespace FitnessClub.Mappings
 {
     public class MappingDtos
     {
+        //---------------------------CLIENT----------------------------------
         public static Models.Client EntityClientToModelClient(DataAccessLayer.Entities.Client entityClient)
         {
-
             Models.Client modelClient = new Models.Client
             {
                 Id = entityClient.Id,
@@ -32,7 +32,7 @@ namespace FitnessClub.Mappings
         public static List<Models.Client> EntityClientToModelClientAsList(List<DataAccessLayer.Entities.Client> entityClientList)
         {
             List<Models.Client> clientList = new List<Models.Client>();
-            foreach (DataAccessLayer.Entities.Client element in entityClientList)
+            foreach (var element in entityClientList)
             {
                 clientList.Add(EntityClientToModelClient(element));
             }
@@ -59,48 +59,67 @@ namespace FitnessClub.Mappings
             return entityClient;
         }
 
-        public static List<FitnessClub.Models.Client> EntityClientToModelClientList(List<DataAccessLayer.Entities.Client> entityTypeList)
+        public static List<DataAccessLayer.Entities.Client> ModelClientToEntityClientAsList(List<Models.Client> clientModelList)
         {
-            List<FitnessClub.Models.Client> modelList = new List<FitnessClub.Models.Client>();
-            foreach (var entityType in entityTypeList)
+            List<DataAccessLayer.Entities.Client> entityClientList = new List<DataAccessLayer.Entities.Client>();
+            foreach(var element in clientModelList)
             {
-                modelList.Add(EntityClientToModelClient(entityType));
+                entityClientList.Add(ModelClientToEntityClient(element));
             }
-
-            return modelList;
+            return entityClientList;
         }
 
-
-        public static FitnessClub.Models.Employee EntityEmployeeToModelEmployee(DataAccessLayer.Entities.Employee entityEmployee)
+        //-------------------------------EMPLOYEE-------------------------------------------
+        public static Models.Employee EntityEmployeeToModelEmployee(DataAccessLayer.Entities.Employee entityEmployee)
         {
-            FitnessClub.Models.Employee modelEmployee = new FitnessClub.Models.Employee();
-
-            modelEmployee.Id = entityEmployee.Id;
-            modelEmployee.Name = entityEmployee.Name;
-            modelEmployee.Password = entityEmployee.Password;
-            modelEmployee.IsDeleted = entityEmployee.IsDeleted;
-            modelEmployee.Department = entityEmployee.Department;
-            modelEmployee.WorkPlaceName = entityEmployee.WorkPlace.Name;
-
+            Models.Employee modelEmployee = new Models.Employee
+            {
+                Id = entityEmployee.Id,
+                Name = entityEmployee.Name,
+                Password = entityEmployee.Password,
+                IsDeleted = entityEmployee.IsDeleted,
+                Department = entityEmployee.Department,
+                WorkPlaceName = entityEmployee.WorkPlace.Name
+            };
             return modelEmployee;
         }
 
-        public static List<FitnessClub.Models.Employee> EntityEmployeeToModelEmployeeList(List<DataAccessLayer.Entities.Employee> entityTypeList)
+        public static List<Models.Employee> EntityEmployeeToModelEmployeeAsList(List<DataAccessLayer.Entities.Employee> entityEmployeeList)
         {
-            List<FitnessClub.Models.Employee> modelList = new List<FitnessClub.Models.Employee>();
-            foreach (var entityType in entityTypeList)
+            List<Models.Employee> modelList = new List<Models.Employee>();
+            foreach (var entityType in entityEmployeeList)
             {
                 modelList.Add(EntityEmployeeToModelEmployee(entityType));
             }
-
             return modelList;
         }
 
+        public static DataAccessLayer.Entities.Employee ModelEmployeeToEntityEmployee(Models.Employee modelEmployee)
+        {
+            DataAccessLayer.Entities.Employee entityEmployee = new DataAccessLayer.Entities.Employee
+            {
+                Id = modelEmployee.Id,
+                Name = modelEmployee.Name,
+                IsDeleted = modelEmployee.IsDeleted,
+                Password = modelEmployee.Password,
+                Department = modelEmployee.Department,
+                WorkPlace = null,
+            };
+            return entityEmployee;
+        }
 
+        public static List<DataAccessLayer.Entities.Employee> ModelEmployeeToEntityEmployeeAsList(List<Models.Employee> modelEmployeeList)
+        {
+            List<DataAccessLayer.Entities.Employee> entityEmployeeList = new List<DataAccessLayer.Entities.Employee>();
+            foreach(var element in modelEmployeeList)
+            {
+                entityEmployeeList.Add(ModelEmployeeToEntityEmployee(element));
+            }
+            return entityEmployeeList;
+        }
 
-
-
-        public static FitnessClub.Models.Event EntityEventToModelEvent(DataAccessLayer.Entities.Event entityEvent)
+        //---------------------------------------EVENT-----------------------------------------
+        public static Models.Event EntityEventToModelEvent(DataAccessLayer.Entities.Event entityEvent)
         {
             FitnessClub.Models.Event modelEvent = new FitnessClub.Models.Event();
 

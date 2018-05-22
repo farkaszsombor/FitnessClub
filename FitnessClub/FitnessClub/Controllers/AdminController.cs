@@ -3,6 +3,7 @@ using FitnessClub.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using PagedList;
 
 namespace FitnessClub.Controllers
 {
@@ -19,11 +20,11 @@ namespace FitnessClub.Controllers
         }
 
         // GET:Client
-        public ActionResult ListClient()
+        public ActionResult ListClient(int? page)
         {
-            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
+            List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
             List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
-            return View(clientList);
+            return View(clientList.ToPagedList(page ?? 1, 20));
         }
 
         //EDIT : Client
@@ -31,6 +32,7 @@ namespace FitnessClub.Controllers
         {
              return View(client);
         }
+
         //EDIT : Client HTTP Post
         [HttpPost]
         public ActionResult EditClient(int Id,Client client)
@@ -47,7 +49,10 @@ namespace FitnessClub.Controllers
         //DELETE : Client
         public ActionResult DeleteClient(int Id)
         {
-            ClientUtils.DeleteClient(Id);
+            if (ClientUtils.DeleteClient(Id))
+            {
+                return RedirectToAction("ListClient");
+            }
             return RedirectToAction("ListClient");
         }
 
@@ -61,7 +66,10 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult CreateClient(Client Client)
         {
-            ClientUtils.InsertClient(Mappings.MappingDtos.ModelClientToEntityClient(Client));
+            if (ClientUtils.InsertClient(Mappings.MappingDtos.ModelClientToEntityClient(Client)))
+            {
+                return RedirectToAction("ListClient");
+            }
             return View(Client);
         }
 

@@ -13,8 +13,7 @@ namespace FitnessClub.Controllers
         public LoginController()
         {
             //ez azert kell, hogy letrehozza az adatbazist
-           // CreateDatabase.InitDatabase();
-
+           //CreateDatabase.InitDatabase();
         }
         // GET: Login
         public ActionResult Index()
