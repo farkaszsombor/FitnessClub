@@ -92,9 +92,11 @@ namespace FitnessClub.Controllers
             return View(employee);
         }
 
-
-
-
+        //DELET : Employee 
+        public ActionResult DeleteEmployee(int Id)
+        {
+            return RedirectToAction("ListEmployees");
+        }
 
 
 
