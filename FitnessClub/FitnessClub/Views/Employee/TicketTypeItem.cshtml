@@ -1,0 +1,39 @@
+﻿@model FitnessClub.Models.TicketType
+@{
+    ViewBag.Title = "TicketTypeItem";
+    Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
+}
+
+<link href="~/Content/Erik/Timi.css" rel="stylesheet">
+
+<div class="content-center" style="width: 546px">
+        <div>
+            <p class="name">Tipusnev:</p>
+            <p class="value">@Html.Encode(Model.Name)</p>
+        </div>
+        <div>
+            <p class="name">Napok szama:</p>
+            <p class="value">@Html.Encode(Model.DayNum)</p>
+        </div>
+        <div>
+            <p class="name">Alkalmak szama:</p>
+            <p class="value">@Html.Encode(Model.OccasionNum)</p>
+        </div>
+        <div>
+            <p class="name">Allapot:</p>
+            <p class="value">@Html.Encode(Model.Status)</p>
+        </div>
+        <div>
+            <p class="name">Ar:</p>
+            <p class="value">@Html.Encode(Model.Price)</p>
+        </div>
+        <div>
+            <p class="name">Leiras:</p>
+            <p class="value">@Html.Encode(Model.Description)</p>
+        </div>
+        <div class="button">
+            <p>+</p>
+        </div>
+</div>
+
+
