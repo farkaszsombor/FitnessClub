@@ -68,7 +68,9 @@ namespace FitnessClub.Controllers
         }
         public ActionResult TicketsList(Client client)
         {
-            return View(MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id)));
+            var data=MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id));
+            return View(data);
+
         }
         public ActionResult SignUp()
         {

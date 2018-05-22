@@ -231,6 +231,7 @@
     <Content Include="Views\Admin\CreateRoom.cshtml" />
     <Content Include="Views\Admin\EditTicketTypes.cshtml" />
     <Content Include="Views\Admin\CreateTicketType.cshtml" />
+    <Content Include="Views\Employee\TicketsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

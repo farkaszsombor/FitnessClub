@@ -7,7 +7,7 @@
     @foreach (var item in (dynamic)Model)
     {
 
-    <div class="list-box">
+    <div class="list-box" onclick="location.href='@Url.Action("TicketTypeItem", "Employee",item)'" >
         <div>
             <p>Napok szama:</p>
             <p>@Html.Encode(item.DayNum)</p>
