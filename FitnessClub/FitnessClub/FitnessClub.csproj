@@ -234,6 +234,7 @@
     <Content Include="Views\Admin\CreateTicketType.cshtml" />
     <Content Include="Views\Employee\TicketsList.cshtml" />
     <Content Include="Views\Employee\TicketTypeItem.cshtml" />
+    <Content Include="Views\Employee\EmployeeError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
