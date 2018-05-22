@@ -181,6 +181,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Erik\Site.css" />
+    <Content Include="Content\Erik\Timi.css" />
     <Content Include="Content\Images\gym.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\table-design.css" />
@@ -239,6 +240,7 @@
     <Content Include="Views\Admin\EditTicketTypes.cshtml" />
     <Content Include="Views\Admin\CreateTicketType.cshtml" />
     <Content Include="Views\Employee\TicketsList.cshtml" />
+    <Content Include="Views\Employee\TicketTypeItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
