@@ -92,101 +92,118 @@ namespace FitnessClub.Controllers
             return View(employee);
         }
 
+        //DELETE : Employee 
+        public ActionResult DeleteEmployee(int Id)
+        {
+            return RedirectToAction("ListEmployees");
+        }
+        //CREATE : Employee
+        public ActionResult CreateEmployee()
+        {
+            return View();
+        }
 
+        //CREATE : Employee Http Post
+        [HttpPost]
+        public ActionResult CreateEmployee(Employee employee)
+        {
+            return View(employee);
+        }
 
-
-
-
-
+        //GET : Tickets
         public ActionResult ListTickets()
         {
-            //it can be finished when there will be data in table not just null everywhere :P 
             List<DataAccessLayer.Entities.Ticket> ticketContextList = TicketUtils.GetAllTickets();
-            List<Ticket> ticketList = new List<Ticket>();
-            Ticket ticket = new Ticket();
-            foreach(DataAccessLayer.Entities.Ticket element in ticketContextList)
-            {
-                ticket.Id = 1;
-                ticket.BuyingDate = DateTime.Now;
-                ticket.StartDate = DateTime.Now;
-                ticket.Price = 12.3;
-                ticket.EmployeeName = "Admin";
-                ticket.TicketName = "WeightLifting";
-            }
-            ticket.Id = 1;
-            ticket.BuyingDate = DateTime.Now;
-            ticket.StartDate = DateTime.Now;
-            ticket.Price = 12.3;
-            ticket.EmployeeName = "Admin";
-            ticket.TicketName = "WeightLifting";
-
-            ticketList.Add(ticket);
-            ticketList.Add(ticket);
-
+            List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketList(ticketContextList);
             return View(ticketList);
         }
 
+        //GET : Events
         public ActionResult ListEvents()
         {
             List<DataAccessLayer.Entities.Event> eventContextList = EventUtils.GetAllEvents();
-            List<Event> eventList = new List<Event>();
-            Event @event = new Event();//masked event is a keyword and we do not want use it as keyword
-            foreach (DataAccessLayer.Entities.Event element in eventContextList)
-            {
-                @event.Id = element.Id;
-                @event.Date = element.Date;
-                @event.Type = element.Type;
-                @event.ClientName = element.Card.FirstName + " " + element.Card.LastName;
-                @event.EmployeeName = element.Inserter.Name;
-                @event.RoomName = element.Room.Name;
-            }
-            @event.Id = 1;
-            @event.Date = DateTime.Now;
-            @event.Type = true;
-            @event.ClientName = "Farkas Zsombor";
-            @event.EmployeeName = "Admin";
-            @event.RoomName = "Gyurunk wazzeg";
-
-            eventList.Add(@event);
-            eventList.Add(@event);
-
+            List<Event> eventList = Mappings.MappingDtos.EntityEventToModelEventList(eventContextList);
             return View(eventList);
         }
 
+        //GET : Ticket Types
         public ActionResult ListTicketTypes()
         {
             List<DataAccessLayer.Entities.TicketType> typesContextList = TicketTypeUtils.GetAllTicketTypes();
-            List<TicketType> typeList = new List<TicketType>();
-            TicketType type = new TicketType();
-            foreach(DataAccessLayer.Entities.TicketType element in typesContextList)
-            {
-                
-            }
-            type.Id = 1;
-            type.DayNum = 30;
-            type.OccasionNum = 1;
-            type.Status = true;
-            type.Price = 12.12;
-            typeList.Add(type);
-            typeList.Add(type);
+            List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketTypeList(typesContextList);
             return View(typeList);
         }
 
+        //EDIT : TicketType
+        public ActionResult EditTicketTypes(TicketType Type)
+        {
+            return View(Type);
+        }
+
+        //Edit : TicketType Http Post
+        [HttpPost]
+        public ActionResult EditTicketTypes(int Id,TicketType Type)
+        {
+            return View(Type);
+        }
+
+        //DELETE : TicketType
+        public ActionResult DeleteTicketType(int Id)
+        {
+            return RedirectToAction("ListTicketTypes");
+        }
+
+        //CREATE : TicketType
+        public ActionResult CreateTicketType()
+        {
+            return View();
+        }
+
+        //CREATE : TicketType Http Post
+        [HttpPost]
+        public ActionResult CreateTicketType(TicketType Type)
+        {
+            return View(Type);
+        }
+
+        //GET : Rooms
         public ActionResult ListRooms()
         {
             List<DataAccessLayer.Entities.Room> roomContextList = RoomUtils.GetAllRooms();
-            List<Room> roomList = new List<Room>();
-            Room room = new Room();
-            foreach(DataAccessLayer.Entities.Room element in roomContextList)
-            {
-                room.Id = element.Id;
-                room.Name = element.Name;
-                room.IsDeleted = element.IsDeleted;
-                roomList.Add(room);
-                roomList.Add(room);
-            }
-
+            List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomList(roomContextList);
             return View(roomList);
+        }
+        
+        //Edit : Rooms
+        public ActionResult EditRoom(Room Room)
+        {
+            return View(Room);
+        }
+
+        //Edit : Rooms Http Post
+        [HttpPost]
+        public ActionResult EditRoom(int Id, Room Room)
+        {
+            return View(Room);
+        }
+
+        //Delete : Rooms
+        public ActionResult DeleteRoom(int Id)
+        {
+            return RedirectToAction("ListRooms");
+        }
+
+        //Create : Rooms
+        public ActionResult CreateRoom()
+        {
+            return View();
+        }
+
+        //Create : Rooms
+        [HttpPost]
+        public ActionResult CreateRoom(Room Room)
+        {
+            return View(Room);
         }
     }
 }

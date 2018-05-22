@@ -226,6 +226,11 @@
     <Content Include="Views\Admin\EditClient.cshtml" />
     <Content Include="Views\Admin\CreateClient.cshtml" />
     <Content Include="Views\Admin\EditEmployee.cshtml" />
+    <Content Include="Views\Admin\CreateEmployee.cshtml" />
+    <Content Include="Views\Admin\EditRoom.cshtml" />
+    <Content Include="Views\Admin\CreateRoom.cshtml" />
+    <Content Include="Views\Admin\EditTicketTypes.cshtml" />
+    <Content Include="Views\Admin\CreateTicketType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

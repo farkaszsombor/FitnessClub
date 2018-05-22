@@ -27,8 +27,21 @@
             <td>@Html.Encode(item.Department)</td>
             <td>@Html.Encode(item.WorkPlaceName)</td>
             <td>@Html.ActionLink("Edit", "EditEmployee",item)</td>
-            <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
+            <td>
+                @if (!item.IsDeleted)
+                {
+                    @Html.ActionLink("Delete", "DeleteEmployee", new { Id = item.Id })
+                }
+                else
+                {
+                    @Html.Encode("Delete")
+                }
+            </td>
         </tr>
         }
     </table>
+</div>
+
+<div>
+    @Html.ActionLink("Add new employee", "CreateEmployee")
 </div>
