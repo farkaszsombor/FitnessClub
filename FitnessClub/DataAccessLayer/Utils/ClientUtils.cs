@@ -18,7 +18,7 @@ namespace DataAccessLayer.Utils
             using (var ctx = new NorthwindContext())
             {
                 var query = from x in ctx.Clients.Include(b => b.Inserter) select x;
-                clientList.AddRange(query);               
+                clientList.AddRange(query);
             }
             return clientList;
         }
@@ -50,7 +50,7 @@ namespace DataAccessLayer.Utils
             return result;
         }
 
-        public static bool UpdateClient(int Id,string Fname,string Lname,string Phone,string Email,bool Sex)
+        public static bool UpdateClient(int Id, string Fname, string Lname, string Phone, string Email, bool Sex)
         {
             bool result = false;
             using (var ctx = new NorthwindContext())
@@ -106,7 +106,7 @@ namespace DataAccessLayer.Utils
                 return result;
             }
         }
- 
+
         public static bool InsertClient(string fName, string lName, string phone, string email, string identityNum, int InserterId, bool sex)
         {
             bool result = false;
@@ -127,6 +127,23 @@ namespace DataAccessLayer.Utils
                         result = false;
                     }
                 }
+            }
+            return result;
+        }
+
+        public static Client GetClientByParameters(Client user)
+        {
+            Client result;
+            using (var ctx = new NorthwindContext())
+            {
+                var query = (from x in ctx.Clients.Include(b => b.Inserter)
+                            where x.FirstName==user.FirstName &&
+                                  x.LastName==user.LastName &&
+                                  x.Phone ==user.Phone &&
+                                  x.IdentityNumber== user.IdentityNumber
+                             select x).FirstOrDefault();
+
+                result = query;
             }
             return result;
         }

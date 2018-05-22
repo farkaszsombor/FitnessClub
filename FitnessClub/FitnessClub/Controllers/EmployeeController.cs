@@ -75,13 +75,20 @@ namespace FitnessClub.Controllers
             
             if(ClientUtils.InsertClient(MappingDtos.ModelClientToEntityClient(user)))
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("TicketsList", "Employee",ClientUtils.GetClientByParameters(MappingDtos.ModelClientToEntityClient(user)));
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("EmployeeError","Employee", new { @errorMsg="Nem sikeres beszuras" });
             }
-           
         }
+        public ActionResult EmployeeError(string errorMsg)
+        {
+
+            ViewBag.MyString = errorMsg;
+            return View();
+
+        }
+
     }
 }
