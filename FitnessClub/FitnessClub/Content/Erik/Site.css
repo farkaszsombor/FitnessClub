@@ -208,3 +208,6 @@ nav.shift ul li a:hover:after {
     background-color: black;
     cursor:pointer;
 }
+.list-table .disabled:hover {
+    background-color: rgb(128, 0, 0) !important;
+}

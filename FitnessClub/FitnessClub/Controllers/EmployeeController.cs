@@ -1,5 +1,4 @@
-﻿
-using DataAccessLayer.Utils;
+﻿using DataAccessLayer.Utils;
 using FitnessClub.Models;
 using FitnessClub.Mappings;
 using System;
@@ -52,23 +51,19 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var tickType = TicketTypeUtils.GetAllTicketTypes();
-            List <TicketType> list = new List<TicketType>();
-            TicketType temp = new TicketType();
-            foreach (var item in tickType)
-            {
-                temp.Id = item.Id;
-                temp.OccasionNum = item.OccasionNum;
-                temp.Status = item.Status;
-                temp.Price = item.Price;
-                temp.DayNum = item.DayNum;
-                list.Add(temp);
-            }
-            return View(list);
+            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeList(TicketTypeUtils.GetAllTicketTypes());
+            return View(data);
         }
         public ActionResult TicketsList(Client client)
         {
-            return View(MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id)));
+            var data=MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id));
+            return View(data);
+
+        }
+
+        public ActionResult TicketTypeItem(TicketType tic)
+        {
+            return View(tic);
         }
         public ActionResult SignUp()
         {
@@ -76,8 +71,17 @@ namespace FitnessClub.Controllers
         }
         public ActionResult Insert(Client user)
         {
-            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, true);
-            return RedirectToAction("Index");
+            user.InserterName = Session["LoginedUser"].ToString();
+            
+            if(ClientUtils.InsertClient(MappingDtos.ModelClientToEntityClient(user)))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+           
         }
     }
 }

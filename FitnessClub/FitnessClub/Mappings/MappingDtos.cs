@@ -186,7 +186,8 @@ namespace FitnessClub.Mappings
             modelTicket.EmployeeName = entityTicket.Inserter.Name;
             modelTicket.IsDeleted = entityTicket.IsDeleted;
             modelTicket.TicketName = entityTicket.Type.Name;
-            modelTicket.EndDate = modelTicket.StartDate.AddDays(entityTicket.Type.DayNum);
+            modelTicket.EndDate = entityTicket.Type.DayNum != 0 ? modelTicket.StartDate.AddDays(entityTicket.Type.DayNum) : entityTicket.BuyingDate;//mivel muszaj idopontot megadjak ezert berakom a vasarlas pillanatat
+            modelTicket.RemaningLoginNum = entityTicket.Type.OccasionNum != 0 ? entityTicket.Type.OccasionNum - modelTicket.LoginsNum : -1;
 
             return modelTicket;
         }
