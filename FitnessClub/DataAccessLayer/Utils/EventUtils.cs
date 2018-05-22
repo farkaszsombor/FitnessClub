@@ -15,15 +15,15 @@ namespace DataAccessLayer.Utils
         public static bool InsertEvent(Client client, Ticket ticket, DateTime date, bool type, Room room, Employee inserter)
         {
             bool temp = false;
-            using (TransactionScope ts = new TransactionScope())
+
+            using (var ctx = new NorthwindContext())
             {
-                try
+                // checking if client can acces to the gym
+
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    using (var ctx = new NorthwindContext())
+                    try
                     {
-                        // checking if client can acces to the gym
-
-
                         var tickType = (from c in ctx.TicketTypes
                                         where c == ticket.Type
                                         select c).FirstOrDefault();
@@ -38,22 +38,23 @@ namespace DataAccessLayer.Utils
                             {
                                 temp = true;
                                 ctx.Events.Add(new Event { Card = client, Ticket = ticket, Date = date, Type = type, Room = room, Inserter = inserter });
+                                ctx.SaveChanges();
                             }
                             else
                             {
                                 temp = false;
                             }
                         }
+                        dbContextTransaction.Commit();
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    ts.Dispose();
-                    temp = false;
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
+
                 }
             }
-            
             return temp;
         }
 
@@ -63,17 +64,30 @@ namespace DataAccessLayer.Utils
 
             using (var ctx = new NorthwindContext())
             {
-                Event delEvent= (from e in ctx.Events
-                                where e.Id == eventId
-                                select e).FirstOrDefault();
-                if (delEvent != null)
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    ctx.Events.Remove(delEvent);
-                    temp = true;
-                }
-                else
-                {
-                    temp = false;
+                    try
+                    {
+                        Event delEvent = (from e in ctx.Events
+                                          where e.Id == eventId
+                                          select e).FirstOrDefault();
+                        if (delEvent != null)
+                        {
+                            ctx.Events.Remove(delEvent);
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
 

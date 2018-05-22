@@ -23,28 +23,26 @@ namespace DataAccessLayer.Utils
         }
         public static bool InsertTicketType(int dayNum, int occasionNum, bool status, double price)
         {
-
             bool ret = false;
-            using (TransactionScope ts = new TransactionScope())
+            using (var ctx = new NorthwindContext())
             {
-                try
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    using (var ctx = new NorthwindContext())
+                    try
                     {
                         ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price });
                         ctx.SaveChanges();
+                        dbContextTransaction.Commit();
                         ret = true;
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    ts.Dispose();
-                    ret = false;
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        ret = false;
+                    }
                 }
             }
-            return ret;
-            
+            return ret;           
         }
     }
 }

@@ -14,25 +14,26 @@ namespace DataAccessLayer.Utils
         public static bool InsertRoom(string name)
         {
             bool ret = false;
-            using (TransactionScope ts = new TransactionScope())
+
+            using (var ctx = new NorthwindContext())
             {
-                try
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    using (var ctx = new NorthwindContext())
+                    try
                     {
                         ctx.Rooms.Add(new Room { Name = name });
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
                         ret = true;
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    ts.Dispose();
-                    ret = false;
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        ret = false;
+                    }
                 }
             }
-            return ret;
-            
+            return ret; 
         }
 
         public static bool DeleteRoomFromDatabase(string name)
@@ -40,20 +41,33 @@ namespace DataAccessLayer.Utils
             bool temp = false;
             using (var ctx = new NorthwindContext())
             {
-                //testing if room already exist
-                Room result;
-                var query = from r in ctx.Rooms
-                                  where r.Name == name
-                                  select r;
-                result = query.FirstOrDefault();
-                if (result != null)
-                {   
-                    ctx.Rooms.Remove(result);
-                    temp = true;
-                }
-                else
-                {   //room isnt in the database
-                    temp = false;
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        //testing if room already exist
+                        Room result;
+                        var query = from r in ctx.Rooms
+                                    where r.Name == name
+                                    select r;
+                        result = query.FirstOrDefault();
+                        if (result != null)
+                        {
+                            ctx.Rooms.Remove(result);
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {   //room isnt in the database
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
             return temp;
@@ -65,17 +79,30 @@ namespace DataAccessLayer.Utils
 
             using (var ctx = new NorthwindContext())
             {
-                Room delRoom = (from e in ctx.Rooms
-                                 where e.Id == roomId
-                                 select e).FirstOrDefault();
-                if (delRoom != null)
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    ctx.Rooms.Remove(delRoom);
-                    temp = true;
-                }
-                else
-                {
-                    temp = false;
+                    try
+                    {
+                        Room delRoom = (from e in ctx.Rooms
+                                        where e.Id == roomId
+                                        select e).FirstOrDefault();
+                        if (delRoom != null)
+                        {
+                            ctx.Rooms.Remove(delRoom);
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
 
@@ -88,17 +115,30 @@ namespace DataAccessLayer.Utils
 
             using (var ctx = new NorthwindContext())
             {
-                Room delRoom = (from e in ctx.Rooms
-                                where e.Id == roomId
-                                select e).FirstOrDefault();
-                if (delRoom != null)
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
                 {
-                    delRoom.IsDeleted = true;
-                    temp = true;
-                }
-                else
-                {
-                    temp = false;
+                    try
+                    {
+                        Room delRoom = (from e in ctx.Rooms
+                                        where e.Id == roomId
+                                        select e).FirstOrDefault();
+                        if (delRoom != null)
+                        {
+                            delRoom.IsDeleted = true;
+                            ctx.SaveChanges();
+                            temp = true;
+                        }
+                        else
+                        {
+                            temp = false;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
                 }
             }
 
