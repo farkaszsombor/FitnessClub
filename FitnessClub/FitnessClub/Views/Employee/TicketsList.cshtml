@@ -23,11 +23,11 @@
                 <div class="col-md-5">
                     @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs"))
                     {
-                        <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150px" />
+                        <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150" />
                     }
                     else
                     {
-                        <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="150px" />
+                        <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="150" />
                     }
                 </div>
             </div>
