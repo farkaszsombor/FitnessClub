@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FitnessClub.ViewModel;
 
 namespace FitnessClub.Controllers
 {
@@ -51,7 +52,7 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeList(TicketTypeUtils.GetAllTicketTypes());
+            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
             return View(data);
         }
         public ActionResult TicketsList(Client client)
@@ -63,7 +64,21 @@ namespace FitnessClub.Controllers
 
         public ActionResult TicketTypeItem(TicketType tic)
         {
-            return View(tic);
+            ClientTicketType mix = new ClientTicketType { TicketType = tic };
+            return View(mix);
+        }
+
+        public ActionResult BuyingTicket(FormCollection collection)
+        {
+            int Id = Int32.Parse(collection.Get("Id"));
+            if (MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id))!=null )
+            {
+                return RedirectToAction("EmployeeError", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nincs ilyen Id-vel rendelkezo kliens!" });
+            }
         }
         public ActionResult SignUp()
         {

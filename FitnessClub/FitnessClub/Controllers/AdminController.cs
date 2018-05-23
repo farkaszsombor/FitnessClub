@@ -3,6 +3,7 @@ using FitnessClub.Models;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using PagedList;
 
 namespace FitnessClub.Controllers
 {
@@ -19,11 +20,11 @@ namespace FitnessClub.Controllers
         }
 
         // GET:Client
-        public ActionResult ListClient()
+        public ActionResult ListClient(int? page)
         {
-            List<DataAccessLayer.Entities.Client> layerClientList = DataAccessLayer.Utils.ClientUtils.GetAllClients();
+            List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
             List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
-            return View(clientList);
+            return View(clientList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
         //EDIT : Client
@@ -31,6 +32,7 @@ namespace FitnessClub.Controllers
         {
              return View(client);
         }
+
         //EDIT : Client HTTP Post
         [HttpPost]
         public ActionResult EditClient(int Id,Client client)
@@ -47,7 +49,10 @@ namespace FitnessClub.Controllers
         //DELETE : Client
         public ActionResult DeleteClient(int Id)
         {
-            ClientUtils.DeleteClient(Id);
+            if (ClientUtils.DeleteClient(Id))
+            {
+                return RedirectToAction("ListClient");
+            }
             return RedirectToAction("ListClient");
         }
 
@@ -61,13 +66,16 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult CreateClient(Client Client)
         {
-            ClientUtils.InsertClient(Mappings.MappingDtos.ModelClientToEntityClient(Client));
+            if (ClientUtils.InsertClient(Mappings.MappingDtos.ModelClientToEntityClient(Client)))
+            {
+                return RedirectToAction("ListClient");
+            }
             return View(Client);
         }
 
 
         //GET: Employees
-        public ActionResult ListEmployees()
+        public ActionResult ListEmployees(int? page)
         {
             List<DataAccessLayer.Entities.Employee> empContextList = EmployeeUtils.GetAllEmplyees();
             List<Employee> empList = new List<Employee>();
@@ -76,7 +84,7 @@ namespace FitnessClub.Controllers
             {
                 empList.Add(Mappings.MappingDtos.EntityEmployeeToModelEmployee(element));
             }
-            return View(empList);
+            return View(empList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
         //EDIT: Employee
@@ -87,14 +95,26 @@ namespace FitnessClub.Controllers
 
         //EDIT: Employee Http Post
         [HttpPost]
-        public ActionResult EditEmployee(int Id,Employee employee)
+        public ActionResult EditEmployee(int Id,Employee Employee)
         {
-            return View(employee);
+            if (ModelState.IsValid)
+            {
+                if (EmployeeUtils.UpdateEmployee(Mappings.MappingDtos.ModelEmployeeToEntityEmployee(Employee)))
+                {
+                    return RedirectToAction("ListEmployees");
+                }
+                return View(Employee);
+            }
+            return View(Employee);
         }
 
         //DELETE : Employee 
         public ActionResult DeleteEmployee(int Id)
         {
+            if (EmployeeUtils.DeleteEmployee(Id))
+            {
+                return RedirectToAction("ListEmployees");
+            }
             return RedirectToAction("ListEmployees");
         }
         //CREATE : Employee
@@ -107,31 +127,38 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult CreateEmployee(Employee employee)
         {
+            if (ModelState.IsValid)
+            {
+                if (EmployeeUtils.InsertEmployee(Mappings.MappingDtos.ModelEmployeeToEntityEmployee(employee)))
+                {
+                    return RedirectToAction("ListEmployees");
+                }
+            }
             return View(employee);
         }
 
         //GET : Tickets
-        public ActionResult ListTickets()
+        public ActionResult ListTickets(int? page)
         {
             List<DataAccessLayer.Entities.Ticket> ticketContextList = TicketUtils.GetAllTickets();
-            List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketList(ticketContextList);
-            return View(ticketList);
+            List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketAsList(ticketContextList);
+            return View(ticketList.ToPagedList(page ?? 1,pageSize : 20));
         }
 
         //GET : Events
-        public ActionResult ListEvents()
+        public ActionResult ListEvents(int? page)
         {
             List<DataAccessLayer.Entities.Event> eventContextList = EventUtils.GetAllEvents();
             List<Event> eventList = Mappings.MappingDtos.EntityEventToModelEventList(eventContextList);
-            return View(eventList);
+            return View(eventList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
         //GET : Ticket Types
-        public ActionResult ListTicketTypes()
+        public ActionResult ListTicketTypes(int? page)
         {
             List<DataAccessLayer.Entities.TicketType> typesContextList = TicketTypeUtils.GetAllTicketTypes();
-            List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketTypeList(typesContextList);
-            return View(typeList);
+            List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(typesContextList);
+            return View(typeList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
         //EDIT : TicketType
@@ -167,11 +194,11 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Rooms
-        public ActionResult ListRooms()
+        public ActionResult ListRooms(int? page)
         {
             List<DataAccessLayer.Entities.Room> roomContextList = RoomUtils.GetAllRooms();
-            List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomList(roomContextList);
-            return View(roomList);
+            List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomAsList(roomContextList);
+            return View(roomList.ToPagedList(page ?? 1,pageSize : 20));
         }
         
         //Edit : Rooms
@@ -184,12 +211,23 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult EditRoom(int Id, Room Room)
         {
+            if (ModelState.IsValid)
+            {
+                if (RoomUtils.UpdateRoom(Mappings.MappingDtos.ModelRoomToEntityRoom(Room)))
+                {
+                    return RedirectToAction("ListRooms");
+                }
+            }
             return View(Room);
         }
 
         //Delete : Rooms
         public ActionResult DeleteRoom(int Id)
         {
+            if (RoomUtils.DeleteRoom(Id))
+            {
+                return RedirectToAction("ListRooms");
+            }
             return RedirectToAction("ListRooms");
         }
 

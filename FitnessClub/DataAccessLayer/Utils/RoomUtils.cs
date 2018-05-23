@@ -109,9 +109,9 @@ namespace DataAccessLayer.Utils
             return temp;
         }
 
-        public static bool DeleteRoom(int roomId)
+        public static bool DeleteRoom(int Id)
         {
-            bool temp = false;
+            bool result = false;
 
             using (var ctx = new NorthwindContext())
             {
@@ -119,30 +119,24 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        Room delRoom = (from e in ctx.Rooms
-                                        where e.Id == roomId
-                                        select e).FirstOrDefault();
-                        if (delRoom != null)
+                        var query = (from r in ctx.Rooms where r.Id == Id select r).FirstOrDefault();
+                        if (!query.IsDeleted)
                         {
-                            delRoom.IsDeleted = true;
+                            query.IsDeleted = true;
                             ctx.SaveChanges();
-                            temp = true;
-                        }
-                        else
-                        {
-                            temp = false;
+                            result = true;
                         }
                         dbContextTransaction.Commit();
                     }
                     catch (Exception)
                     {
                         dbContextTransaction.Rollback();
-                        temp = false;
+                        result = false;
                     }
                 }
             }
 
-            return temp;
+            return result;
         }
 
 
@@ -156,5 +150,41 @@ namespace DataAccessLayer.Utils
             }
             return roomContextList;
         }
+
+        public static Room GetRoomByName(string name)
+        {
+            Room room;
+            using(var ctx = new NorthwindContext())
+            {
+                room = (from r in ctx.Rooms where r.Name == name select r).FirstOrDefault();
+            } 
+            return room;
+        }
+
+        public static bool UpdateRoom(Room Room)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var Query = (from r in ctx.Rooms where r.Id == Room.Id select r).FirstOrDefault();
+                        Query.Name = Room.Name;
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
+
     }
 }

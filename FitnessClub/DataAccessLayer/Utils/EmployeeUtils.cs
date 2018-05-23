@@ -3,8 +3,6 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
 
 namespace DataAccessLayer.Utils
@@ -50,9 +48,87 @@ namespace DataAccessLayer.Utils
             using(var ctx = new NorthwindContext())
             {
                 e = (from emp in ctx.Employees where emp.Name == name select emp).First();
-                
             }
             return e;
+        }
+
+        public static bool UpdateEmployee(Employee Employee)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Employee query = (from e in ctx.Employees where e.Id == Employee.Id select e).FirstOrDefault();
+                        query = Employee;
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static bool InsertEmployee(Employee Employee)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var query = (from r in ctx.Rooms where r.Name == Employee.WorkPlace.Name select r).FirstOrDefault();
+                        Employee.WorkPlace = query;
+                        ctx.Employees.Add(Employee);
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static bool DeleteEmployee(int Id)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var query = (from emp in ctx.Employees where emp.Id == Id select emp).FirstOrDefault();
+                        if (!query.IsDeleted)
+                        {
+                            query.IsDeleted = true;
+                            ctx.SaveChanges();
+                            dbContextTransaction.Commit();
+                            result = true;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
         }
     }
 }

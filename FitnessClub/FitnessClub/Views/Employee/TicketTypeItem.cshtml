@@ -1,4 +1,4 @@
-﻿@model FitnessClub.Models.TicketType
+﻿@model FitnessClub.ViewModel.ClientTicketType
 @{
     ViewBag.Title = "TicketTypeItem";
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
@@ -7,33 +7,38 @@
 <link href="~/Content/Erik/Timi.css" rel="stylesheet">
 
 <div class="content-center" style="width: 546px">
-        <div>
-            <p class="name">Tipusnev:</p>
-            <p class="value">@Html.Encode(Model.Name)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Tipusnev:</p>
+            <p class="value">@Html.Encode(Model.TicketType.Name)</p>
         </div>
-        <div>
-            <p class="name">Napok szama:</p>
-            <p class="value">@Html.Encode(Model.DayNum)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Napok szama:</p>
+            <p class="value">@Html.Encode(Model.TicketType.DayNum)</p>
         </div>
-        <div>
-            <p class="name">Alkalmak szama:</p>
-            <p class="value">@Html.Encode(Model.OccasionNum)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Alkalmak szama:</p>
+            <p class="value">@Html.Encode(Model.TicketType.OccasionNum)</p>
         </div>
-        <div>
-            <p class="name">Allapot:</p>
-            <p class="value">@Html.Encode(Model.Status)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Allapot:</p>
+            <p class="value">@Html.Encode(Model.TicketType.Status)</p>
         </div>
-        <div>
-            <p class="name">Ar:</p>
-            <p class="value">@Html.Encode(Model.Price)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Ar:</p>
+            <p class="value">@Html.Encode(Model.TicketType.Price)</p>
         </div>
-        <div>
-            <p class="name">Leiras:</p>
-            <p class="value">@Html.Encode(Model.Description)</p>
+        <div class="container" style="padding: 0">
+            <p class="name col-md-4">Leiras:</p>
+            <p class="value">@Html.Encode(Model.TicketType.Description)</p>
         </div>
-        <div class="button">
-            <p>+</p>
-        </div>
+        @using (Html.BeginForm("BuyingTicket", "Employee", FormMethod.Post))
+        {
+            <div class="container" style="padding: 0">
+                <p class="name col-md-4">Identity number: </p>
+                <input type="text" name="Id" class="value col-md-4" />
+            </div>
+            <input class="button" id="submit" type="submit" value="Submit" />
+        }
 </div>
 
 
