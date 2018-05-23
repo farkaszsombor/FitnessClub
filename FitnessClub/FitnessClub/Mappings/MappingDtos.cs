@@ -103,7 +103,7 @@ namespace FitnessClub.Mappings
                 IsDeleted = modelEmployee.IsDeleted,
                 Password = modelEmployee.Password,
                 Department = modelEmployee.Department,
-                WorkPlace = null,
+                WorkPlace = DataAccessLayer.Utils.RoomUtils.GetRoomByName(modelEmployee.WorkPlaceName),
             };
             return entityEmployee;
         }
@@ -121,79 +121,131 @@ namespace FitnessClub.Mappings
         //---------------------------------------EVENT-----------------------------------------
         public static Models.Event EntityEventToModelEvent(DataAccessLayer.Entities.Event entityEvent)
         {
-            FitnessClub.Models.Event modelEvent = new FitnessClub.Models.Event();
-
-            modelEvent.Id = entityEvent.Id;
-            modelEvent.ClientName = entityEvent.Card.FirstName + " " + entityEvent.Card.LastName;
-            modelEvent.TicketId = entityEvent.Ticket.Id;
-            modelEvent.Date = entityEvent.Date;
-            modelEvent.Type = entityEvent.Type;
-            modelEvent.RoomName = entityEvent.Room.Name;
-            modelEvent.EmployeeName = entityEvent.Inserter.Name;
+            Models.Event modelEvent = new Models.Event
+            {
+                Id = entityEvent.Id,
+                ClientName = entityEvent.Card.FirstName + " " + entityEvent.Card.LastName,
+                TicketId = entityEvent.Ticket.Id,
+                Date = entityEvent.Date,
+                Type = entityEvent.Type,
+                RoomName = entityEvent.Room.Name,
+                EmployeeName = entityEvent.Inserter.Name
+            };
 
             return modelEvent;
         }
-        public static List<FitnessClub.Models.Event> EntityEventToModelEventList(List<DataAccessLayer.Entities.Event> entityTypeList)
+
+        public static List<Models.Event> EntityEventToModelEventList(List<DataAccessLayer.Entities.Event> entityEventList)
         {
-            List<FitnessClub.Models.Event> modelList = new List<FitnessClub.Models.Event>();
-            foreach (var entityType in entityTypeList)
+            List<Models.Event> modelList = new List<Models.Event>();
+            foreach (var element in entityEventList)
             {
-                modelList.Add(EntityEventToModelEvent(entityType));
+                modelList.Add(EntityEventToModelEvent(element));
             }
 
             return modelList;
         }
 
-
-
-        public static FitnessClub.Models.Room EntityRoomToModelRoom(DataAccessLayer.Entities.Room entityRoom)
+        public static DataAccessLayer.Entities.Event ModelEventToEntityEvent(Models.Event modelEvent)
         {
-            FitnessClub.Models.Room modelRoom = new FitnessClub.Models.Room();
+            DataAccessLayer.Entities.Event entityEvent = new DataAccessLayer.Entities.Event()
+            {
+                Card = null,
+                Date = modelEvent.Date,
+                Id = modelEvent.Id,
+                Inserter = null,
+                Room = null,
+                Ticket = null,
+                Type = modelEvent.Type
+            };
 
-            modelRoom.Id = entityRoom.Id;
-            modelRoom.Name = entityRoom.Name;
-            modelRoom.IsDeleted = entityRoom.IsDeleted;
+            return entityEvent;
+        }
 
+        public static List<DataAccessLayer.Entities.Event> ModelEventToEntityEventAsList(List<Models.Event> modelEventList)
+        {
+            List<DataAccessLayer.Entities.Event> entityEventList = new List<DataAccessLayer.Entities.Event>();
+            foreach(var element in modelEventList)
+            {
+                entityEventList.Add(ModelEventToEntityEvent(element));
+            }
+
+            return entityEventList;
+        }
+
+        //----------------------------------------ROOM-------------------------------------------------------
+        public static Models.Room EntityRoomToModelRoom(DataAccessLayer.Entities.Room entityRoom)
+        {
+            Models.Room modelRoom = new Models.Room
+            {
+                Id = entityRoom.Id,
+                Name = entityRoom.Name,
+                IsDeleted = entityRoom.IsDeleted
+            };
+ 
             return modelRoom;
         }
 
 
-        public static List<FitnessClub.Models.Room> EntityRoomToModelRoomList(List<DataAccessLayer.Entities.Room> entityTypeList)
+        public static List<Models.Room> EntityRoomToModelRoomAsList(List<DataAccessLayer.Entities.Room> entityRoomList)
         {
-            List<FitnessClub.Models.Room> modelList = new List<FitnessClub.Models.Room>();
-            foreach (var entityType in entityTypeList)
+            List<Models.Room> modelList = new List<Models.Room>();
+            foreach (var element in entityRoomList)
             {
-                modelList.Add(EntityRoomToModelRoom(entityType));
+                modelList.Add(EntityRoomToModelRoom(element));
             }
 
             return modelList;
         }
 
-
-
-        public static FitnessClub.Models.Ticket EntityTicketToModelTicket(DataAccessLayer.Entities.Ticket entityTicket)
+        public static DataAccessLayer.Entities.Room ModelRoomToEntityRoom(Models.Room modelRoom)
         {
-            FitnessClub.Models.Ticket modelTicket = new FitnessClub.Models.Ticket();
+            DataAccessLayer.Entities.Room entityRoom = new DataAccessLayer.Entities.Room()
+            {
+                Id = modelRoom.Id,
+                Name = modelRoom.Name,
+                IsDeleted = modelRoom.IsDeleted,
+            };
 
-            modelTicket.Id = entityTicket.Id;
-            modelTicket.ClientId = entityTicket.Card.Id;
-            modelTicket.ClientName = entityTicket.Card.FirstName + " " + entityTicket.Card.LastName;
-            modelTicket.BuyingDate = entityTicket.BuyingDate;
-            modelTicket.StartDate = entityTicket.StartDate;
-            modelTicket.LastLoginDate = entityTicket.LastLoginDate;
-            modelTicket.LoginsNum = entityTicket.LoginsNum;
-            modelTicket.Price = entityTicket.Price;
-            modelTicket.EmployeeName = entityTicket.Inserter.Name;
-            modelTicket.IsDeleted = entityTicket.IsDeleted;
-            modelTicket.TicketName = entityTicket.Type.Name;
+            return entityRoom;
+        }
+
+        public static List<DataAccessLayer.Entities.Room> ModelRoomToEntityRoomAsList(List<Models.Room> modelRoomList)
+        {
+            List<DataAccessLayer.Entities.Room> entityRoomList = new List<DataAccessLayer.Entities.Room>();
+            foreach(var element in modelRoomList)
+            {
+                entityRoomList.Add(ModelRoomToEntityRoom(element));
+            }
+
+            return entityRoomList;
+        }
+
+        //-----------------------------------TICKET--------------------------------------------------------
+        public static Models.Ticket EntityTicketToModelTicket(DataAccessLayer.Entities.Ticket entityTicket)
+        {
+            Models.Ticket modelTicket = new Models.Ticket
+            {
+                Id = entityTicket.Id,
+                ClientId = entityTicket.Card.Id,
+                ClientName = entityTicket.Card.FirstName + " " + entityTicket.Card.LastName,
+                BuyingDate = entityTicket.BuyingDate,
+                StartDate = entityTicket.StartDate,
+                LastLoginDate = entityTicket.LastLoginDate,
+                LoginsNum = entityTicket.LoginsNum,
+                Price = entityTicket.Price,
+                EmployeeName = entityTicket.Inserter.Name,
+                IsDeleted = entityTicket.IsDeleted,
+                TicketName = entityTicket.Type.Name
+            };
             modelTicket.EndDate = entityTicket.Type.DayNum != 0 ? modelTicket.StartDate.AddDays(entityTicket.Type.DayNum) : entityTicket.BuyingDate;//mivel muszaj idopontot megadjak ezert berakom a vasarlas pillanatat
             modelTicket.RemaningLoginNum = entityTicket.Type.OccasionNum != 0 ? entityTicket.Type.OccasionNum - modelTicket.LoginsNum : -1;
-
             return modelTicket;
         }
-        public static List<FitnessClub.Models.Ticket> EntityTicketLIstInToModelTicketList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
+
+        public static List<Models.Ticket> EntityTicketLIstInToModelTicketAsList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
         {
-            List<FitnessClub.Models.Ticket> modelTicketList = new List<FitnessClub.Models.Ticket>();
+            List<Models.Ticket> modelTicketList = new List<Models.Ticket>();
             foreach (var entityTicket in entityTicketList)
             {
                 modelTicketList.Add(EntityTicketToModelTicket(entityTicket));
@@ -202,31 +254,89 @@ namespace FitnessClub.Mappings
             return modelTicketList;
         }
 
-
-        public static FitnessClub.Models.TicketType EntityTicketTypeToModelTicketType(DataAccessLayer.Entities.TicketType entityTicketType)
+        public static DataAccessLayer.Entities.Ticket ModelTicketToEntityTicket(Models.Ticket modelTicket)
         {
-            FitnessClub.Models.TicketType modelTicketType = new FitnessClub.Models.TicketType();
+            DataAccessLayer.Entities.Ticket entityTicket = new DataAccessLayer.Entities.Ticket()
+            {
+                Id = modelTicket.Id,
+                Card = null,
+                BuyingDate = modelTicket.BuyingDate,
+                Inserter = null,
+                IsDeleted = modelTicket.IsDeleted,
+                LastLoginDate = modelTicket.LastLoginDate,
+                LoginsNum = modelTicket.LoginsNum,
+                Price = modelTicket.Price,
+                StartDate = modelTicket.StartDate,
+                Type = null
+            };
 
-            modelTicketType.Id = entityTicketType.Id;
-            modelTicketType.Name = entityTicketType.Name;
-            modelTicketType.DayNum = entityTicketType.DayNum;
-            modelTicketType.OccasionNum = entityTicketType.OccasionNum;
-            modelTicketType.Status = entityTicketType.Status;
-            modelTicketType.Price = entityTicketType.Price;
-            modelTicketType.Description = entityTicketType.Description;
+            return entityTicket;
+        }
+
+        public static List<DataAccessLayer.Entities.Ticket> ModelTicketToEntityTicketAsList(List<Models.Ticket> modelTicketList)
+        {
+            List<DataAccessLayer.Entities.Ticket> entityTicketList = new List<DataAccessLayer.Entities.Ticket>();
+            foreach(var element in modelTicketList)
+            {
+                entityTicketList.Add(ModelTicketToEntityTicket(element));
+            }
+
+            return entityTicketList;
+        }
+
+
+        //--------------------------------------TICKET TYPE--------------------------------------------------------------
+        public static Models.TicketType EntityTicketTypeToModelTicketType(DataAccessLayer.Entities.TicketType entityTicketType)
+        {
+            Models.TicketType modelTicketType = new Models.TicketType
+            {
+                Id = entityTicketType.Id,
+                Name = entityTicketType.Name,
+                DayNum = entityTicketType.DayNum,
+                OccasionNum = entityTicketType.OccasionNum,
+                Status = entityTicketType.Status,
+                Price = entityTicketType.Price,
+                Description = entityTicketType.Description
+            };
 
             return modelTicketType;
         }
-        public static List<FitnessClub.Models.TicketType> EntityTicketLIstInToModelTicketTypeList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
+        public static List<Models.TicketType> EntityTicketLIstInToModelTicketTypeAsList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
         {
-            List<FitnessClub.Models.TicketType> modelTicketTypeList = new List<FitnessClub.Models.TicketType>();
-            foreach (var entityTicketType in entityTicketTypeList)
+            List<Models.TicketType> modelTicketTypeList = new List<Models.TicketType>();
+            foreach (var element in entityTicketTypeList)
             {
-                modelTicketTypeList.Add(EntityTicketTypeToModelTicketType(entityTicketType));
+                modelTicketTypeList.Add(EntityTicketTypeToModelTicketType(element));
             }
             return modelTicketTypeList;
         }
 
+        public static DataAccessLayer.Entities.TicketType ModelTicketTypeToEntityTicketType(Models.TicketType modelTicketType)
+        {
+            DataAccessLayer.Entities.TicketType entityTicketType = new DataAccessLayer.Entities.TicketType()
+            {
+                Id = modelTicketType.Id,
+                DayNum = modelTicketType.DayNum,
+                Description = modelTicketType.Description,
+                IsDeleted = modelTicketType.IsDeleted,
+                Name = modelTicketType.Name,
+                OccasionNum = modelTicketType.OccasionNum,
+                Price = modelTicketType.Price,
+                Status = modelTicketType.Status
+            };
 
+            return entityTicketType;
+        }
+
+        public static List<DataAccessLayer.Entities.TicketType> ModelTicketTypeToEntityTicketTypeAsList(List<Models.TicketType> modelTicketTypeList)
+        {
+            List<DataAccessLayer.Entities.TicketType> entityTicketTypeList = new List<DataAccessLayer.Entities.TicketType>();
+            foreach(var element in modelTicketTypeList)
+            {
+                entityTicketTypeList.Add(ModelTicketTypeToEntityTicketType(element));
+            }
+
+            return entityTicketTypeList;
+        }
     }
 }

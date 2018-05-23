@@ -156,5 +156,40 @@ namespace DataAccessLayer.Utils
             }
             return roomContextList;
         }
+
+        public static Room GetRoomByName(string name)
+        {
+            Room room;
+            using(var ctx = new NorthwindContext())
+            {
+                room = (from r in ctx.Rooms where r.Name == name select r).FirstOrDefault();
+            } 
+            return room;
+        }
+
+        public static bool UpdateRoom(Room Room)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var Query = (from r in ctx.Rooms where r.Id == Room.Id select r).FirstOrDefault();
+                        Query = Room;
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

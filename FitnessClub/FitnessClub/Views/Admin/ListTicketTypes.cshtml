@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitnessClub.Models.TicketType>
+﻿@model PagedList.IPagedList<FitnessClub.Models.TicketType>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "ListTicketTypes";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
@@ -40,6 +41,11 @@
             </tr>
         }
     </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ListTicketTypes",
+        new { page }))
 </div>
 <div>
     @Html.ActionLink("Add new ticket type", "CreateTicketType")

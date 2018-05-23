@@ -51,12 +51,12 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeList(TicketTypeUtils.GetAllTicketTypes());
+            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
             return View(data);
         }
         public ActionResult TicketsList(Client client)
         {
-            var data=MappingDtos.EntityTicketLIstInToModelTicketList(TicketUtils.GetListOfTicketByClientId(client.Id));
+            var data=MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
             return View(data);
 
         }

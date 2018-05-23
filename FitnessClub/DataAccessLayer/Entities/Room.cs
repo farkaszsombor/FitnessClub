@@ -1,9 +1,10 @@
-﻿namespace DataAccessLayer.Entities
+﻿
+namespace DataAccessLayer.Entities
 {
     public class Room
     {
-          public int Id { get; set; }
-          public string Name { get; set; }
-          public bool IsDeleted { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

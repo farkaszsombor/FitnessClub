@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitnessClub.Models.Event>
+﻿@model PagedList.IPagedList<FitnessClub.Models.Event>
+    @using PagedList.Mvc;
 @{
     ViewBag.Title = "ListEvents";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
@@ -16,8 +17,6 @@
             <th>Client Name</th>
             <th>Employee Name</th>
             <th>Room Name</th>
-            <th>Edit</th>
-            <th>Delete</th>
         </tr>
         @foreach (var item in (dynamic)Model)
         {
@@ -28,10 +27,13 @@
                 <td>@Html.Encode(item.ClientName)</td>
                 <td>@Html.Encode(item.EmployeeName)</td>
                 <td>@Html.Encode(item.RoomName)</td>
-                <td>@Html.ActionLink("Edit", "Edit", "Admin")</td>
-                <td>@Html.ActionLink("Delete", "Delete", "Admin")</td>
             </tr>
         }
     </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ListEvents",
+        new { page }))
 </div>
 
