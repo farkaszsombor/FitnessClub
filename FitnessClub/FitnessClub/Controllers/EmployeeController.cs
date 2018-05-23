@@ -1,5 +1,4 @@
-﻿
-using DataAccessLayer.Utils;
+﻿using DataAccessLayer.Utils;
 using FitnessClub.Models;
 using FitnessClub.Mappings;
 using System;
@@ -82,8 +81,24 @@ namespace FitnessClub.Controllers
         }
         public ActionResult Insert(Client user)
         {
-            ClientUtils.InsertClient(user.FirstName, user.LastName, user.Phone, user.Email, user.IdentityNumber, 1, true);
-            return RedirectToAction("Index");
+            user.InserterName = Session["LoginedUser"].ToString();
+            
+            if(ClientUtils.InsertClient(MappingDtos.ModelClientToEntityClient(user)))
+            {
+                return RedirectToAction("TicketsList", "Employee",ClientUtils.GetClientByParameters(MappingDtos.ModelClientToEntityClient(user)));
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError","Employee", new { @errorMsg="Nem sikeres beszuras" });
+            }
         }
+        public ActionResult EmployeeError(string errorMsg)
+        {
+
+            ViewBag.MyString = errorMsg;
+            return View();
+
+        }
+
     }
 }

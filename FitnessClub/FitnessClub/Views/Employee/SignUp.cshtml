@@ -9,6 +9,7 @@
 @using (Html.BeginForm("Insert", "Employee", FormMethod.Post, new { @class = "login-form" }))
 {
 <div class="content-center">
+    @Html.HiddenFor(client => client.InsertedDate, new { Value = DateTime.Now})
     <p>First Name</p>
     @Html.TextBoxFor(client => client.FirstName, new { @class = "input" })
     <p>Last Name</p>
@@ -19,6 +20,12 @@
     @Html.TextBoxFor(client => client.Email, new { @class = "input" })
     <p>CNP</p>
     @Html.TextBoxFor(client => client.IdentityNumber, new { @class = "input" })
+    <p>Birth Year</p>
+    @Html.TextBoxFor(client => client.BirthYear, new { @class = "input" })
+    <p>Male</p>@Html.RadioButtonFor(client => client.Sex, "Male")
+    <br />
+    <p>Female</p>@Html.RadioButtonFor(client => client.Sex, "Female")
+    <br />
     <input type="submit" name="submit" value="Sign Up" />
 </div>
 }
