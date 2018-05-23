@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitnessClub.Models.Room>
+﻿@model PagedList.IPagedList<FitnessClub.Models.Room>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "ListRooms";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
@@ -36,6 +37,11 @@
             </tr>
         }
     </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ListRooms",
+        new { page }))
 </div>
 
 <div>

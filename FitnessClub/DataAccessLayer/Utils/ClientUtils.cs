@@ -2,10 +2,7 @@
 using DataAccessLayer.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;//required for Inlcude 
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
+using System.Data.Entity;
 using System;
 
 namespace DataAccessLayer.Utils
@@ -59,7 +56,7 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        Client query = (from x in ctx.Clients where x.Id == Id select x).First();
+                        Client query = (from x in ctx.Clients where x.Id == Id select x).FirstOrDefault();
                         query.FirstName = Fname;
                         query.LastName = Lname;
                         query.Phone = Phone;
@@ -105,30 +102,6 @@ namespace DataAccessLayer.Utils
                 }
                 return result;
             }
-        }
-
-        public static bool InsertClient(string fName, string lName, string phone, string email, string identityNum, int InserterId, bool sex)
-        {
-            bool result = false;
-            using (var ctx = new NorthwindContext())
-            {
-                using (var dbContextTransaction = ctx.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        ctx.Clients.Add(new Client { FirstName = fName, LastName = lName, IdentityNumber = identityNum, Phone = phone, Email = email, IsDeleted = false, Sex = false, BirthYear = 0, ImagePath = null, Inserter = null, InsertedDate = DateTime.Now });
-                        ctx.SaveChanges();
-                        dbContextTransaction.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        dbContextTransaction.Rollback();
-                        result = false;
-                    }
-                }
-            }
-            return result;
         }
 
         public static Client GetClientByParameters(Client user)

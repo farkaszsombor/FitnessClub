@@ -12,8 +12,12 @@ namespace FitnessClub.Models
         [Required(ErrorMessage = "Client name must not be empty")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Password is required!")]
-        [MinLength(8)]
+        [MinLength(length: 8,ErrorMessage = "Password is too sort")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Reenter the password")]
+        [MinLength(length: 8, ErrorMessage = "Password is too sort")]
+        [Compare("Password",ErrorMessage = "Password do not match")]
+        public string PasswrodRep { get; set; }
         public bool IsDeleted { get; set; }
         [Required(ErrorMessage = "Your department is required")]
         public string Department { get; set; }

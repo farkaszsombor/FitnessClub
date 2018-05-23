@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FitnessClub.Models.Employee>
+﻿@model PagedList.IPagedList<FitnessClub.Models.Employee>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "ListEmployees";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
@@ -20,26 +21,32 @@
         </tr>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>@Html.Encode(item.Id)</td>
-            <td>@Html.Encode(item.Name)</td>
-            <td>@Html.Encode(item.IsDeleted)</td>
-            <td>@Html.Encode(item.Department)</td>
-            <td>@Html.Encode(item.WorkPlaceName)</td>
-            <td>@Html.ActionLink("Edit", "EditEmployee",item)</td>
-            <td>
-                @if (!item.IsDeleted)
-                {
-                    @Html.ActionLink("Delete", "DeleteEmployee", new { Id = item.Id })
-                }
-                else
-                {
-                    @Html.Encode("Delete")
-                }
-            </td>
-        </tr>
+            <tr>
+                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(item.Name)</td>
+                <td>@Html.Encode(item.IsDeleted)</td>
+                <td>@Html.Encode(item.Department)</td>
+                <td>@Html.Encode(item.WorkPlaceName)</td>
+                <td>@Html.ActionLink("Edit", "EditEmployee", item)</td>
+                <td>
+                    @if (!item.IsDeleted)
+                    {
+                        @Html.ActionLink("Delete", "DeleteEmployee", new { Id = item.Id })
+                    }
+                    else
+                    {
+                        @Html.Encode("Delete")
+                    }
+                </td>
+            </tr>
         }
     </table>
+
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("ListEmployees",
+        new { page }))
 </div>
 
 <div>
