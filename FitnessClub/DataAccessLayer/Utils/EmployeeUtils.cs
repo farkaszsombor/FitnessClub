@@ -48,7 +48,6 @@ namespace DataAccessLayer.Utils
             using(var ctx = new NorthwindContext())
             {
                 e = (from emp in ctx.Employees where emp.Name == name select emp).First();
-                
             }
             return e;
         }

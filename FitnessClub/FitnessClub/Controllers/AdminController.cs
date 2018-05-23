@@ -224,6 +224,10 @@ namespace FitnessClub.Controllers
         //Delete : Rooms
         public ActionResult DeleteRoom(int Id)
         {
+            if (RoomUtils.DeleteRoom(Id))
+            {
+                return RedirectToAction("ListRooms");
+            }
             return RedirectToAction("ListRooms");
         }
 

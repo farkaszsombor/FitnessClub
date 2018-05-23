@@ -109,9 +109,9 @@ namespace DataAccessLayer.Utils
             return temp;
         }
 
-        public static bool DeleteRoom(int roomId)
+        public static bool DeleteRoom(int Id)
         {
-            bool temp = false;
+            bool result = false;
 
             using (var ctx = new NorthwindContext())
             {
@@ -119,30 +119,24 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        Room delRoom = (from e in ctx.Rooms
-                                        where e.Id == roomId
-                                        select e).FirstOrDefault();
-                        if (delRoom != null)
+                        var query = (from r in ctx.Rooms where r.Id == Id select r).FirstOrDefault();
+                        if (!query.IsDeleted)
                         {
-                            delRoom.IsDeleted = true;
+                            query.IsDeleted = true;
                             ctx.SaveChanges();
-                            temp = true;
-                        }
-                        else
-                        {
-                            temp = false;
+                            result = true;
                         }
                         dbContextTransaction.Commit();
                     }
                     catch (Exception)
                     {
                         dbContextTransaction.Rollback();
-                        temp = false;
+                        result = false;
                     }
                 }
             }
 
-            return temp;
+            return result;
         }
 
 
@@ -177,7 +171,7 @@ namespace DataAccessLayer.Utils
                     try
                     {
                         var Query = (from r in ctx.Rooms where r.Id == Room.Id select r).FirstOrDefault();
-                        Query = Room;
+                        Query.Name = Room.Name;
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;
@@ -191,5 +185,6 @@ namespace DataAccessLayer.Utils
             }
             return result;
         }
+
     }
 }

@@ -11,22 +11,30 @@ namespace FitnessClub.Mappings
         //---------------------------CLIENT----------------------------------
         public static Models.Client EntityClientToModelClient(DataAccessLayer.Entities.Client entityClient)
         {
-            Models.Client modelClient = new Models.Client
+            try
             {
-                Id = entityClient.Id,
-                FirstName = entityClient.FirstName,
-                LastName = entityClient.LastName,
-                Phone = entityClient.Phone,
-                Email = entityClient.Email,
-                ImagePath = String.IsNullOrEmpty(entityClient.ImagePath) ? "-" : entityClient.ImagePath,
-                IsDeleted = entityClient.IsDeleted,
-                BirthYear = entityClient.BirthYear,
-                InsertedDate = entityClient.InsertedDate,
-                IdentityNumber = entityClient.IdentityNumber,
-                Sex = entityClient.Sex ? "Female" : "Male",
-                InserterName = entityClient.Inserter.Name,
-            };
-            return modelClient;
+                Models.Client modelClient = new Models.Client
+                {
+
+                    Id = entityClient.Id,
+                    FirstName = entityClient.FirstName,
+                    LastName = entityClient.LastName,
+                    Phone = entityClient.Phone,
+                    Email = entityClient.Email,
+                    ImagePath = String.IsNullOrEmpty(entityClient.ImagePath) ? "-" : entityClient.ImagePath,
+                    IsDeleted = entityClient.IsDeleted,
+                    BirthYear = entityClient.BirthYear,
+                    InsertedDate = entityClient.InsertedDate,
+                    IdentityNumber = entityClient.IdentityNumber,
+                    Sex = entityClient.Sex ? "Female" : "Male",
+                    InserterName = entityClient.Inserter.Name,
+                };
+                return modelClient;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public static List<Models.Client> EntityClientToModelClientAsList(List<DataAccessLayer.Entities.Client> entityClientList)
