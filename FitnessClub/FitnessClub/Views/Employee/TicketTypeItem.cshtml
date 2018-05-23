@@ -1,4 +1,4 @@
-﻿@model FitnessClub.Models.TicketType
+﻿@model FitnessClub.ViewModel.ClientTicketType
 @{
     ViewBag.Title = "TicketTypeItem";
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
@@ -9,29 +9,33 @@
 <div class="content-center" style="width: 546px">
         <div>
             <p class="name">Tipusnev:</p>
-            <p class="value">@Html.Encode(Model.Name)</p>
+            <p class="value">@Html.Encode(Model.TicketType.Name)</p>
         </div>
         <div>
             <p class="name">Napok szama:</p>
-            <p class="value">@Html.Encode(Model.DayNum)</p>
+            <p class="value">@Html.Encode(Model.TicketType.DayNum)</p>
         </div>
         <div>
             <p class="name">Alkalmak szama:</p>
-            <p class="value">@Html.Encode(Model.OccasionNum)</p>
+            <p class="value">@Html.Encode(Model.TicketType.OccasionNum)</p>
         </div>
         <div>
             <p class="name">Allapot:</p>
-            <p class="value">@Html.Encode(Model.Status)</p>
+            <p class="value">@Html.Encode(Model.TicketType.Status)</p>
         </div>
         <div>
             <p class="name">Ar:</p>
-            <p class="value">@Html.Encode(Model.Price)</p>
+            <p class="value">@Html.Encode(Model.TicketType.Price)</p>
         </div>
         <div>
             <p class="name">Leiras:</p>
-            <p class="value">@Html.Encode(Model.Description)</p>
+            <p class="value">@Html.Encode(Model.TicketType.Description)</p>
         </div>
-        <div class="button">
+        <div>
+            <p class="name">Identity number: </p>
+            @Html.TextBoxFor(user => user.Client.IdentityNumber, new { @class = "input" })
+        </div>
+        <div class="button" onclick="location.href='@Url.Action("BuyingTicket", "Employee", Model )'">
             <p>+</p>
         </div>
 </div>

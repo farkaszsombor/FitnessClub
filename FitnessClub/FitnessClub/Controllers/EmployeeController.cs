@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FitnessClub.ViewModel;
 
 namespace FitnessClub.Controllers
 {
@@ -64,7 +65,16 @@ namespace FitnessClub.Controllers
 
         public ActionResult TicketTypeItem(TicketType tic)
         {
-            return View(tic);
+            ClientTicketType mix = new ClientTicketType { TicketType = tic };
+            return View(mix);
+        }
+
+        public ActionResult BuyingTicket()
+        {
+            //rakeres a kliensre(id alapjan), ha letezik, TicketList oldalt behozom a parametereivel
+            
+            //ha nem error oldal a megf szoveggel
+            return View();
         }
         public ActionResult SignUp()
         {
