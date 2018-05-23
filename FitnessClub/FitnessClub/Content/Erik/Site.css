@@ -211,3 +211,10 @@ nav.shift ul li a:hover:after {
 .list-table .disabled:hover {
     background-color: rgb(128, 0, 0) !important;
 }
+.profile.col-md-6.container div{
+    margin-right:15px;
+}
+.container {
+    margin:0 auto;
+    width:800px;
+}

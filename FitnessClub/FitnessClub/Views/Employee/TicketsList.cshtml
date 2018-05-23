@@ -1,4 +1,4 @@
-﻿@model List<FitnessClub.Models.Ticket>
+﻿@model FitnessClub.Models.TicketsClient
 
 @{
     ViewBag.Title = "TicketsList";
@@ -8,9 +8,31 @@
 
 
 <div class="content">
-    <div class="">
-        Beszuras
-    </div>
+    <div class="container">
+
+        <div class="col-md-6 inserter">
+            Beszuras
+        </div>
+        <div class="profile col-md-6">
+            <div class="col-md-7">
+                <p>Nev : <b>@Html.Encode(Model.Client.LastName) @Html.Encode(Model.Client.FirstName)</b></p>
+                <p>Tel : <b>@Html.Encode(Model.Client.Phone)</b></p> <p>E-mail : <b>@Html.Encode(Model.Client.Email)</b></p>
+                <p>CNP : <b>@Html.Encode(Model.Client.IdentityNumber)</b></p> <p>Sex : <b>@Html.Encode(Model.Client.Sex)</b></p>
+            </div>
+         
+                <div class="col-md-5">
+                    @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs"))
+                    {
+                        <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150px" />
+                    }
+                    else
+                    {
+                        <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="150px" />
+                    }
+                </div>
+            </div>
+        </div>
+ 
     <div class="list-table">
         <div class="list-header">
             <p>Nev</p>
@@ -19,7 +41,7 @@
             <p>Utolso belepes</p>
             <p>Belepesek szama</p>
         </div>
-        @foreach (var item in (dynamic)Model)
+        @foreach (var item in Model.Tickets)
         {
 
             if(((item.EndDate == item.BuyingDate)&&item.RemaningLoginNum<=0)||((item.RemaningLoginNum==-1)&&item.EndDate<=DateTime.Now)||(item.RemaningLoginNum==-1)&&item.LastLoginDate.Day==DateTime.Now.Day||((item.RemaningLoginNum!=-1)&&(item.EndDate != item.BuyingDate)&&(item.EndDate<=DateTime.Now||item.RemaningLoginNum<=0)))
@@ -49,7 +71,7 @@
             }
             else
             {
-            <div class="list-item ">
+            <div class="list-item" >
                 <p>@Html.Encode(item.TicketName)</p>
                 <p>@Html.Encode(item.StartDate)</p>
                 @if(item.EndDate == item.BuyingDate)
@@ -58,7 +80,7 @@
                 }
                 else
                 {
-                    if(item.EndDate-DateTime.Now.Day<=2)
+                    if((item.EndDate - DateTime.Now).TotalDays <= 2)
                     {
                         <p style="color:red">@Html.Encode(item.EndDate)</p>
                     }
