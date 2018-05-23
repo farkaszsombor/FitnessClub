@@ -147,5 +147,24 @@ namespace DataAccessLayer.Utils
             }
             return result;
         }
+
+        public static Client GetClientById (int Id)
+        {
+            Client result;
+
+            using(var ctx = new NorthwindContext())
+            {
+                result = (from client in ctx.Clients where client.Id == Id select client).ToList().FirstOrDefault();
+            }
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                return new Client();
+            }
+
+        }
     }
 }

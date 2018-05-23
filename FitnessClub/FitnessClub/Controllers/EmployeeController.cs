@@ -68,12 +68,17 @@ namespace FitnessClub.Controllers
             return View(mix);
         }
 
-        public ActionResult BuyingTicket()
+        public ActionResult BuyingTicket(FormCollection collection)
         {
-            //rakeres a kliensre(id alapjan), ha letezik, TicketList oldalt behozom a parametereivel
-            
-            //ha nem error oldal a megf szoveggel
-            return View();
+            int Id = Int32.Parse(collection.Get("Id"));
+            if (MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id))!=null )
+            {
+                return RedirectToAction("EmployeeError", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nincs ilyen Id-vel rendelkezo kliens!" });
+            }
         }
         public ActionResult SignUp()
         {
