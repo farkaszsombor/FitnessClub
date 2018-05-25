@@ -73,7 +73,7 @@ namespace FitnessClub.Controllers
             int Id = Int32.Parse(collection.Get("Id"));
             if (MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id))!=null )
             {
-                return RedirectToAction("EmployeeError", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
+                return RedirectToAction("TicketsList", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
             }
             else
             {
