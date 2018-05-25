@@ -58,7 +58,7 @@ namespace FitnessClub.Controllers
         public ActionResult TicketsList(Client client)
         {
             var data=MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
-            return View(new TicketsClient {Client=client,Tickets=data });
+            return View(new TicketsClient {Client=client,Tickets=data, Types= MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes())});
 
         }
 
@@ -102,7 +102,24 @@ namespace FitnessClub.Controllers
 
             ViewBag.MyString = errorMsg;
             return View();
+        }
+        public ActionResult AddTicket(FormCollection collection)
+        {
+            var ClientId = Int32.Parse(collection.Get("ClientId"));
+            var InsertedDate = DateTime.Parse(collection.Get("InsertedDate"));
+            var SelectedTypeId = Int32.Parse(collection.Get("SelectedType"));
+            var StartDate = DateTime.Parse(collection.Get("StartDate"));
 
+            if(TicketUtils.InsertTicket(ClientId, Session["LoginedUser"].ToString(), SelectedTypeId, InsertedDate, StartDate))
+            {
+                return RedirectToAction("TicketsList", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(ClientId)));
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres beszuras" });
+            }
+
+            
         }
 
     }
