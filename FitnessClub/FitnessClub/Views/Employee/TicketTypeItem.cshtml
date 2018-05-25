@@ -34,6 +34,7 @@
         @using (Html.BeginForm("BuyingTicket", "Employee", FormMethod.Post))
         {
             <div class="container" style="padding: 0">
+                <input name="TicketTypeId" type="hidden" value="@Model.TicketType.Id">
                 <p class="name col-md-4">Card number: </p>
                 <input type="text" name="Id" class="value col-md-4" />
             </div>
