@@ -44,5 +44,64 @@ namespace DataAccessLayer.Utils
             }
             return ret;           
         }
+
+        public static bool InsertTicketType(TicketType type)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        ctx.TicketTypes.Add(type);
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static bool UpdateTicketType(TicketType Type)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using(var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        TicketType Query = (from t in ctx.TicketTypes where Type.Id == t.Id select t).FirstOrDefault();
+                        ctx.TicketTypes.Attach(Type);
+                        /*Query.Id = Type.Id;
+                        Query.Description = Type.Description;
+                        Query.DayNum = Type.DayNum;
+                        Query.IsDeleted = Type.IsDeleted;
+                        Query.Name = Type.Name;
+                        Query.OccasionNum = Type.OccasionNum;
+                        Query.Price = Type.Price;
+                        Query.Status = Type.Status;*/
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

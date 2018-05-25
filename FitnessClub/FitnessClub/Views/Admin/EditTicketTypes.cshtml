@@ -6,10 +6,12 @@
 
 <h2>Edit Ticket Types</h2>
 
-@using (Html.BeginForm("EditClient", "Admin", FormMethod.Post))
+@using (Html.BeginForm("EditTicketTypes", "Admin", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.IsDeleted)
+    @Html.HiddenFor(model => model.Status)
 
 <div class="form-horizontal">
     <hr />

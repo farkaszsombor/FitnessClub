@@ -13,7 +13,7 @@ namespace DataAccessLayer.Utils
     {
         public static bool InsertRoom(string name)
         {
-            bool ret = false;
+            bool result = false;
 
             using (var ctx = new NorthwindContext())
             {
@@ -24,16 +24,16 @@ namespace DataAccessLayer.Utils
                         ctx.Rooms.Add(new Room { Name = name });
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
-                        ret = true;
+                        result = true;
                     }
                     catch (Exception)
                     {
                         dbContextTransaction.Rollback();
-                        ret = false;
+                        result = false;
                     }
                 }
             }
-            return ret; 
+            return result; 
         }
 
         public static bool DeleteRoomFromDatabase(string name)

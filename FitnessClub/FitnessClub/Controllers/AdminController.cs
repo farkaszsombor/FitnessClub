@@ -171,6 +171,13 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult EditTicketTypes(int Id,TicketType Type)
         {
+            if (ModelState.IsValid)
+            {
+                if (TicketTypeUtils.UpdateTicketType(Mappings.MappingDtos.ModelTicketTypeToEntityTicketType(Type)))
+                {
+                    return RedirectToAction("ListTicketTypes");
+                }
+            }
             return View(Type);
         }
 
@@ -190,6 +197,13 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult CreateTicketType(TicketType Type)
         {
+            if (ModelState.IsValid)
+            {
+                if (TicketTypeUtils.InsertTicketType(Mappings.MappingDtos.ModelTicketTypeToEntityTicketType(Type)))
+                {
+                    return RedirectToAction("ListTicketTypes");
+                }
+            }
             return View(Type);
         }
 
@@ -241,6 +255,13 @@ namespace FitnessClub.Controllers
         [HttpPost]
         public ActionResult CreateRoom(Room Room)
         {
+            if (ModelState.IsValid)
+            {
+                if (RoomUtils.InsertRoom(Room.Name))
+                {
+                    return RedirectToAction("ListRooms");
+                }
+            }
             return View(Room);
         }
     }

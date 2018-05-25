@@ -127,7 +127,7 @@ namespace DataAccessLayer.Utils
 
             using(var ctx = new NorthwindContext())
             {
-                result = (from client in ctx.Clients where client.Id == Id select client).ToList().FirstOrDefault();
+                result = (from client in ctx.Clients.Include(x => x.Inserter) where client.Id == Id select client).ToList().FirstOrDefault();
             }
             if (result != null)
             {
