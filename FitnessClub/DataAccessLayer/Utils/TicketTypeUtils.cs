@@ -103,5 +103,16 @@ namespace DataAccessLayer.Utils
 
             return result;
         }
+
+        public static TicketType GetTicketById(int ticketType)
+        {
+            TicketType result = new TicketType();
+            using (var ctx = new NorthwindContext())
+            {
+                result = (from t in ctx.TicketTypes where t.Id == ticketType select t).FirstOrDefault();
+
+            }
+            return result;
+        }
     }
 }
