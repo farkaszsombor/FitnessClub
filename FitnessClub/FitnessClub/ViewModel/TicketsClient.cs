@@ -12,8 +12,6 @@ namespace FitnessClub.ViewModel
         public List<Ticket> Tickets { get; set; }
         public Client Client { get; set; }
         public List<TicketType> Types { get; set; }
-        public string SelectedType { get; set; }
-     
-        public string Date { get; set; }
+        public string SelectedType { get; set; } 
     }
 }

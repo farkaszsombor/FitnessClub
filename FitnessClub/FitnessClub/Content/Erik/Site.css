@@ -220,11 +220,14 @@ nav.shift ul li a:hover:after {
 }
 .inserter-form {
     width:100%;
-
 }
 .insert-tag {
     width: 80%;
     margin: 0 0 10px 0;
     height:30px;
     padding :0 0 0 20px;
+}
+.search-tool {
+    margin: 0 auto;
+    width: 76%;
 }
