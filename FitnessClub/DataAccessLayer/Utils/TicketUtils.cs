@@ -235,6 +235,39 @@ namespace DataAccessLayer.Utils
             }
             return result;
         }
+        public static bool InsertTicket(int clientId, string inserterName, int typeId, DateTime buyingDate, DateTime startDate)
+        {
+            bool result = false;
+            using (var ctx = new NorthwindContext())
+            {
+                var Client = (from c in ctx.Clients.Include(i => i.Inserter)
+                              where c.Id == clientId
+                              select c).ToList().FirstOrDefault();
+                var Inserter = (from c in ctx.Employees.Include(i=>i.WorkPlace)
+                              where c.Name == inserterName
+                              select c).ToList().FirstOrDefault();
+                var Type = (from c in ctx.TicketTypes
+                                where c.Id == typeId
+                                select c).ToList().FirstOrDefault();
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        ctx.Tickets.Add(new Ticket { Card=Client, Inserter=Inserter,Type=Type, Price=Type.Price, IsDeleted=false,LoginsNum=0,BuyingDate=buyingDate,StartDate=startDate ,LastLoginDate=DateTime.Parse("1/1/1970") } );
+                        ctx.SaveChanges();
+                        dbContextTransaction.Commit();
+                        result = true;
+                    }
+                    catch(Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+
+            }
+            return result;
+        }
 
     }
 }

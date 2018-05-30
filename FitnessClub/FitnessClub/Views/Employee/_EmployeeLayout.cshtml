@@ -7,6 +7,13 @@
 
 <html>
 <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js">
+    </script>
+    <script>
+        function MainController($scope) {
+            $scope.date = new Date();
+        }
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
@@ -15,6 +22,11 @@
     @Styles.Render("~/Content/css")
     <link href="~/Content/Erik/Site.css" rel="stylesheet">
     @Scripts.Render("~/bundles/modernizr")
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" />
+
 </head>
 <body>
     <nav class="shift">
@@ -28,3 +40,4 @@
     @RenderBody()
 </body>
 </html>
+

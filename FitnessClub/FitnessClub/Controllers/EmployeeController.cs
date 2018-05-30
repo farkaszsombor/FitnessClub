@@ -57,9 +57,19 @@ namespace FitnessClub.Controllers
         }
         public ActionResult TicketsList(Client client)
         {
-            var data=MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
-            return View(new TicketsClient {Client=client,Tickets=data });
-
+            if (Session["TicType"] != null)
+            {
+                List<TicketType> SelectType = new List<TicketType>();
+                SelectType.Add(MappingDtos.EntityTicketTypeToModelTicketType(TicketTypeUtils.GetTicketById(Int32.Parse(Session["TicType"].ToString()))));
+                Session["TicType"] = null;
+                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                return View(new TicketsClient { Client = client, Tickets = data, Types = SelectType });
+            }
+            else
+            {
+                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                return View(new TicketsClient { Client = client, Tickets = data, Types = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes()) });
+            }
         }
 
         public ActionResult TicketTypeItem(TicketType tic)
@@ -71,9 +81,11 @@ namespace FitnessClub.Controllers
         public ActionResult BuyingTicket(FormCollection collection)
         {
             int Id = Int32.Parse(collection.Get("Id"));
-            if (MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id))!=null )
+            int Type = Int32.Parse(collection.Get("TicketTypeId"));
+            if (MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)) != null)
             {
-                return RedirectToAction("EmployeeError", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
+                Session["TicType"]=Type.ToString();
+                return RedirectToAction("TicketsList", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(Id)));
             }
             else
             {
@@ -102,7 +114,24 @@ namespace FitnessClub.Controllers
 
             ViewBag.MyString = errorMsg;
             return View();
+        }
+        public ActionResult AddTicket(FormCollection collection)
+        {
+            var ClientId = Int32.Parse(collection.Get("ClientId"));
+            var InsertedDate = DateTime.Parse(collection.Get("InsertedDate"));
+            var SelectedTypeId = Int32.Parse(collection.Get("SelectedType"));
+            var StartDate = DateTime.Parse(collection.Get("StartDate"));
 
+            if(TicketUtils.InsertTicket(ClientId, Session["LoginedUser"].ToString(), SelectedTypeId, InsertedDate, StartDate))
+            {
+                return RedirectToAction("TicketsList", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(ClientId)));
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres beszuras" });
+            }
+
+            
         }
 
     }

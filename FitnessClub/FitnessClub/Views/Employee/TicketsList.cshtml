@@ -1,4 +1,4 @@
-﻿@model FitnessClub.Models.TicketsClient
+﻿@model FitnessClub.ViewModel.TicketsClient
 
 @{
     ViewBag.Title = "TicketsList";
@@ -11,7 +11,35 @@
     <div class="container">
 
         <div class="col-md-6 inserter">
-            Beszuras
+            @using (Html.BeginForm("AddTicket", "Employee", FormMethod.Post, new { @class = "inserter-form" }))
+            {
+                <input  name="ClientId" type="hidden" value="@Model.Client.Id">
+                <input  name="InsertedDate" type="hidden" value="@DateTime.Now">
+                if(Model.Types.Count==1)
+                {
+                    <p>Jegy tipus:</p>
+                    <div class = "insert-tag" style="border: solid 1px black; padding-top:4px">
+                        <p>@Model.Types.FirstOrDefault().Name</p>
+                    </div>
+                    <input type="hidden" name="SelectedType" value="@Model.Types.FirstOrDefault().Id"/>
+                }
+                else
+                { 
+                     List<SelectListItem> listItems = new List<SelectListItem>();
+                     foreach (var item in Model.Types)
+                     {
+                         listItems.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                     }
+                     <p>Jegy tipus:</p>
+                     @Html.DropDownListFor(Model => Model.SelectedType, listItems, "-- Jegy tipus kivalasztas --", new { @class = "insert-tag" })
+                }
+               
+            <div>
+                <p>Kezdeti datum :</p>
+                <input type="date" class="insert-tag" name="StartDate" ng-model="date" value="{{ date | date: 'yyyy/MM/dd' }}" />
+            </div>
+            <input class="button" id="submit" type="submit" value="Submit" />
+            }
         </div>
         <div class="profile col-md-6">
             <div class="col-md-7">
@@ -19,20 +47,20 @@
                 <p>Tel : <b>@Html.Encode(Model.Client.Phone)</b></p> <p>E-mail : <b>@Html.Encode(Model.Client.Email)</b></p>
                 <p>CNP : <b>@Html.Encode(Model.Client.IdentityNumber)</b></p> <p>Sex : <b>@Html.Encode(Model.Client.Sex)</b></p>
             </div>
-         
-                <div class="col-md-5">
-                    @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs"))
-                    {
-                        <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150" />
-                    }
-                    else
-                    {
-                        <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="150" />
-                    }
-                </div>
+
+            <div class="col-md-5">
+                @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs") && (Model.Client.ImagePath != "-"))
+                {
+                    <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150" />
+                }
+                else
+                {
+                    <img src="@Url.Content("~/Content/Images/gym.png")" alt="Logo" width="150" />
+                }
             </div>
         </div>
- 
+    </div>
+
     <div class="list-table">
         <div class="list-header">
             <p>Nev</p>
@@ -44,68 +72,68 @@
         @foreach (var item in Model.Tickets)
         {
 
-            if(((item.EndDate == item.BuyingDate)&&item.RemaningLoginNum<=0)||((item.RemaningLoginNum==-1)&&item.EndDate<=DateTime.Now)||(item.RemaningLoginNum==-1)&&item.LastLoginDate.Day==DateTime.Now.Day||((item.RemaningLoginNum!=-1)&&(item.EndDate != item.BuyingDate)&&(item.EndDate<=DateTime.Now||item.RemaningLoginNum<=0)))
+            if (((item.EndDate == item.BuyingDate) && item.RemaningLoginNum <= 0) || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now) || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0)))
             {
 
-            <div class="list-item disabled">
-                <p>@Html.Encode(item.TicketName)</p>
-                <p>@Html.Encode(item.StartDate)</p>
-                @if(item.EndDate == item.BuyingDate)
-                {
-                <p>Alkalmas</p>
-                }
-                else
-                {
-                <p>@Html.Encode(item.EndDate)</p>
-                }
-                <p>@Html.Encode(item.LastLoginDate)</p>
-                @if(item.RemaningLoginNum==-1)
-                {
-                <p>Datumos</p>
-                }
-                else
-                {
-                <p>@Html.Encode(item.RemaningLoginNum)</p>
-                }
-            </div>
-            }
-            else
-            {
-            <div class="list-item" >
-                <p>@Html.Encode(item.TicketName)</p>
-                <p>@Html.Encode(item.StartDate)</p>
-                @if(item.EndDate == item.BuyingDate)
-                {
-                    <p>Alkalmas</p>
-                }
-                else
-                {
-                    if((item.EndDate - DateTime.Now).TotalDays <= 2)
+                <div class="list-item disabled">
+                    <p>@Html.Encode(item.TicketName)</p>
+                    <p>@Html.Encode(item.StartDate)</p>
+                    @if (item.EndDate == item.BuyingDate)
                     {
-                        <p style="color:red">@Html.Encode(item.EndDate)</p>
+                        <p>Alkalmas</p>
                     }
                     else
                     {
                         <p>@Html.Encode(item.EndDate)</p>
                     }
-                }
-                <p>@Html.Encode(item.LastLoginDate)</p>
-                @if(item.RemaningLoginNum==-1)
-                {
-                    <p>Datumos</p>
-                }
-                else
-                {
-                    if(item.RemaningLoginNum<=2)
+                    <p>@Html.Encode(item.LastLoginDate)</p>
+                    @if (item.RemaningLoginNum == -1)
                     {
-                        <p style="color:red">@Html.Encode(item.RemaningLoginNum)</p>
+                        <p>Datumos</p>
                     }
                     else
                     {
                         <p>@Html.Encode(item.RemaningLoginNum)</p>
                     }
-                }
-            </div>
+                </div>
+            }
+            else
+            {
+                <div class="list-item">
+                    <p>@Html.Encode(item.TicketName)</p>
+                    <p>@Html.Encode(item.StartDate)</p>
+                    @if (item.EndDate == item.BuyingDate)
+                    {
+                        <p>Alkalmas</p>
+                    }
+                    else
+                    {
+                        if ((item.EndDate - DateTime.Now).TotalDays <= 2)
+                        {
+                            <p style="color:red">@Html.Encode(item.EndDate)</p>
+                        }
+                        else
+                        {
+                            <p>@Html.Encode(item.EndDate)</p>
+                        }
+                    }
+                    <p>@Html.Encode(item.LastLoginDate)</p>
+                    @if (item.RemaningLoginNum == -1)
+                    {
+                        <p>Datumos</p>
+                    }
+                    else
+                    {
+                        if (item.RemaningLoginNum <= 2)
+                        {
+                            <p style="color:red">@Html.Encode(item.RemaningLoginNum)</p>
+                        }
+                        else
+                        {
+                            <p>@Html.Encode(item.RemaningLoginNum)</p>
+                        }
+                    }
+                </div>
             }
         }
     </div>

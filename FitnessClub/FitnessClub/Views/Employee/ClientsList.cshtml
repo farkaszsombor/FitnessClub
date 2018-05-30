@@ -5,8 +5,11 @@
 }
 
 
-<div>Kereses</div>
+
 <div class="content">
+    <div class="search-tool">
+    <input type="text" placeholder="Kereses">
+    </div>
     <div class="list-table">
         <div class="list-header">
             <p>Csalad nev</p>
@@ -17,14 +20,14 @@
         </div>
         @foreach (var item in Model)
         {
-        
-        <div class="list-item" onclick="location.href='@Url.Action("TicketsList", "Employee",item)'" >
-            <p>@Html.Encode(item.LastName)</p>
-            <p>@Html.Encode(item.FirstName)</p>
-            <p>@Html.Encode(item.Phone)</p>
-            <p>@Html.Encode(item.Email)</p>
-            <p>@Html.Encode(item.IdentityNumber)</p>
-        </div>
-         }
+
+            <div class="list-item" onclick="location.href='@Url.Action("TicketsList", "Employee",item)'">
+                <p>@Html.Encode(item.LastName)</p>
+                <p>@Html.Encode(item.FirstName)</p>
+                <p>@Html.Encode(item.Phone)</p>
+                <p>@Html.Encode(item.Email)</p>
+                <p>@Html.Encode(item.IdentityNumber)</p>
+            </div>
+        }
     </div>
 </div>
