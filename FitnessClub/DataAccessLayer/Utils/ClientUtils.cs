@@ -47,7 +47,7 @@ namespace DataAccessLayer.Utils
             return result;
         }
 
-        public static bool UpdateClient(int Id, string Fname, string Lname, string Phone, string Email, bool Sex)
+        public static bool UpdateClient(Client Client)
         {
             bool result = false;
             using (var ctx = new NorthwindContext())
@@ -56,12 +56,8 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        Client query = (from x in ctx.Clients where x.Id == Id select x).FirstOrDefault();
-                        query.FirstName = Fname;
-                        query.LastName = Lname;
-                        query.Phone = Phone;
-                        query.Email = Email;
-                        query.Sex = Sex;
+                        Client query = (from x in ctx.Clients where x.Id == Client.Id select x).FirstOrDefault();
+                        ctx.Entry(query).CurrentValues.SetValues(Client);
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;

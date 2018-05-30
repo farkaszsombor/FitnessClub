@@ -8,6 +8,15 @@
 <h2>Employee list</h2>
 
 <div>
+
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find: @Html.TextBox("SearchString")
+            <input type="submit" value="Search"/>
+        </p>
+    }
+
     <hr />
     <table class="info">
         <tr>
@@ -39,7 +48,7 @@
                     }
                 </td>
             </tr>
-        }
+            }
     </table>
 
     <br />

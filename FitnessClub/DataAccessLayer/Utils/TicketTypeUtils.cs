@@ -3,9 +3,6 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
 namespace DataAccessLayer.Utils
 {
@@ -21,9 +18,10 @@ namespace DataAccessLayer.Utils
             }
             return result;
         }
+
         public static bool InsertTicketType(int dayNum, int occasionNum, bool status, double price)
         {
-            bool ret = false;
+            bool result = false;
             using (var ctx = new NorthwindContext())
             {
                 using (var dbContextTransaction = ctx.Database.BeginTransaction())
@@ -33,16 +31,16 @@ namespace DataAccessLayer.Utils
                         ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price });
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
-                        ret = true;
+                        result = true;
                     }
                     catch (Exception)
                     {
                         dbContextTransaction.Rollback();
-                        ret = false;
+                        result = false;
                     }
                 }
             }
-            return ret;           
+            return result;           
         }
 
         public static bool InsertTicketType(TicketType type)
@@ -80,15 +78,7 @@ namespace DataAccessLayer.Utils
                     try
                     {
                         TicketType Query = (from t in ctx.TicketTypes where Type.Id == t.Id select t).FirstOrDefault();
-                        ctx.TicketTypes.Attach(Type);
-                        /*Query.Id = Type.Id;
-                        Query.Description = Type.Description;
-                        Query.DayNum = Type.DayNum;
-                        Query.IsDeleted = Type.IsDeleted;
-                        Query.Name = Type.Name;
-                        Query.OccasionNum = Type.OccasionNum;
-                        Query.Price = Type.Price;
-                        Query.Status = Type.Status;*/
+                        ctx.Entry(Query).CurrentValues.SetValues(Type);
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using PagedList;
+using System.Linq;
 
 namespace FitnessClub.Controllers
 {
@@ -20,10 +21,15 @@ namespace FitnessClub.Controllers
         }
 
         // GET:Client
-        public ActionResult ListClient(int? page)
+        public ActionResult ListClient(int? page,string searchString)
         {
             List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
             List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                clientList = clientList.Where(s => s.FirstName.ToLower().Contains(searchString.ToLower())
+                || s.LastName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
             return View(clientList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
@@ -39,9 +45,10 @@ namespace FitnessClub.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool Sex = client.Sex == "Male" ? false : true;
-                ClientUtils.UpdateClient(client.Id, client.FirstName, client.LastName, client.Phone, client.Email, Sex);
-                return RedirectToAction("ListClient");
+                if (ClientUtils.UpdateClient(Mappings.MappingDtos.ModelClientToEntityClient(client)))
+                {
+                    return RedirectToAction("ListClient");
+                }
             }
             return View(client);
 
@@ -75,14 +82,13 @@ namespace FitnessClub.Controllers
 
 
         //GET: Employees
-        public ActionResult ListEmployees(int? page)
+        public ActionResult ListEmployees(int? page,string searchString)
         {
             List<DataAccessLayer.Entities.Employee> empContextList = EmployeeUtils.GetAllEmplyees();
-            List<Employee> empList = new List<Employee>();
-            Employee emp = new Employee();
-            foreach(DataAccessLayer.Entities.Employee element in empContextList)
+            List<Employee> empList = Mappings.MappingDtos.EntityEmployeeToModelEmployeeAsList(empContextList);
+            if (!String.IsNullOrEmpty(searchString))
             {
-                empList.Add(Mappings.MappingDtos.EntityEmployeeToModelEmployee(element));
+                empList = empList.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
             return View(empList.ToPagedList(page ?? 1, pageSize : 20));
         }
@@ -138,26 +144,38 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Tickets
-        public ActionResult ListTickets(int? page)
+        public ActionResult ListTickets(int? page,string searchString)
         {
             List<DataAccessLayer.Entities.Ticket> ticketContextList = TicketUtils.GetAllTickets();
             List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketAsList(ticketContextList);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                ticketList = ticketList.Where(s => s.TicketName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
             return View(ticketList.ToPagedList(page ?? 1,pageSize : 20));
         }
 
         //GET : Events
-        public ActionResult ListEvents(int? page)
+        public ActionResult ListEvents(int? page,string searchString)
         {
             List<DataAccessLayer.Entities.Event> eventContextList = EventUtils.GetAllEvents();
             List<Event> eventList = Mappings.MappingDtos.EntityEventToModelEventList(eventContextList);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                eventList = eventList.Where(s => s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
             return View(eventList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
         //GET : Ticket Types
-        public ActionResult ListTicketTypes(int? page)
+        public ActionResult ListTicketTypes(int? page,string seachString)
         {
             List<DataAccessLayer.Entities.TicketType> typesContextList = TicketTypeUtils.GetAllTicketTypes();
             List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(typesContextList);
+            if (!String.IsNullOrEmpty(seachString))
+            {
+                typeList = typeList.Where(s => s.Name.ToLower().Contains(seachString.ToLower())).ToList();
+            }
             return View(typeList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
@@ -208,10 +226,14 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Rooms
-        public ActionResult ListRooms(int? page)
+        public ActionResult ListRooms(int? page,string searchString)
         {
             List<DataAccessLayer.Entities.Room> roomContextList = RoomUtils.GetAllRooms();
             List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomAsList(roomContextList);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                roomList = roomList.Where(s => s.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
             return View(roomList.ToPagedList(page ?? 1,pageSize : 20));
         }
         
