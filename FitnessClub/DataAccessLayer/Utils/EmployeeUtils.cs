@@ -62,7 +62,7 @@ namespace DataAccessLayer.Utils
                     try
                     {
                         Employee query = (from e in ctx.Employees where e.Id == Employee.Id select e).FirstOrDefault();
-                        query = Employee;
+                        ctx.Entry(query).CurrentValues.SetValues(Employee);
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;
