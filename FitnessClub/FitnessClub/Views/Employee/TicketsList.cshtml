@@ -15,13 +15,25 @@
             {
                 <input  name="ClientId" type="hidden" value="@Model.Client.Id">
                 <input  name="InsertedDate" type="hidden" value="@DateTime.Now">
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                foreach (var item in Model.Types)
+                if(Model.Types.Count==1)
                 {
-                    listItems.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                    <p>Jegy tipus:</p>
+                    <div class = "insert-tag" style="border: solid 1px black; padding-top:4px">
+                        <p>@Model.Types.FirstOrDefault().Name</p>
+                    </div>
+                    <input type="hidden" name="SelectedType" value="@Model.Types.FirstOrDefault().Id"/>
                 }
-                <p>Jegy tipus:</p>
-                @Html.DropDownListFor(Model => Model.SelectedType, listItems, "-- Jegy tipus kivalasztas --", new { @class = "insert-tag" })
+                else
+                { 
+                     List<SelectListItem> listItems = new List<SelectListItem>();
+                     foreach (var item in Model.Types)
+                     {
+                         listItems.Add(new SelectListItem { Text = item.Name, Value = item.Id.ToString() });
+                     }
+                     <p>Jegy tipus:</p>
+                     @Html.DropDownListFor(Model => Model.SelectedType, listItems, "-- Jegy tipus kivalasztas --", new { @class = "insert-tag" })
+                }
+               
             <div>
                 <p>Kezdeti datum :</p>
                 <input type="date" class="insert-tag" name="StartDate" ng-model="date" value="{{ date | date: 'yyyy/MM/dd' }}" />
@@ -37,7 +49,7 @@
             </div>
 
             <div class="col-md-5">
-                @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs"))
+                @if ((Model.Client.ImagePath != null) && (Model.Client.ImagePath != "nincs") && (Model.Client.ImagePath != "-"))
                 {
                     <img src="@Url.Content(Model.Client.ImagePath)" alt="Logo" width="150" />
                 }

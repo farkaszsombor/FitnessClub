@@ -171,7 +171,7 @@ namespace DataAccessLayer.Utils
                     try
                     {
                         var Query = (from r in ctx.Rooms where r.Id == Room.Id select r).FirstOrDefault();
-                        Query.Name = Room.Name;
+                        ctx.Entry(Query).CurrentValues.SetValues(Room);
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;
