@@ -36,3 +36,38 @@
     overflow: hidden;
     background-color: white;
 }
+
+.list-table .list-header p {
+    display: inline-block;
+    width: 11%;
+    padding: 10px;
+    border: solid 1px black;
+    margin: 1%;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    background-color: black;
+    color: white;
+}
+
+.list-table .list-item p {
+    display: inline-block;
+    width: 11%;
+    padding: 10px;
+    border: solid 1px black;
+    margin: 1%;
+    text-align: center;
+    
+}
+.list-table .list-item:hover p {
+    background-color: white;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+.list-table .list-item:hover  {
+    background-color: black;
+    cursor:pointer;
+}

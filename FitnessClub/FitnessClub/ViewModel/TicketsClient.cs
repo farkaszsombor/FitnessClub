@@ -1,4 +1,5 @@
-﻿using FitnessClub.Models;
+﻿using DataAccessLayer.Utils;
+using FitnessClub.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,5 +16,9 @@ namespace FitnessClub.ViewModel
         public string SelectedType { get; set; }
      
         public string Date { get; set; }
+        public static TicketType getTicketTypeByTypeName(string whatName)
+        {
+            return Mappings.MappingDtos.EntityTicketTypeToModelTicketType(TicketTypeUtils.GetTicketTypeByTypeName(whatName));
+        }
     }
 }

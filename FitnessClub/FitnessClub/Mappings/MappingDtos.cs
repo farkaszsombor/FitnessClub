@@ -304,7 +304,9 @@ namespace FitnessClub.Mappings
                 OccasionNum = entityTicketType.OccasionNum,
                 Status = entityTicketType.Status,
                 Price = entityTicketType.Price,
-                Description = entityTicketType.Description
+                Description = entityTicketType.Description,
+                StartHour = entityTicketType.StartHour,
+                EndHour = entityTicketType.EndHour
             };
 
             return modelTicketType;
@@ -330,7 +332,9 @@ namespace FitnessClub.Mappings
                 Name = modelTicketType.Name,
                 OccasionNum = modelTicketType.OccasionNum,
                 Price = modelTicketType.Price,
-                Status = modelTicketType.Status
+                Status = modelTicketType.Status,
+                StartHour = modelTicketType.StartHour,
+                EndHour = modelTicketType.EndHour
             };
 
             return entityTicketType;
