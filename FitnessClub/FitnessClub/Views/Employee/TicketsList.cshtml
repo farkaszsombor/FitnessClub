@@ -5,7 +5,7 @@
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
 }
 
-
+<link href="~/Content/Erik/Timi.css" rel="stylesheet">
 
 <div class="content">
     <div class="container">
@@ -63,24 +63,30 @@
 
     <div class="list-table">
         <div class="list-header">
-            <p>Nev</p>
+            <p style="border-top-width: 21px;">Nev</p>
             <p>Kezdeti datum</p>
             <p>Lejarati datum</p>
             <p>Utolso belepes</p>
             <p>Belepesek szama</p>
+            <p>Kezdeti idopont</p>
+            <p>Vegso idopont</p>
         </div>
         @foreach (var item in Model.Tickets)
         {
-
-            if (((item.EndDate == item.BuyingDate) && item.RemaningLoginNum <= 0) || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now) || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0)))
+            var itemType = FitnessClub.ViewModel.TicketsClient.getTicketTypeByTypeName(item.TicketName); //GetTicketTypeByTypeName(item.TicketName);
+            if (((item.EndDate == item.BuyingDate) && item.RemaningLoginNum <= 0)
+                || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now)
+                || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day
+                || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0))
+                && itemType.EndHour < DateTime.Now.Hour && itemType.StartHour > DateTime.Now.Hour)
             {
 
                 <div class="list-item disabled">
-                    <p>@Html.Encode(item.TicketName)</p>
+                    <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
                     <p>@Html.Encode(item.StartDate)</p>
                     @if (item.EndDate == item.BuyingDate)
                     {
-                        <p>Alkalmas</p>
+                        <p style="padding-top: 30px;">Alkalmas</p>
                     }
                     else
                     {
@@ -89,50 +95,54 @@
                     <p>@Html.Encode(item.LastLoginDate)</p>
                     @if (item.RemaningLoginNum == -1)
                     {
-                        <p>Datumos</p>
+                        <p style="padding-top: 30px;">Datumos</p>
                     }
                     else
                     {
-                        <p>@Html.Encode(item.RemaningLoginNum)</p>
+                        <p style="padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
                     }
+                    <p style="padding-top: 30px;">@Html.Encode(itemType.StartHour)</p>
+                    <p style="padding-top: 30px;">@Html.Encode(itemType.EndHour)</p>
                 </div>
             }
             else
             {
                 <div class="list-item">
-                    <p>@Html.Encode(item.TicketName)</p>
+                    <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
                     <p>@Html.Encode(item.StartDate)</p>
                     @if (item.EndDate == item.BuyingDate)
                     {
-                        <p>Alkalmas</p>
+                        <p style="padding-top: 30px;">Alkalmas</p>
                     }
                     else
                     {
                         if ((item.EndDate - DateTime.Now).TotalDays <= 2)
                         {
-                            <p style="color:red">@Html.Encode(item.EndDate)</p>
+                            <p style="color:red; padding-top: 30px;">@Html.Encode(item.EndDate)</p>
                         }
                         else
                         {
-                            <p>@Html.Encode(item.EndDate)</p>
+                            <p style="padding-top: 30px;">@Html.Encode(item.EndDate)</p>
                         }
                     }
                     <p>@Html.Encode(item.LastLoginDate)</p>
                     @if (item.RemaningLoginNum == -1)
                     {
-                        <p>Datumos</p>
+                        <p style="padding-top: 30px;">Datumos</p>
                     }
                     else
                     {
                         if (item.RemaningLoginNum <= 2)
                         {
-                            <p style="color:red">@Html.Encode(item.RemaningLoginNum)</p>
+                            <p style="color:red; padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
                         }
                         else
                         {
-                            <p>@Html.Encode(item.RemaningLoginNum)</p>
+                            <p style="padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
                         }
                     }
+                    <p style="padding-top: 30px;">@Html.Encode(itemType.StartHour)</p>
+                    <p style="padding-top: 30px;">@Html.Encode(itemType.EndHour)</p>
                 </div>
             }
         }

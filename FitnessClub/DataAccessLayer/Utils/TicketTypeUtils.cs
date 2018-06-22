@@ -3,6 +3,9 @@ using DataAccessLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DataAccessLayer.Utils
 {
@@ -28,7 +31,7 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price });
+                        ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price, StartHour=startHour, EndHour=endHour });
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;
@@ -100,6 +103,17 @@ namespace DataAccessLayer.Utils
             using (var ctx = new NorthwindContext())
             {
                 result = (from t in ctx.TicketTypes where t.Id == ticketType select t).FirstOrDefault();
+
+            }
+            return result;
+        }
+
+        public static TicketType GetTicketTypeByTypeName(string whatName)
+        {
+            TicketType result = new TicketType();
+            using (var ctx = new NorthwindContext())
+            {
+                result = (from t in ctx.TicketTypes where t.Name == whatName select t).FirstOrDefault();
 
             }
             return result;

@@ -122,7 +122,7 @@ namespace FitnessClub.Controllers
             var SelectedTypeId = Int32.Parse(collection.Get("SelectedType"));
             var StartDate = DateTime.Parse(collection.Get("StartDate"));
 
-            if(TicketUtils.InsertTicket(ClientId, Session["LoginedUser"].ToString(), SelectedTypeId, InsertedDate, StartDate))
+            if (TicketUtils.InsertTicket(ClientId, Session["LoginedUser"].ToString(), SelectedTypeId, InsertedDate, StartDate))
             {
                 return RedirectToAction("TicketsList", "Employee", MappingDtos.EntityClientToModelClient(ClientUtils.GetClientById(ClientId)));
             }

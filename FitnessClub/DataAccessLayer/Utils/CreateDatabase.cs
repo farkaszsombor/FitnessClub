@@ -92,10 +92,10 @@ namespace DataAccessLayer.Utils
                 ctx.Clients.Add(c11);
                 ctx.Clients.Add(c12);
 
-                TicketType tt1 = new TicketType { Id = 1, Name = "honapos", DayNum = 30, /*OccasionNum= ,*/ Status = true, Price = 80, Description = "honapos berlet" };
-                TicketType tt2 = new TicketType { Id = 2, Name = "30alkalmas",/*DayNum= 30,*/ OccasionNum = 30, Status = true, Price = 90, Description = "30 alkalmas berlet" };
-                TicketType tt3 = new TicketType { Id = 3, Name = "10alkalmas",/*DayNum= 30, */OccasionNum = 10, Status = true, Price = 30, Description = "10 alkalmas berlet" };
-                TicketType tt4 = new TicketType { Id = 4, Name = "honapos+30alkalmas", DayNum = 30, OccasionNum = 30, Status = true, Price = 100, Description = "honapos berlet 30 alkalommal" };
+                TicketType tt1 = new TicketType { Id = 1, Name = "honapos", DayNum = 30, /*OccasionNum= ,*/ Status = true, Price = 80, Description = "honapos berlet", StartHour = 14, EndHour = 16};
+                TicketType tt2 = new TicketType { Id = 2, Name = "30alkalmas",/*DayNum= 30,*/ OccasionNum = 30, Status = true, Price = 90, Description = "30 alkalmas berlet", StartHour = 0, EndHour = 24 };
+                TicketType tt3 = new TicketType { Id = 3, Name = "10alkalmas",/*DayNum= 30, */OccasionNum = 10, Status = true, Price = 30, Description = "10 alkalmas berlet", StartHour = 12, EndHour = 14 };
+                TicketType tt4 = new TicketType { Id = 4, Name = "honapos+30alkalmas", DayNum = 30, OccasionNum = 30, Status = true, Price = 100, Description = "honapos berlet 30 alkalommal", StartHour = 12, EndHour = 14 };
 
                 ctx.TicketTypes.Add(tt1);
                 ctx.TicketTypes.Add(tt2);

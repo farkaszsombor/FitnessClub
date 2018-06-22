@@ -231,3 +231,7 @@ nav.shift ul li a:hover:after {
     margin: 0 auto;
     width: 76%;
 }
+.search-tool input{
+   width:39%;
+   height:30px;
+}
