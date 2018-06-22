@@ -72,6 +72,15 @@
 </div>
 
 <div>
-    @Html.ActionLink("Add new client","CreateClient")
+    @Html.ActionLink("Add new client", "CreateClient")
 </div>
+
+
+@using (Html.BeginForm("SaveToXls","Admin",new { what = "Client" },FormMethod.Post))
+{
+    <input type="hidden" name="Property" value="hello,world" />
+    <button type="submit">Go To User</button>
+}
+
+
 

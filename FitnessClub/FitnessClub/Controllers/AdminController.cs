@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using PagedList;
 using System.Linq;
+using System.Data;
+using System.Web.UI.WebControls;
+using System.IO;
+using System.Web.UI;
 
 namespace FitnessClub.Controllers
 {
@@ -286,5 +290,47 @@ namespace FitnessClub.Controllers
             }
             return View(Room);
         }
+
+        [HttpPost]
+        public ActionResult SaveToXls(string what)
+        {
+            DataTable dt = null;
+            switch (what)
+            {
+                case "Client":
+                    List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
+                    List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
+                    dt = DataToExcel.ConvertToDataTable(clientList);
+                    break;
+                default:
+                    break;
+            }
+            
+            GridView GridView1 = new GridView();
+            GridView1.AllowPaging = false;
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment;filename=DataTable.xls");
+            Response.Charset = "";
+            Response.ContentType = "application/vnd.ms-excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+            for (int i = 0; i < GridView1.Rows.Count; i++)
+            {
+                //Apply text style to each Row
+                GridView1.Rows[i].Attributes.Add("class", "textmode");
+            }
+            GridView1.RenderControl(hw);
+            //style to format numbers to string
+            string style = @"<style> .textmode { mso-number-format:\@; } </style>";
+            Response.Write(style);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("Index");
+        }
+
     }
 }
