@@ -22,7 +22,7 @@ namespace DataAccessLayer.Utils
             return result;
         }
 
-        public static bool InsertTicketType(int dayNum, int occasionNum, bool status, double price)
+        public static bool InsertTicketType(int dayNum, int occasionNum, bool status, double price, int startHour, int endHour)
         {
             bool result = false;
             using (var ctx = new NorthwindContext())
