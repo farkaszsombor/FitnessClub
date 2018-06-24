@@ -25,21 +25,21 @@ namespace DataAccessLayer.Utils
                 Room y = new Room { Name = "Yellow", IsDeleted = boolean };
 
 
-                Employee e1 = new Employee { Name = "Admin", Password = "1234", IsDeleted = boolean, Department = "Admin", WorkPlace = r };
-                Employee e2 = new Employee { Name = "Herry", Password = "4411", IsDeleted = boolean, Department = "Trainer", WorkPlace = b };
-                Employee e3 = new Employee { Name = "James", Password = "12354", IsDeleted = boolean, Department = "Guest", WorkPlace = re };
-                Employee e4 = new Employee { Name = "Katy", Password = "12734", IsDeleted = boolean, Department = "Worker", WorkPlace = p };
-                Employee e5 = new Employee { Name = "Adam", Password = "17234", IsDeleted = boolean, Department = "IT", WorkPlace = black };
-                Employee e6 = new Employee { Name = "Mark", Password = "12347", IsDeleted = boolean, Department = "cleaner", WorkPlace = w };
-                Employee e7 = new Employee { Name = "Peter", Password = "158234", IsDeleted = boolean, Department = "Boss", WorkPlace = g };
-                Employee e8 = new Employee { Name = "Stean", Password = "12834", IsDeleted = boolean, Department = "Trainer", WorkPlace = y };
-                Employee e9 = new Employee { Name = "Loise", Password = "18234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
-                Employee e10 = new Employee { Name = "Corina", Password = "182234", IsDeleted = boolean, Department = "Admin", WorkPlace = re };
-                Employee e11 = new Employee { Name = "Helen", Password = "182334", IsDeleted = boolean, Department = "Worker", WorkPlace = y };
-                Employee e12 = new Employee { Name = "Ann", Password = "1824534", IsDeleted = boolean, Department = "Student", WorkPlace = g };
-                Employee e13 = new Employee { Name = "Brian", Password = "182834", IsDeleted = boolean, Department = "Student", WorkPlace = w };
-                Employee e14 = new Employee { Name = "David", Password = "186234", IsDeleted = boolean, Department = "Boss", WorkPlace = black };
-                Employee e15 = new Employee { Name = "Stephen", Password = "186234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
+                Employee e1 = new Employee { Name = "Admin", Password = "1234", IsDeleted = boolean, Department = "Admin", WorkPlace = r,StartHour = 9, EndHour = 17,Days = "H_SZ_P_V" };
+                Employee e2 = new Employee { Name = "Herry", Password = "4411", IsDeleted = boolean, Department = "Trainer", WorkPlace = b ,StartHour = 5,EndHour = 12,Days = "H_K_SZ_CS_P"};
+                Employee e3 = new Employee { Name = "James", Password = "12354", IsDeleted = boolean, Department = "Guest", WorkPlace = re , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e4 = new Employee { Name = "Katy", Password = "12734", IsDeleted = boolean, Department = "Worker", WorkPlace = p , StartHour = 3, EndHour = 13, Days = "H_CS_P" };
+                Employee e5 = new Employee { Name = "Adam", Password = "17234", IsDeleted = boolean, Department = "IT", WorkPlace = black , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e6 = new Employee { Name = "Mark", Password = "12347", IsDeleted = boolean, Department = "cleaner", WorkPlace = w , StartHour = 4, EndHour = 19, Days = "H_K_SZ" };
+                Employee e7 = new Employee { Name = "Peter", Password = "158234", IsDeleted = boolean, Department = "Boss", WorkPlace = g , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e8 = new Employee { Name = "Stean", Password = "12834", IsDeleted = boolean, Department = "Trainer", WorkPlace = y , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e9 = new Employee { Name = "Loise", Password = "18234", IsDeleted = boolean, Department = "IT", WorkPlace = b , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e10 = new Employee { Name = "Corina", Password = "182234", IsDeleted = boolean, Department = "Admin", WorkPlace = re , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e11 = new Employee { Name = "Helen", Password = "182334", IsDeleted = boolean, Department = "Worker", WorkPlace = y , StartHour = 2, EndHour = 6, Days = "H_K_P" };
+                Employee e12 = new Employee { Name = "Ann", Password = "1824534", IsDeleted = boolean, Department = "Student", WorkPlace = g , StartHour = 5, EndHour = 12, Days = "H_K_SZ_CS_P" };
+                Employee e13 = new Employee { Name = "Brian", Password = "182834", IsDeleted = boolean, Department = "Student", WorkPlace = w , StartHour = 7, EndHour = 17, Days = "H_K_SZ_CS_P_SZO_V" };
+                Employee e14 = new Employee { Name = "David", Password = "186234", IsDeleted = boolean, Department = "Boss", WorkPlace = black , StartHour = 5, EndHour = 22, Days = "H_K" };
+                Employee e15 = new Employee { Name = "Stephen", Password = "186234", IsDeleted = boolean, Department = "IT", WorkPlace = b , StartHour = 12, EndHour = 19, Days = "H_K_P" };
 
 
                 ctx.Rooms.Add(r);
@@ -102,10 +102,10 @@ namespace DataAccessLayer.Utils
                 ctx.TicketTypes.Add(tt3);
                 ctx.TicketTypes.Add(tt4);
 
-                Ticket t1 = new Ticket { Id = 1, Card = c1, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 50, Inserter = e1, IsDeleted = false, Type = tt1};
-                Ticket t2 = new Ticket { Id = 2, Card = c9, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 40, Inserter = e3, IsDeleted = false, Type = tt2};
-                Ticket t3 = new Ticket { Id = 3, Card = c2, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 70, Inserter = e7, IsDeleted = false, Type = tt3};
-                Ticket t4 = new Ticket { Id = 4, Card = c7, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 90, Inserter = e9, IsDeleted = false, Type = tt1};
+                Ticket t1 = new Ticket { Id = 1, Card = c1, BuyingDate = DateTime.Now, StartDate = DateTime.Now.AddDays(-40), LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 50, Inserter = e1, IsDeleted = false, Type = tt1};
+                Ticket t2 = new Ticket { Id = 2, Card = c9, BuyingDate = DateTime.Now, StartDate = DateTime.Now.AddDays(-40), LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 40, Inserter = e3, IsDeleted = false, Type = tt2};
+                Ticket t3 = new Ticket { Id = 3, Card = c2, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 300, Price = 70, Inserter = e7, IsDeleted = false, Type = tt3};
+                Ticket t4 = new Ticket { Id = 4, Card = c7, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 10, Price = 90, Inserter = e9, IsDeleted = false, Type = tt1};
 
                 ctx.Tickets.Add(t1);
                 ctx.Tickets.Add(t2);

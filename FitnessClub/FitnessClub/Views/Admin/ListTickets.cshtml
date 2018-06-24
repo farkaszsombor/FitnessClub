@@ -1,19 +1,59 @@
 ﻿@model PagedList.IPagedList<FitnessClub.Models.Ticket>
 @using PagedList.Mvc;
+
 @{
     ViewBag.Title = "ListTickets";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Ticket List</h2>
+
 
 <div>
     @using (Html.BeginForm())
     {
-        <p>
-            Find: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-        </p>
+        <div class="container">
+            <div class="row">
+                <h2>Ticket List</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Ticket Name" })
+                </div>
+                <div class="col-md-4">
+                    Filter by Category:
+                    <select name="category">
+                        <option value="" selected></option>
+                        @foreach (var item in ViewBag.tklist)
+                        {
+                            <option value=@Html.Encode(item.Name)>@Html.Encode(item.Name)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Active tickets: @Html.CheckBox("active")
+                </div>
+                <div class="col-md-4">
+                    Time until expire:
+                    <input type="date" class="insert-tag" name="expiredate" ng-model="date" value="{{ date | date: 'yyyy/MM/dd' }}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Inactive tickets: @Html.CheckBox("inactive")
+                </div>
+                <div class="col-md-4">
+                    Time until valami:
+                    <input type="date" class="insert-tag" name="actualdate" ng-model="date" value="{{ date | date: 'yyyy/MM/dd' }}" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
+        </div>
     }
     <hr />
     <table class="info">
@@ -24,6 +64,7 @@
             <th>Price</th>
             <th>Employee Name</th>
             <th>Ticket Name</th>
+            <th>Deleted </th>
         </tr>
         @foreach (var item in (dynamic)Model)
         {
@@ -34,12 +75,25 @@
                 <td>@Html.Encode(item.Price)</td>
                 <td>@Html.Encode(item.EmployeeName)</td>
                 <td>@Html.Encode(item.TicketName)</td>
+                <td>@Html.Encode(item.IsDeleted)</td>
             </tr>
         }
     </table>
     <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("ListTickets",
-        new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("ListTickets",
+                    new { page }))
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                @using (Html.BeginForm("SaveToXls", "Admin", new { what = "Ticket" }, FormMethod.Post))
+                {
+                    <button id="exp" type="submit">Export</button>
+                }
+            </div>
+        </div>
+    </div>
 </div>

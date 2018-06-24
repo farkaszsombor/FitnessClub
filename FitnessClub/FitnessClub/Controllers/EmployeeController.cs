@@ -52,7 +52,7 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
+            var data = MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
             return View(data);
         }
         public ActionResult TicketsList(Client client)
@@ -62,13 +62,13 @@ namespace FitnessClub.Controllers
                 List<TicketType> SelectType = new List<TicketType>();
                 SelectType.Add(MappingDtos.EntityTicketTypeToModelTicketType(TicketTypeUtils.GetTicketById(Int32.Parse(Session["TicType"].ToString()))));
                 Session["TicType"] = null;
-                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                var data = MappingDtos.EntityTicketLIstToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
                 return View(new TicketsClient { Client = client, Tickets = data, Types = SelectType });
             }
             else
             {
-                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
-                return View(new TicketsClient { Client = client, Tickets = data, Types = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes()) });
+                var data = MappingDtos.EntityTicketLIstToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                return View(new TicketsClient { Client = client, Tickets = data, Types = MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes()) });
             }
         }
 

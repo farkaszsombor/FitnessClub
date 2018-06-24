@@ -31,7 +31,7 @@ namespace DataAccessLayer.Utils
                 {
                     try
                     {
-                        ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price, StartHour=startHour, EndHour=endHour });
+                        ctx.TicketTypes.Add(new TicketType { DayNum = dayNum, OccasionNum = occasionNum, Status = status, Price = price/*, StartHour=StartHour, EndHour=endHour */});
                         ctx.SaveChanges();
                         dbContextTransaction.Commit();
                         result = true;

@@ -7,11 +7,10 @@ using PagedList;
 using System.Linq;
 using System.Data;
 using System.Web.UI.WebControls;
-using System.IO;
-using System.Web.UI;
 
 namespace FitnessClub.Controllers
 {
+
     public class AdminController : Controller
     {
         // GET: Admin
@@ -100,6 +99,7 @@ namespace FitnessClub.Controllers
         //EDIT: Employee
         public ActionResult EditEmployee(Employee employee)
         {
+            employee.PasswrodRep = employee.Password;
             return View(employee);
         }
 
@@ -140,7 +140,7 @@ namespace FitnessClub.Controllers
             if (ModelState.IsValid)
             {
                 if (EmployeeUtils.InsertEmployee(Mappings.MappingDtos.ModelEmployeeToEntityEmployee(employee)))
-                {
+                { 
                     return RedirectToAction("ListEmployees");
                 }
             }
@@ -148,13 +148,95 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Tickets
-        public ActionResult ListTickets(int? page,string searchString)
+        public ActionResult ListTickets(int? page,string searchString,bool active = false,bool inactive = false,string category = "")
         {
             List<DataAccessLayer.Entities.Ticket> ticketContextList = TicketUtils.GetAllTickets();
-            List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketAsList(ticketContextList);
-            if (!String.IsNullOrEmpty(searchString))
+            List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstToModelTicketAsList(ticketContextList);
+            List<TicketType> type = Mappings.MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
+            ViewBag.tklist = type;
+            if (active && inactive && String.IsNullOrEmpty(category))
             {
-                ticketList = ticketList.Where(s => s.TicketName.ToLower().Contains(searchString.ToLower())).ToList();
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    ticketList = ticketList.Where(s => s.TicketName.ToLower().Contains(searchString.ToLower())).ToList();
+                }
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    ticketList = ticketList.Where(s => s.TicketName.ToLower().Contains(searchString.ToLower())).ToList();
+                }
+                if (!String.IsNullOrEmpty(category))
+                {
+                    ticketList = ticketList.Where(s => s.TicketName == category).ToList();
+                }
+                if (active)
+                {
+                    List<Ticket> tic = new List<Ticket>();
+                    foreach (var ticket in ticketList)
+                    {
+                        var ticketType = TicketTypeUtils.GetTicketTypeByTypeName(ticket.TicketName);
+                        var date = ticket.StartDate;
+                        if (ticketType.DayNum != 0 && ticketType.OccasionNum != 0)
+                        {
+                            if (ticketType.DayNum - ticket.LoginsNum > 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+
+                        if (ticketType.DayNum != 0 && date.AddDays(ticketType.DayNum) > DateTime.Now)
+                        {
+                            if (ticketType.DayNum - ticket.LoginsNum > 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+                        if (ticketType.OccasionNum != 0)
+                        {
+                            if (ticketType.OccasionNum - ticket.LoginsNum > 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+                    }
+
+                    ticketList = tic;
+                }
+                if (inactive)
+                {
+                    List<Ticket> tic = new List<Ticket>();
+                    foreach (var ticket in ticketList)
+                    {
+                        var ticketType = TicketTypeUtils.GetTicketTypeByTypeName(ticket.TicketName);
+                        var date = ticket.StartDate;
+                        if (ticketType.DayNum != 0 && ticketType.OccasionNum != 0)
+                        {
+                            if (ticketType.DayNum - ticket.LoginsNum < 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+
+                        if (ticketType.DayNum != 0 && date.AddDays(ticketType.DayNum) < DateTime.Now)
+                        {
+                            if (ticketType.DayNum - ticket.LoginsNum < 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+                        if (ticketType.OccasionNum != 0)
+                        {
+                            if (ticketType.OccasionNum - ticket.LoginsNum < 0)
+                            {
+                                tic.Add(ticket);
+                            }
+                        }
+                    }
+
+                    ticketList = tic;
+                }
             }
             return View(ticketList.ToPagedList(page ?? 1,pageSize : 20));
         }
@@ -175,7 +257,7 @@ namespace FitnessClub.Controllers
         public ActionResult ListTicketTypes(int? page,string seachString)
         {
             List<DataAccessLayer.Entities.TicketType> typesContextList = TicketTypeUtils.GetAllTicketTypes();
-            List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(typesContextList);
+            List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstToModelTicketTypeAsList(typesContextList);
             if (!String.IsNullOrEmpty(seachString))
             {
                 typeList = typeList.Where(s => s.Name.ToLower().Contains(seachString.ToLower())).ToList();
@@ -230,7 +312,7 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Rooms
-        public ActionResult ListRooms(int? page,string searchString)
+        public ActionResult ListRooms(int? page,string searchString,string deleted)
         {
             List<DataAccessLayer.Entities.Room> roomContextList = RoomUtils.GetAllRooms();
             List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomAsList(roomContextList);
@@ -295,42 +377,57 @@ namespace FitnessClub.Controllers
         public ActionResult SaveToXls(string what)
         {
             DataTable dt = null;
+            bool result = false;
             switch (what)
             {
                 case "Client":
                     List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
                     List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
                     dt = DataToExcel.ConvertToDataTable(clientList);
+                    result = DataToExcel.FlushToExcel<Client>(dt);
+                    break;
+                case "Employee":
+                    List<DataAccessLayer.Entities.Employee> layerEmplyeeList = EmployeeUtils.GetAllEmplyees();
+                    List<Employee> employeeList = Mappings.MappingDtos.EntityEmployeeToModelEmployeeAsList(layerEmplyeeList);
+                    dt = DataToExcel.ConvertToDataTable(employeeList);
+                    result = DataToExcel.FlushToExcel<Employee>(dt);
+                    break;
+                case "Event":
+                    List<DataAccessLayer.Entities.Event> layerEventList = EventUtils.GetAllEvents();
+                    List<Event> eventList = Mappings.MappingDtos.EntityEventToModelEventList(layerEventList);
+                    dt = DataToExcel.ConvertToDataTable(eventList);
+                    result = DataToExcel.FlushToExcel<Event>(dt);
+                    break;
+                case "Room":
+                    List<DataAccessLayer.Entities.Room> layerRoomList = RoomUtils.GetAllRooms();
+                    List<Room> roomList = Mappings.MappingDtos.EntityRoomToModelRoomAsList(layerRoomList);
+                    dt = DataToExcel.ConvertToDataTable(roomList);
+                    result = DataToExcel.FlushToExcel<Room>(dt);
+                    break;
+                case "Ticket":
+                    List<DataAccessLayer.Entities.Ticket> layerTicketList = TicketUtils.GetAllTickets();
+                    List<Ticket> ticketList = Mappings.MappingDtos.EntityTicketLIstToModelTicketAsList(layerTicketList);
+                    dt = DataToExcel.ConvertToDataTable(ticketList);
+                    result = DataToExcel.FlushToExcel<Ticket>(dt);
+                    break;
+                case "Type":
+                    List<DataAccessLayer.Entities.TicketType> layerTypeList = TicketTypeUtils.GetAllTicketTypes();
+                    List<TicketType> typeList = Mappings.MappingDtos.EntityTicketLIstToModelTicketTypeAsList(layerTypeList);
+                    dt = DataToExcel.ConvertToDataTable(typeList);
+                    result = DataToExcel.FlushToExcel<TicketType>(dt);
                     break;
                 default:
                     break;
             }
-            
-            GridView GridView1 = new GridView();
-            GridView1.AllowPaging = false;
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
-            Response.Clear();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment;filename=DataTable.xls");
-            Response.Charset = "";
-            Response.ContentType = "application/vnd.ms-excel";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter hw = new HtmlTextWriter(sw);
-            for (int i = 0; i < GridView1.Rows.Count; i++)
-            {
-                //Apply text style to each Row
-                GridView1.Rows[i].Attributes.Add("class", "textmode");
-            }
-            GridView1.RenderControl(hw);
-            //style to format numbers to string
-            string style = @"<style> .textmode { mso-number-format:\@; } </style>";
-            Response.Write(style);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-            return RedirectToAction("Index");
-        }
 
+            if (result)
+            {
+                return RedirectToAction("ListEmployees");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

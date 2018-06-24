@@ -10,5 +10,8 @@ namespace DataAccessLayer.Entities
         public bool IsDeleted { get; set; }
         public string Department { get; set; }
         public Room WorkPlace { get; set; }
+        public int StartHour { get; set; }
+        public int EndHour { get; set; }
+        public string Days { get; set; }
     }
 }
