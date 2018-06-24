@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DataAccessLayer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,12 +159,12 @@ namespace FitnessClub.Mappings
         {
             DataAccessLayer.Entities.Event entityEvent = new DataAccessLayer.Entities.Event()
             {
-                Card = null,
+                Card = ClientUtils.GetClientByTicketId(modelEvent.TicketId),
                 Date = modelEvent.Date,
                 Id = modelEvent.Id,
-                Inserter = null,
-                Room = null,
-                Ticket = null,
+                Inserter = EmployeeUtils.GetEmployeeByName(modelEvent.EmployeeName),
+                Room = RoomUtils.GetRoomByName(modelEvent.RoomName),
+                Ticket = TicketUtils.GetTicketById(modelEvent.TicketId),
                 Type = modelEvent.Type
             };
 

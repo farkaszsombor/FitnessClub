@@ -135,5 +135,19 @@ namespace DataAccessLayer.Utils
             }
 
         }
+
+        public static Client GetClientByTicketId(int ticketId)
+        {
+            Client result;
+
+            using (var ctx = new NorthwindContext())
+            {
+                var tmp = (from t in ctx.Tickets.Include(x=>x.Card)
+                           where t.Id == ticketId
+                           select t).ToList().FirstOrDefault(); ;
+                result = tmp.Card;
+            }
+            return result;
+        }
     }
 }

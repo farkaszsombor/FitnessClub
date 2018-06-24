@@ -172,6 +172,7 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Ticket.cs" />
+    <Compile Include="ViewModel\RoomTicket.cs" />
     <Compile Include="ViewModel\TicketsClient.cs" />
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -245,6 +246,7 @@
     <Content Include="Views\Employee\TicketsList.cshtml" />
     <Content Include="Views\Employee\TicketTypeItem.cshtml" />
     <Content Include="Views\Employee\EmployeeError.cshtml" />
+    <Content Include="Views\Employee\Enter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
