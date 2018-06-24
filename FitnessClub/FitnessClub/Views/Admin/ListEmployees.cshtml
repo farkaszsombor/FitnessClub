@@ -5,16 +5,23 @@
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Employee list</h2>
-
 <div>
 
     @using (Html.BeginForm())
     {
-        <p>
-            Find: @Html.TextBox("SearchString")
-            <input type="submit" value="Search"/>
-        </p>
+        <div class="container">
+            <div class="row">
+                <h4>Employee List</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Employee Name" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
+        </div>
     }
 
     <hr />
@@ -25,6 +32,9 @@
             <th>Deleted</th>
             <th>Department</th>
             <th>Work Place</th>
+            <th>Start Hour</th>
+            <th>End Hour</th>
+            <th>Working Days</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -36,6 +46,9 @@
                 <td>@Html.Encode(item.IsDeleted)</td>
                 <td>@Html.Encode(item.Department)</td>
                 <td>@Html.Encode(item.WorkPlaceName)</td>
+                <td>@Html.Encode(item.StartHour)</td>
+                <td>@Html.Encode(item.EndHour)</td>
+                <td>@Html.Encode(item.Days)</td>
                 <td>@Html.ActionLink("Edit", "EditEmployee", item)</td>
                 <td>
                     @if (!item.IsDeleted)
@@ -48,16 +61,29 @@
                     }
                 </td>
             </tr>
-            }
+        }
     </table>
-
     <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2" id="anchor">
+                @Html.ActionLink("Add new employee", "CreateEmployee", "Admin", new { id = "mask" })
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("ListEmployees",
-        new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("ListEmployees",
+                    new { page }))
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                @using (Html.BeginForm("SaveToXls", "Admin", new { what = "Employee" }, FormMethod.Post))
+                {
+                    <button id="exp" type="submit">Export</button>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
-<div>
-    @Html.ActionLink("Add new employee", "CreateEmployee")
-</div>
+
+

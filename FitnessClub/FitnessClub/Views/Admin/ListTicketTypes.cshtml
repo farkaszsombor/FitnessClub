@@ -5,24 +5,36 @@
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Ticket Types</h2>
+
 
 <div>
     @using (Html.BeginForm())
     {
-        <p>
-            Find: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-        </p>
+        <div class="container">
+            <div class="row">
+                <h4>Ticket Types</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Type Name" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
+        </div>
     }
     <hr />
     <table class="info">
         <tr>
             <th>ID</th>
+            <th>Type Name</th>
             <th>Number of Daya</th>
             <th>Occasion</th>
             <th>Status</th>
             <th>Price</th>
+            <th>Start Hour</th>
+            <th>End Hour</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -30,10 +42,13 @@
         {
             <tr>
                 <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(item.Name)</td>
                 <td>@Html.Encode(item.DayNum)</td>
                 <td>@Html.Encode(item.OccasionNum)</td>
                 <td>@Html.Encode(item.Status)</td>
                 <td>@Html.Encode(item.Price)</td>
+                <td>@Html.Encode(item.StartHour)</td>
+                <td>@Html.Encode(item.EndHour)</td>
                 <td>@Html.ActionLink("Edit", "EditTicketTypes", item)</td>
                 <td>
                     @if (!false)//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -49,11 +64,24 @@
         }
     </table>
     <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2" id="anchor">
+                @Html.ActionLink("Add new type", "CreateTicketType", "Admin", new { id = "mask" })
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("ListTicketTypes",
-        new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("ListTicketTypes",
+                    new { page }))
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                @using (Html.BeginForm("SaveToXls", "Admin", new { what = "Type" }, FormMethod.Post))
+                {
+                    <button id="exp" type="submit">Export</button>
+                }
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Add new ticket type", "CreateTicketType")
-</div>
+

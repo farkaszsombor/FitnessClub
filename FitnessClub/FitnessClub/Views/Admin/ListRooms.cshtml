@@ -5,16 +5,27 @@
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Rooms</h2>
+
 
 <div>
 
     @using (Html.BeginForm())
     {
-        <p>
-            Find: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-        </p>
+        <div class="container">
+            <div class="row">
+                <h4>Rooms</h4>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Room Name" })
+
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Search" />
+
+                </div>
+            </div>
+        </div>
     }
     <hr />
     <table class="info">
@@ -46,12 +57,26 @@
         }
     </table>
     <br />
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2" id="anchor">
+                @Html.ActionLink("Add new room", "CreateRoom", "Admin", new { id = "mask" })
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("ListRooms",
-        new { page }))
+                @Html.PagedListPager(Model, page => Url.Action("ListRooms",
+                    new { page }))
+            </div>
+            <div class="col-md-2 col-md-offset-3">
+                @using (Html.BeginForm("SaveToXls", "Admin", new { what = "Room" }, FormMethod.Post))
+                {
+                    <button id="exp" type="submit">Go To User</button>
+                }
+            </div>
+        </div>
+    </div>
+    
 </div>
 
-<div>
-    @Html.ActionLink("Add new room", "CreateRoom")
-</div>
+

@@ -88,7 +88,10 @@ namespace FitnessClub.Mappings
                 Password = entityEmployee.Password,
                 IsDeleted = entityEmployee.IsDeleted,
                 Department = entityEmployee.Department,
-                WorkPlaceName = entityEmployee.WorkPlace.Name
+                WorkPlaceName = entityEmployee.WorkPlace.Name,
+                Days = entityEmployee.Days,
+                EndHour = entityEmployee.EndHour,
+                StartHour = entityEmployee.StartHour
             };
             return modelEmployee;
         }
@@ -113,6 +116,9 @@ namespace FitnessClub.Mappings
                 Password = modelEmployee.Password,
                 Department = modelEmployee.Department,
                 WorkPlace = DataAccessLayer.Utils.RoomUtils.GetRoomByName(modelEmployee.WorkPlaceName),
+                Days = modelEmployee.Days,
+                EndHour = modelEmployee.EndHour,
+                StartHour = modelEmployee.StartHour,
             };
             return entityEmployee;
         }
@@ -252,7 +258,7 @@ namespace FitnessClub.Mappings
             return modelTicket;
         }
 
-        public static List<Models.Ticket> EntityTicketLIstInToModelTicketAsList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
+        public static List<Models.Ticket> EntityTicketLIstToModelTicketAsList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
         {
             List<Models.Ticket> modelTicketList = new List<Models.Ticket>();
             foreach (var entityTicket in entityTicketList)
@@ -312,7 +318,7 @@ namespace FitnessClub.Mappings
 
             return modelTicketType;
         }
-        public static List<Models.TicketType> EntityTicketLIstInToModelTicketTypeAsList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
+        public static List<Models.TicketType> EntityTicketLIstToModelTicketTypeAsList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
         {
             List<Models.TicketType> modelTicketTypeList = new List<Models.TicketType>();
             foreach (var element in entityTicketTypeList)
