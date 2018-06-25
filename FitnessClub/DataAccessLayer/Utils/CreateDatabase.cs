@@ -26,20 +26,20 @@ namespace DataAccessLayer.Utils
 
 
                 Employee e1 = new Employee { Name = "Admin", Password = "1234", IsDeleted = boolean, Department = "Admin", WorkPlace = r };
-                Employee e2 = new Employee { Name = "Herry", Password = "4411", IsDeleted = boolean, Department = "Trainer", WorkPlace = b };
-                Employee e3 = new Employee { Name = "James", Password = "12354", IsDeleted = boolean, Department = "Guest", WorkPlace = re };
-                Employee e4 = new Employee { Name = "Katy", Password = "12734", IsDeleted = boolean, Department = "Worker", WorkPlace = p };
-                Employee e5 = new Employee { Name = "Adam", Password = "17234", IsDeleted = boolean, Department = "IT", WorkPlace = black };
-                Employee e6 = new Employee { Name = "Mark", Password = "12347", IsDeleted = boolean, Department = "cleaner", WorkPlace = w };
-                Employee e7 = new Employee { Name = "Peter", Password = "158234", IsDeleted = boolean, Department = "Boss", WorkPlace = g };
-                Employee e8 = new Employee { Name = "Stean", Password = "12834", IsDeleted = boolean, Department = "Trainer", WorkPlace = y };
-                Employee e9 = new Employee { Name = "Loise", Password = "18234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
-                Employee e10 = new Employee { Name = "Corina", Password = "182234", IsDeleted = boolean, Department = "Admin", WorkPlace = re };
-                Employee e11 = new Employee { Name = "Helen", Password = "182334", IsDeleted = boolean, Department = "Worker", WorkPlace = y };
-                Employee e12 = new Employee { Name = "Ann", Password = "1824534", IsDeleted = boolean, Department = "Student", WorkPlace = g };
-                Employee e13 = new Employee { Name = "Brian", Password = "182834", IsDeleted = boolean, Department = "Student", WorkPlace = w };
-                Employee e14 = new Employee { Name = "David", Password = "186234", IsDeleted = boolean, Department = "Boss", WorkPlace = black };
-                Employee e15 = new Employee { Name = "Stephen", Password = "186234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
+                Employee e2 = new Employee { Name = "herr54y", Password = "4411", IsDeleted = boolean, Department = "Trainer", WorkPlace = b };
+                Employee e3 = new Employee { Name = "james42", Password = "12354", IsDeleted = boolean, Department = "Guest", WorkPlace = re };
+                Employee e4 = new Employee { Name = "katy96", Password = "12734", IsDeleted = boolean, Department = "Worker", WorkPlace = p };
+                Employee e5 = new Employee { Name = "adamkis", Password = "17234", IsDeleted = boolean, Department = "IT", WorkPlace = black };
+                Employee e6 = new Employee { Name = "mark87", Password = "12347", IsDeleted = boolean, Department = "cleaner", WorkPlace = w };
+                Employee e7 = new Employee { Name = "peter45", Password = "158234", IsDeleted = boolean, Department = "Boss", WorkPlace = g };
+                Employee e8 = new Employee { Name = "stean56", Password = "12834", IsDeleted = boolean, Department = "Trainer", WorkPlace = y };
+                Employee e9 = new Employee { Name = "loise37", Password = "18234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
+                Employee e10 = new Employee { Name = "corina21", Password = "182234", IsDeleted = boolean, Department = "Admin", WorkPlace = re };
+                Employee e11 = new Employee { Name = "helen57", Password = "182334", IsDeleted = boolean, Department = "Worker", WorkPlace = y };
+                Employee e12 = new Employee { Name = "annie68", Password = "1824534", IsDeleted = boolean, Department = "Student", WorkPlace = g };
+                Employee e13 = new Employee { Name = "brian24", Password = "182834", IsDeleted = boolean, Department = "Student", WorkPlace = w };
+                Employee e14 = new Employee { Name = "david34", Password = "186234", IsDeleted = boolean, Department = "Boss", WorkPlace = black };
+                Employee e15 = new Employee { Name = "stephen_hawking", Password = "186234", IsDeleted = boolean, Department = "IT", WorkPlace = b };
 
 
                 ctx.Rooms.Add(r);

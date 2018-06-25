@@ -78,7 +78,7 @@
                 || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now)
                 || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day
                 || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0))
-                && itemType.EndHour < DateTime.Now.Hour && itemType.StartHour > DateTime.Now.Hour)
+                || (itemType.EndHour <= DateTime.Now.Hour || itemType.StartHour > DateTime.Now.Hour))
             {
 
                 <div class="list-item disabled">
