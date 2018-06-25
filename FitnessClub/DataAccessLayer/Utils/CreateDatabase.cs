@@ -102,10 +102,10 @@ namespace DataAccessLayer.Utils
                 ctx.TicketTypes.Add(tt3);
                 ctx.TicketTypes.Add(tt4);
 
-                Ticket t1 = new Ticket { Id = 1, Card = c1, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 50, Inserter = e1, IsDeleted = false, Type = tt1};
-                Ticket t2 = new Ticket { Id = 2, Card = c9, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 40, Inserter = e3, IsDeleted = false, Type = tt2};
-                Ticket t3 = new Ticket { Id = 3, Card = c2, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 70, Inserter = e7, IsDeleted = false, Type = tt3};
-                Ticket t4 = new Ticket { Id = 4, Card = c7, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 90, Inserter = e9, IsDeleted = false, Type = tt1};
+                Ticket t1 = new Ticket { Id = 1, Card = c1, BuyingDate = DateTime.Now, StartDate = DateTime.Now.AddDays(-40), LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 50, Inserter = e1, IsDeleted = false, Type = tt1};
+                Ticket t2 = new Ticket { Id = 2, Card = c9, BuyingDate = DateTime.Now, StartDate = DateTime.Now.AddDays(-40), LastLoginDate = DateTime.Now, LoginsNum = 0, Price = 40, Inserter = e3, IsDeleted = false, Type = tt2};
+                Ticket t3 = new Ticket { Id = 3, Card = c2, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 300, Price = 70, Inserter = e7, IsDeleted = false, Type = tt3};
+                Ticket t4 = new Ticket { Id = 4, Card = c7, BuyingDate = DateTime.Now, StartDate = DateTime.Now, LastLoginDate = DateTime.Now, LoginsNum = 10, Price = 90, Inserter = e9, IsDeleted = false, Type = tt1};
 
                 ctx.Tickets.Add(t1);
                 ctx.Tickets.Add(t2);

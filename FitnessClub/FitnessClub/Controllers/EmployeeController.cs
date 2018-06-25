@@ -52,7 +52,7 @@ namespace FitnessClub.Controllers
         // GET: Employee/TicketTypeLists
         public ActionResult TicketTypesList()
         {
-            var data = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
+            var data = MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
             return View(data);
         }
         public ActionResult TicketsList(Client client)
@@ -62,13 +62,13 @@ namespace FitnessClub.Controllers
                 List<TicketType> SelectType = new List<TicketType>();
                 SelectType.Add(MappingDtos.EntityTicketTypeToModelTicketType(TicketTypeUtils.GetTicketById(Int32.Parse(Session["TicType"].ToString()))));
                 Session["TicType"] = null;
-                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                var data = MappingDtos.EntityTicketLIstToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
                 return View(new TicketsClient { Client = client, Tickets = data, Types = SelectType });
             }
             else
             {
-                var data = MappingDtos.EntityTicketLIstInToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
-                return View(new TicketsClient { Client = client, Tickets = data, Types = MappingDtos.EntityTicketLIstInToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes()) });
+                var data = MappingDtos.EntityTicketLIstToModelTicketAsList(TicketUtils.GetListOfTicketByClientId(client.Id));
+                return View(new TicketsClient { Client = client, Tickets = data, Types = MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes()) });
             }
         }
 
@@ -130,9 +130,27 @@ namespace FitnessClub.Controllers
             {
                 return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres beszuras" });
             }
-
-            
         }
-
+        public ActionResult Enter(Ticket ticket)
+        {
+            return View(new RoomTicket { Rooms = MappingDtos.EntityRoomToModelRoomAsList(RoomUtils.GetAllRooms()),Ticket=ticket});
+        }
+        public ActionResult Login(FormCollection collection)
+        {
+            var room= collection.Get("room");
+            var type = Int32.Parse(collection.Get("type"));
+            var ticketId = Int32.Parse(collection.Get("ticketId"));
+            var ticketOvner = collection.Get("ticketOvner");
+            var modelEvent = new Event { RoomName = room, EmployeeName = Session["LoginedUser"].ToString(), ClientName = ticketOvner, Date = DateTime.Now, TicketId = ticketId, Type = Convert.ToBoolean(type) };
+            if(EventUtils.InsertEvent(MappingDtos.ModelEventToEntityEvent(modelEvent)))
+            {
+                TicketUtils.EventTriggerUpdate(ticketId);
+                return RedirectToAction("ClientsList", "Employee");
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres belepes" });
+            }
+        }
     }
 }

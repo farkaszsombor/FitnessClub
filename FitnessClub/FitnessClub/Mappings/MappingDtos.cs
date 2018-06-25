@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer;
+using DataAccessLayer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,10 @@ namespace FitnessClub.Mappings
                 Password = entityEmployee.Password,
                 IsDeleted = entityEmployee.IsDeleted,
                 Department = entityEmployee.Department,
-                WorkPlaceName = entityEmployee.WorkPlace.Name
+                WorkPlaceName = entityEmployee.WorkPlace.Name,
+                Days = entityEmployee.Days,
+                EndHour = entityEmployee.EndHour,
+                StartHour = entityEmployee.StartHour
             };
             return modelEmployee;
         }
@@ -112,6 +116,9 @@ namespace FitnessClub.Mappings
                 Password = modelEmployee.Password,
                 Department = modelEmployee.Department,
                 WorkPlace = DataAccessLayer.Utils.RoomUtils.GetRoomByName(modelEmployee.WorkPlaceName),
+                Days = modelEmployee.Days,
+                EndHour = modelEmployee.EndHour,
+                StartHour = modelEmployee.StartHour,
             };
             return entityEmployee;
         }
@@ -158,12 +165,12 @@ namespace FitnessClub.Mappings
         {
             DataAccessLayer.Entities.Event entityEvent = new DataAccessLayer.Entities.Event()
             {
-                Card = null,
+                Card = ClientUtils.GetClientByTicketId(modelEvent.TicketId),
                 Date = modelEvent.Date,
                 Id = modelEvent.Id,
-                Inserter = null,
-                Room = null,
-                Ticket = null,
+                Inserter = EmployeeUtils.GetEmployeeByName(modelEvent.EmployeeName),
+                Room = RoomUtils.GetRoomByName(modelEvent.RoomName),
+                Ticket = TicketUtils.GetTicketById(modelEvent.TicketId),
                 Type = modelEvent.Type
             };
 
@@ -251,7 +258,7 @@ namespace FitnessClub.Mappings
             return modelTicket;
         }
 
-        public static List<Models.Ticket> EntityTicketLIstInToModelTicketAsList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
+        public static List<Models.Ticket> EntityTicketLIstToModelTicketAsList(List<DataAccessLayer.Entities.Ticket> entityTicketList)
         {
             List<Models.Ticket> modelTicketList = new List<Models.Ticket>();
             foreach (var entityTicket in entityTicketList)
@@ -311,7 +318,7 @@ namespace FitnessClub.Mappings
 
             return modelTicketType;
         }
-        public static List<Models.TicketType> EntityTicketLIstInToModelTicketTypeAsList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
+        public static List<Models.TicketType> EntityTicketLIstToModelTicketTypeAsList(List<DataAccessLayer.Entities.TicketType> entityTicketTypeList)
         {
             List<Models.TicketType> modelTicketTypeList = new List<Models.TicketType>();
             foreach (var element in entityTicketTypeList)

@@ -4,10 +4,10 @@
     Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
 }
 
-
+@Scripts.Render("~/Scripts/script.js")
 <div class="content">
     <div class="search-tool">
-        <input type="text" id="searchClient"  autofocus="autofocus" oninput="clientSearch()" placeholder="Kereses">
+        <input type="text" id="searchClient" autofocus="autofocus" oninput="clientSearch()" placeholder="Kereses">
     </div>
     <div class="list-table" id="clients">
         <div class="list-header">
@@ -20,14 +20,14 @@
         @foreach (var item in Model)
         {
 
-        <div class="list-item" onclick="location.href='@Url.Action("TicketsList", "Employee",item)'">
-            <p style="display:none">@Html.Encode(item.Id)</p>
-            <p>@Html.Encode(item.LastName)</p>
-            <p>@Html.Encode(item.FirstName)</p>
-            <p>@Html.Encode(item.Phone)</p>
-            <p>@Html.Encode(item.Email)</p>
-            <p>@Html.Encode(item.IdentityNumber)</p>
-        </div>
+            <div class="list-item" onclick="location.href='@Url.Action("TicketsList", "Employee",item)'">
+                <p style="display:none">@Html.Encode(item.Id)</p>
+                <p>@Html.Encode(item.LastName)</p>
+                <p>@Html.Encode(item.FirstName)</p>
+                <p>@Html.Encode(item.Phone)</p>
+                <p>@Html.Encode(item.Email)</p>
+                <p>@Html.Encode(item.IdentityNumber)</p>
+            </div>
         }
     </div>
 </div>

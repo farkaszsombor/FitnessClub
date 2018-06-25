@@ -57,7 +57,51 @@ namespace DataAccessLayer.Utils
             }
             return temp;
         }
+        public static bool InsertEvent(Event e)
+        {
+            bool temp = false;
 
+            using (var ctx = new NorthwindContext())
+            {
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var inserter = (from ep in ctx.Employees
+                                        where ep.Id==e.Inserter.Id
+                                        select ep).ToList().FirstOrDefault();
+                        e.Inserter = inserter;
+
+                        var ticket = (from t in ctx.Tickets
+                                        where t.Id == e.Ticket.Id
+                                        select t).ToList().FirstOrDefault();
+                        e.Ticket = ticket;
+
+                        var room = (from r in ctx.Rooms
+                                        where r.Id == e.Room.Id
+                                        select r).ToList().FirstOrDefault();
+                        e.Room = room;
+
+                        var client = (from c in ctx.Clients
+                                      where c.Id == e.Card.Id
+                                      select c).ToList().FirstOrDefault();
+                        e.Card = client;
+                        
+                        ctx.Events.Add(e);
+                        dbContextTransaction.Commit();
+                        ctx.SaveChanges();
+                        temp = true;
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        temp = false;
+                    }
+
+                }
+            }
+            return temp;
+        }
         public static bool DeleteEvent(int eventId)
         {
             bool temp = false;

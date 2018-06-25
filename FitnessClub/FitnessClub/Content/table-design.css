@@ -37,3 +37,18 @@
     display: inline-block;
     margin-right:-4px;
 }
+
+.container .row .col-md-2 #mask {
+    background-color: dimgray;
+    text-decoration: none;
+    color: white;
+    padding:15px;
+    border-radius: 7px;
+}
+.container .row .col-md-2 form #exp {
+    background-color: dimgray;
+    border: none;
+    border-radius:7px;
+    padding: 15px;
+    color: white;
+} 
