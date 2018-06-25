@@ -1,8 +1,15 @@
-﻿
+﻿@model  FitnessClub.ViewModel.StatisticsModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+
+Ebben a honapban megvett berletek szama:@Model.TicketsNumberOfMonthNow
+<br/>
+Ebben a honapban megvett berletek oszosszege:@Model.IncomeOfTheMonthNow
+
+
+
+
 

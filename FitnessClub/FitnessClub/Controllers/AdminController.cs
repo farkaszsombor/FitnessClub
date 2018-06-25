@@ -7,6 +7,7 @@ using PagedList;
 using System.Linq;
 using System.Data;
 using System.Web.UI.WebControls;
+using FitnessClub.ViewModel;
 
 namespace FitnessClub.Controllers
 {
@@ -18,7 +19,18 @@ namespace FitnessClub.Controllers
         {
             if ((Session["LoginedUser"] ?? "").ToString() == "Admin")
             {
-                return View();
+                var statistics = new StatisticsModel
+                {
+                    EventsMonthNumbNow = StatisticsUtils.GetEventsNumberOfMonth(DateTime.Now),
+                    EventsYearNumbNow = StatisticsUtils.GetEventsNumberOfYear(DateTime.Now),
+                    TicketsNumberOfMonthNow = StatisticsUtils.GetTicketsNumberOfMonth(DateTime.Now),
+                    TicketsNumberOfYearNow = StatisticsUtils.GetTicketsNumberOfYear(DateTime.Now),
+                    IncomeOfTheMonthNow = StatisticsUtils.GetIncomeOfTheMonth(DateTime.Now),
+                    IncomeOfTheYearNow = StatisticsUtils.GetIncomeOfTheYear(DateTime.Now)
+                };
+
+
+                return View(statistics);
             }
             return RedirectToAction("LoginError", "Login");
         }

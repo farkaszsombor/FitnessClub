@@ -14,6 +14,7 @@ namespace DataAccessLayer.Utils
             bool result;
             using (var ctx=new NorthwindContext())
             {
+                ctx.Database.Connection.Open();
                 var query = (from emp in ctx.Employees
                             where emp.Name==name &&
                                    emp.IsDeleted == false

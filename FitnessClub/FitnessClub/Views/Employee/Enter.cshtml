@@ -14,22 +14,22 @@
             <br />
             <br />
             @using (Html.BeginForm("Login", "Employee", FormMethod.Post, new { @class = "login-form" }))
-    {
-        <p>Terem :</p><select name="room">
-            @foreach (var item in Model.Rooms.ToList())
-    {
-        <option value="@item.Name">@item.Name</option>
-}
-        </select>
-        <br />
-        <p>Fitness</p><input type="radio" name="type" value="0" />
-        <br />
-        <p>Gym</p><input type="radio" name="type" value="1" />
-        <br />
-        <input type="hidden" name="ticketId" value="@Model.Ticket.Id" />
-        <input type="hidden" name="ticketOvner" value="@Model.Ticket.ClientName" />
-        <input type="submit" name="submit" value="Login" />
-}
+            {
+                <p>Terem :</p><select name="room">
+                    @foreach (var item in Model.Rooms.ToList())
+                     {
+                        <option value="@item.Name">@item.Name</option>
+                     }
+                </select>
+                <br />
+                <p>Fitness</p><input type="radio" name="type" value="0" />
+                <br />
+                <p>Gym</p><input type="radio" name="type" value="1" />
+                <br />
+                <input type="hidden" name="ticketId" value="@Model.Ticket.Id" />
+                <input type="hidden" name="ticketOvner" value="@Model.Ticket.ClientName" />
+                <input type="submit" name="submit" value="Login" />
+             }
         </div>
         <div class="col-md-6">
             Meghosszabbitas
