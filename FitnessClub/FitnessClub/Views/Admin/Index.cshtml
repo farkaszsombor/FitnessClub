@@ -1,8 +1,50 @@
-﻿
+﻿@model  FitnessClub.ViewModel.StatisticsModel
 @{
+    /**/
+
     ViewBag.Title = "Index";
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<!--
+Ebben a honapban megvett berletek szama:@Model.TicketsNumberOfMonthNow
+<br />
+Ebben a honapban megvett berletek oszosszege:@Model.IncomeOfTheMonthNow
+<br />
+Ebben az evben megvett berletek szama:@Model.TicketsNumberOfYearNow
+<br />
+Ebben az evben megvett berletek oszosszege:@Model.IncomeOfTheYearNow
+<br />
+Ebben az evben a belepesek szama:@Model.EventsYearNumbNow
+<br />
+Ebben a honapban belepesek szama:@Model.EventsMonthNumbNow
+<br /><br />
+@foreach (var item in Model.PerformanceEverMap)
+{
 
+    <p>Nev:   @item.Key.Name</p>
+    <p>Ossz teljesitmeny:  @item.Value</p>
+    <p>Kezdeti ora:  @item.Key.StartHour</p>
+    <p>Vegso ora:  @item.Key.EndHour</p>
+    <p>Terem :  @item.Key.WorkPlaceName</p>
+    <p>Department :  @item.Key.Department</p>
+
+    <hr />
+}
+<hr />
+<hr />
+<hr />
+<hr />
+@foreach (var item in Model.PerformanceMapNow)
+{
+
+    <p>Nev:   @item.Key.Name</p>
+    <p>Havi teljesitmeny:  @item.Value</p>
+    <p>Kezdeti ora:  @item.Key.StartHour</p>
+    <p>Vegso ora:  @item.Key.EndHour</p>
+    <p>Terem :  @item.Key.WorkPlaceName</p>
+    <p>Department :  @item.Key.Department</p>
+
+    <hr />
+}
+--->

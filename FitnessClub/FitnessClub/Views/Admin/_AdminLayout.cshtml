@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/Content/table-design.css" type="text/css" />
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/style.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -18,6 +19,7 @@
             <li>@Html.ActionLink("Events","ListEvents","Admin")</li>
             <li>@Html.ActionLink("Ticket Types", "ListTicketTypes","Admin")</li>
             <li>@Html.ActionLink("Rooms", "ListRooms","Admin")</li>
+            <li>@Html.ActionLink("Email Send", "SendEmail","Admin")</li>
             <li>@Html.ActionLink("Log out", "Logout", "Admin")</li>
         </ul>
     </nav>

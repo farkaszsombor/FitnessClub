@@ -72,7 +72,7 @@ namespace FitnessClub
                 workbook.Close(true);
                 excel.Quit();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

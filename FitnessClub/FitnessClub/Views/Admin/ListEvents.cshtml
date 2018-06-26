@@ -5,7 +5,6 @@
     Layout = "~/Views/Admin/_AdminLayout.cshtml";
 }
 
-<h2>Event List</h2>
 
 <div>
 
@@ -13,11 +12,30 @@
     {
         <div class="container">
             <div class="row">
+                <h4>Event List</h4>
+            </div>
+            <div class="row">
                 <div class="col-md-4">
-                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Client name" })
+                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Client name or Client Id" })
+                </div>
+                <div class="col-md-4">
+                    Filter by Category:
+                    <select name="category">
+                        <option value="" selected></option>
+                        @foreach (var item in ViewBag.tklist)
+                        {
+                            <option value=@Html.Encode(item.Id)>@Html.Encode(item.Name)</option>
+                        }
+                    </select>
                 </div>
                 <div class="col-md-2">
                     <input type="submit" value="Search" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Date:
+                    <input type="date" class="insert-tag" name="usedate" ng-model="date" value="{{ date | date: 'dd/MM/yyyy' }}" />
                 </div>
             </div>
         </div>
@@ -32,21 +50,30 @@
             <th>Employee Name</th>
             <th>Room Name</th>
         </tr>
+        @{var ii = 1;}
         @foreach (var item in (dynamic)Model)
         {
             <tr>
-                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(ii)</td>
                 <td>@Html.Encode(item.Date)</td>
-                <td>@Html.Encode(item.Type)</td>
+                @foreach (var i in ViewBag.tklist)
+                {
+                    if (i.Id == item.TicketId)
+                    {
+                        <td>@Html.Encode(i.Name)</td>
+                        break;
+                    }
+                }
                 <td>@Html.Encode(item.ClientName)</td>
                 <td>@Html.Encode(item.EmployeeName)</td>
                 <td>@Html.Encode(item.RoomName)</td>
             </tr>
+            ++ii;
         }
     </table>
     <br />
     <div class="container">
-        <div class="row">
+        <div class="row vcenter">
             <div class="col-md-2 col-md-offset-5">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 

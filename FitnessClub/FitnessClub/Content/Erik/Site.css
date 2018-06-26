@@ -175,6 +175,7 @@ nav.shift ul li a:hover:after {
     width: 80%;
     text-align:center;
 }
+
 .list-table .list-header p {
     display: inline-block;
     width: 17%;
@@ -187,6 +188,15 @@ nav.shift ul li a:hover:after {
     text-transform: uppercase;
     background-color: black;
     color: white;
+}
+.list-table .list-item.deadline-item
+{
+    background-color:#2a6d0c;
+}
+.list-table .list-item.deadline-item p
+{
+    background-color: white;
+    color: black;
 }
 .list-table .list-item p {
     display: inline-block;

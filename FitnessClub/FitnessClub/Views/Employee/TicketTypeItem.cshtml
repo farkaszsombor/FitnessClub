@@ -7,39 +7,47 @@
 <link href="~/Content/Erik/Timi.css" rel="stylesheet">
 
 <div class="content-center" style="width: 546px">
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Tipusnev:</p>
+        <p class="value">@Html.Encode(Model.TicketType.Name)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Napok szama:</p>
+        <p class="value">@Html.Encode(Model.TicketType.DayNum)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Alkalmak szama:</p>
+        <p class="value">@Html.Encode(Model.TicketType.OccasionNum)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Allapot:</p>
+        <p class="value">@Html.Encode(Model.TicketType.Status)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Ar:</p>
+        <p class="value">@Html.Encode(Model.TicketType.Price)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Leiras:</p>
+        <p class="value">@Html.Encode(Model.TicketType.Description)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Kezdeti ora:</p>
+        <p class="value">@Html.Encode(Model.TicketType.StartHour)</p>
+    </div>
+    <div class="container" style="padding: 0">
+        <p class="name col-md-4">Vegso ora:</p>
+        <p class="value">@Html.Encode(Model.TicketType.EndHour)</p>
+    </div>
+    @using (Html.BeginForm("BuyingTicket", "Employee", FormMethod.Post))
+    {
         <div class="container" style="padding: 0">
-            <p class="name col-md-4">Tipusnev:</p>
-            <p class="value">@Html.Encode(Model.TicketType.Name)</p>
+            <input name="TicketTypeId" type="hidden" value="@Model.TicketType.Id">
+            <p class="name col-md-4">Card number: </p>
+            <input type="text" name="Id" class="value col-md-4" />
         </div>
-        <div class="container" style="padding: 0">
-            <p class="name col-md-4">Napok szama:</p>
-            <p class="value">@Html.Encode(Model.TicketType.DayNum)</p>
-        </div>
-        <div class="container" style="padding: 0">
-            <p class="name col-md-4">Alkalmak szama:</p>
-            <p class="value">@Html.Encode(Model.TicketType.OccasionNum)</p>
-        </div>
-        <div class="container" style="padding: 0">
-            <p class="name col-md-4">Allapot:</p>
-            <p class="value">@Html.Encode(Model.TicketType.Status)</p>
-        </div>
-        <div class="container" style="padding: 0">
-            <p class="name col-md-4">Ar:</p>
-            <p class="value">@Html.Encode(Model.TicketType.Price)</p>
-        </div>
-        <div class="container" style="padding: 0">
-            <p class="name col-md-4">Leiras:</p>
-            <p class="value">@Html.Encode(Model.TicketType.Description)</p>
-        </div>
-        @using (Html.BeginForm("BuyingTicket", "Employee", FormMethod.Post))
-        {
-            <div class="container" style="padding: 0">
-                <input name="TicketTypeId" type="hidden" value="@Model.TicketType.Id">
-                <p class="name col-md-4">Card number: </p>
-                <input type="text" name="Id" class="value col-md-4" />
-            </div>
-            <input class="button" id="submit" type="submit" value="Submit" />
-        }
+        <input class="button" id="submit" type="submit" value="Submit" />
+    }
 </div>
 
 

@@ -177,6 +177,7 @@
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="ViewModel\RoomTicket.cs" />
+    <Compile Include="ViewModel\StatisticsModel.cs" />
     <Compile Include="ViewModel\TicketsClient.cs" />
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,6 +192,7 @@
     <Content Include="Content\Erik\Timi.css" />
     <Content Include="Content\Images\gym.png" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\table-design.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -211,6 +213,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\photo.js" />
     <Content Include="Scripts\script.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -251,6 +254,7 @@
     <Content Include="Views\Employee\TicketTypeItem.cshtml" />
     <Content Include="Views\Employee\EmployeeError.cshtml" />
     <Content Include="Views\Employee\Enter.cshtml" />
+    <Content Include="Views\Employee\SuccessEnter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

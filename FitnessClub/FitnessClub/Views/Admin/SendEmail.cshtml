@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "SendEmail";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <h2>Here you can send newsletter to Client!</h2>
+    </div>
+    @using (Html.BeginForm())
+    {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                Subject:
+            </div>
+            <div class="col-md-6">
+                @Html.TextBox("header", null, new { placeholder = "Subject of email",id = "subj"})
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-1">
+                Content:
+            </div>
+            <div class="col-md-6">
+                @Html.TextArea("body",null, new { rows = 10,cols = 50});
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-1 col-md-offset-2">
+                <input type="submit" value="Send" />
+            </div>
+        </div>
+    </div>
+    }
+</div>
+

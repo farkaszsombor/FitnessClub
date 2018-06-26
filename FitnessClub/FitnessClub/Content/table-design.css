@@ -45,10 +45,18 @@
     padding:15px;
     border-radius: 7px;
 }
-.container .row .col-md-2 form #exp {
+#exp{ 
     background-color: dimgray;
     border: none;
-    border-radius:7px;
+    border-radius: 7px;
     padding: 15px;
     color: white;
-} 
+}
+.vcenter{
+    display:flex;
+    align-items:center;
+}
+
+#subj{
+    width:385px;
+}

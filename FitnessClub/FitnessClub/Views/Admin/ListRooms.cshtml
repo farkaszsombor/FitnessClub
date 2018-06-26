@@ -36,10 +36,11 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
+        @{var i = 1;}
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(i)</td>
                 <td>@Html.Encode(item.Name)</td>
                 <td>@Html.Encode(item.IsDeleted)</td>
                 <td>@Html.ActionLink("Edit", "EditRoom", item)</td>
@@ -54,11 +55,12 @@
                     }
                 </td>
             </tr>
+            ++i;
         }
     </table>
     <br />
     <div class="container">
-        <div class="row">
+        <div class="row vcenter">
             <div class="col-md-2" id="anchor">
                 @Html.ActionLink("Add new room", "CreateRoom", "Admin", new { id = "mask" })
             </div>

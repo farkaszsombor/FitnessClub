@@ -1,0 +1,12 @@
+﻿@model FitnessClub.Models.Ticket
+@{
+    ViewBag.Title = "SuccessEnter";
+    Layout = "~/Views/Employee/_EmployeeLayout.cshtml";
+}
+
+
+<div class="content-center">
+    <h3>Sikeresen belepet @Model.ClientName</h3>
+    <h3>Jegy lejar @Model.EndDate</h3>
+    <h3>Megmaradt alkalmakszama @Model.RemaningLoginNum</h3>
+</div>
