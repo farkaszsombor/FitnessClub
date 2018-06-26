@@ -61,6 +61,7 @@
     <Compile Include="Utils\EmployeeUtils.cs" />
     <Compile Include="Utils\EventUtils.cs" />
     <Compile Include="Utils\RoomUtils.cs" />
+    <Compile Include="Utils\StatisticsUtils.cs" />
     <Compile Include="Utils\TicketTypeUtils.cs" />
     <Compile Include="Utils\TicketUtils.cs" />
   </ItemGroup>

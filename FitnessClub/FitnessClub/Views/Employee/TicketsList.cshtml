@@ -78,7 +78,7 @@
                 || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now)
                 || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day
                 || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0))
-                && itemType.EndHour < DateTime.Now.Hour && itemType.StartHour > DateTime.Now.Hour)
+                || (itemType.EndHour <= DateTime.Now.Hour || itemType.StartHour > DateTime.Now.Hour))
             {
 
                 <div class="list-item disabled">
@@ -107,7 +107,7 @@
             }
             else
             {
-                <div class="list-item">
+                <div class="list-item" onclick="location.href='@Url.Action("Enter", "Employee",item)'">
                     <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
                     <p>@Html.Encode(item.StartDate)</p>
                     @if (item.EndDate == item.BuyingDate)

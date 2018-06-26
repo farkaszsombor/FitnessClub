@@ -130,9 +130,27 @@ namespace FitnessClub.Controllers
             {
                 return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres beszuras" });
             }
-
-            
         }
-
+        public ActionResult Enter(Ticket ticket)
+        {
+            return View(new RoomTicket { Rooms = MappingDtos.EntityRoomToModelRoomAsList(RoomUtils.GetAllRooms()),Ticket=ticket});
+        }
+        public ActionResult Login(FormCollection collection)
+        {
+            var room= collection.Get("room");
+            var type = Int32.Parse(collection.Get("type"));
+            var ticketId = Int32.Parse(collection.Get("ticketId"));
+            var ticketOvner = collection.Get("ticketOvner");
+            var modelEvent = new Event { RoomName = room, EmployeeName = Session["LoginedUser"].ToString(), ClientName = ticketOvner, Date = DateTime.Now, TicketId = ticketId, Type = Convert.ToBoolean(type) };
+            if(EventUtils.InsertEvent(MappingDtos.ModelEventToEntityEvent(modelEvent)))
+            {
+                TicketUtils.EventTriggerUpdate(ticketId);
+                return RedirectToAction("ClientsList", "Employee");
+            }
+            else
+            {
+                return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres belepes" });
+            }
+        }
     }
 }

@@ -187,6 +187,31 @@ namespace DataAccessLayer.Utils
             return temp;
         }
 
+        public static void EventTriggerUpdate(int ticketId)
+        {
+            using (var ctx = new NorthwindContext())
+            {
+                var result = (from t in ctx.Tickets.Include(x => x.Card).Include(z => z.Inserter).Include(y => y.Type)
+                             where t.Id == ticketId
+                             select t).ToList().FirstOrDefault();
+                result.LoginsNum++;
+                result.LastLoginDate = DateTime.Now;
+                ctx.SaveChanges();
+            }
+        }
+
+        public static Ticket GetTicketById(int ticketId)
+        {
+            Ticket result;
+            using (var ctx = new NorthwindContext())
+            {
+                result = (from t in ctx.Tickets.Include(x => x.Card).Include(z => z.Inserter).Include(y => y.Type)
+                         where t.Id == ticketId
+                         select t).ToList().FirstOrDefault();
+            }
+            return result;
+        }
+
         public static bool DeleteTicket(int ticketId)
         {
             bool temp = false;
