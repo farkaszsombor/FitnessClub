@@ -118,5 +118,35 @@ namespace DataAccessLayer.Utils
             }
             return result;
         }
+
+        public static bool DeleteTicketType(int Id)
+        {
+            bool result = false;
+            using(var ctx = new NorthwindContext())
+            {
+                using (var dbContextTransaction = ctx.Database.BeginTransaction())
+                {
+                    try{
+                        TicketType delType = (from t in ctx.TicketTypes
+                                              where t.Id == Id
+                                              select t).FirstOrDefault();
+                        if (!delType.IsDeleted)
+                        {
+                            delType.IsDeleted = true;
+                            ctx.SaveChanges();
+                            result = true;
+                        }
+                        dbContextTransaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        dbContextTransaction.Rollback();
+                        result = false;
+                    }
+                }
+            }
+
+            return result;
+        }
     }
 }

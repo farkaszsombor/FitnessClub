@@ -170,6 +170,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GMailer.cs" />
     <Compile Include="Mappings\MappingDtos.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -249,6 +250,8 @@
     <Content Include="Views\Employee\TicketsList.cshtml" />
     <Content Include="Views\Employee\TicketTypeItem.cshtml" />
     <Content Include="Views\Employee\EmployeeError.cshtml" />
+    <Content Include="Views\Admin\SendEmail.cshtml" />
+    <Content Include="Views\Admin\SendEmailResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

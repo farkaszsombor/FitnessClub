@@ -312,7 +312,8 @@ namespace FitnessClub.Mappings
                 Price = entityTicketType.Price,
                 Description = entityTicketType.Description,
                 StartHour = entityTicketType.StartHour,
-                EndHour = entityTicketType.EndHour
+                EndHour = entityTicketType.EndHour,
+                IsDeleted = entityTicketType.IsDeleted
             };
 
             return modelTicketType;

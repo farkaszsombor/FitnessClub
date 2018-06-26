@@ -113,11 +113,11 @@ namespace DataAccessLayer.Utils
                 ctx.Tickets.Add(t4);
 
 
-                Event ee1 = new Event { Id = 1, Card = c1, Ticket = t1, Date = DateTime.Now, Type = true, Room = r, Inserter = e1 };
+                Event ee1 = new Event { Id = 1, Card = c1, Ticket = t1, Date = DateTime.Now.AddDays(-3), Type = true, Room = r, Inserter = e1 };
                 Event ee2 = new Event { Id = 2, Card = c2, Ticket = t2, Date = DateTime.Now, Type = true, Room = black, Inserter = e1 };
                 Event ee3 = new Event { Id = 3, Card = c3, Ticket = t3, Date = DateTime.Now, Type = true, Room = y, Inserter = e2 };
-                Event ee4 = new Event { Id = 4, Card = c4, Ticket = t1, Date = DateTime.Now, Type = true, Room = w, Inserter = e3 };
-                Event ee5 = new Event { Id = 5, Card = c5, Ticket = t2, Date = DateTime.Now, Type = true, Room = re, Inserter = e4 };
+                Event ee4 = new Event { Id = 4, Card = c4, Ticket = t1, Date = DateTime.Now.AddDays(-6), Type = true, Room = w, Inserter = e3 };
+                Event ee5 = new Event { Id = 5, Card = c5, Ticket = t2, Date = DateTime.Now.AddDays(-2), Type = true, Room = re, Inserter = e4 };
                 Event ee6 = new Event { Id = 6, Card = c6, Ticket = t3, Date = DateTime.Now, Type = true, Room = p, Inserter = e2 };
                 Event ee7 = new Event { Id = 7, Card = c9, Ticket = t1, Date = DateTime.Now, Type = true, Room = g, Inserter = e1 };
                 Event ee8 = new Event { Id = 8, Card = c8, Ticket = t3, Date = DateTime.Now, Type = true, Room = r, Inserter = e2 };

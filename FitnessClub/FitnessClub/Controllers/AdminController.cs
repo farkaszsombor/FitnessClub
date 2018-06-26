@@ -7,6 +7,8 @@ using PagedList;
 using System.Linq;
 using System.Data;
 using System.Web.UI.WebControls;
+using System.Net.Mail;
+using System.Net;
 
 namespace FitnessClub.Controllers
 {
@@ -242,14 +244,34 @@ namespace FitnessClub.Controllers
         }
 
         //GET : Events
-        public ActionResult ListEvents(int? page,string searchString)
+        public ActionResult ListEvents(int? page,string searchString,string category = "",string usedate ="")
         {
+            int cid = 0;
             List<DataAccessLayer.Entities.Event> eventContextList = EventUtils.GetAllEvents();
             List<Event> eventList = Mappings.MappingDtos.EntityEventToModelEventList(eventContextList);
+            List<TicketType> type = Mappings.MappingDtos.EntityTicketLIstToModelTicketTypeAsList(TicketTypeUtils.GetAllTicketTypes());
+            ViewBag.tklist = type;
             if (!String.IsNullOrEmpty(searchString))
             {
-                eventList = eventList.Where(s => s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
+                if (Int32.TryParse(searchString,out cid))
+                {
+                    var c = ClientUtils.GetClientById(cid);
+                    eventList = eventList.Where(s => s.ClientName == (c.FirstName + " " + c.LastName)).ToList();
+                }
+                else
+                {
+                    eventList = eventList.Where(s => s.ClientName.ToLower().Contains(searchString.ToLower())).ToList();
+                }
             }
+            if (!String.IsNullOrEmpty(category))
+            {
+                eventList = eventList.Where(s => s.TicketId == Int32.Parse(category)).ToList();
+            }
+            if (!String.IsNullOrEmpty(usedate))
+            {
+                eventList = eventList.Where(s => s.Date.ToString("yyyy'-'MM'-'dd").Contains(usedate)).ToList();
+            }
+            
             return View(eventList.ToPagedList(page ?? 1, pageSize : 20));
         }
 
@@ -288,6 +310,10 @@ namespace FitnessClub.Controllers
         //DELETE : TicketType
         public ActionResult DeleteTicketType(int Id)
         {
+            if (TicketTypeUtils.DeleteTicketType(Id))
+            {
+                return RedirectToAction("ListTicketTypes");
+            }
             return RedirectToAction("ListTicketTypes");
         }
 
@@ -428,6 +454,46 @@ namespace FitnessClub.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+        
+        //Email Send Actions
+        public ActionResult SendEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SendEmail(string header,string body)
+        {
+            int result = 0;
+            try
+            {
+                GMailer.GmailUsername = "zsomborf96@gmail.com";
+                GMailer.GmailPassword = "szu24mk96";
+
+                GMailer mailer = new GMailer();
+                List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();
+                List<Client> clientList = Mappings.MappingDtos.EntityClientToModelClientAsList(layerClientList);
+                mailer.Subject = header;
+                mailer.Body = body;
+                mailer.IsHtml = true;
+                foreach (var item in clientList)
+                {
+                    mailer.ToEmail = item.Email;
+                    mailer.Send();
+                }
+                result = 1;
+            }
+            catch(Exception)
+            {
+                result = 0;
+            }
+            return RedirectToAction("SendEmailResult",new { id = result});
+        }
+
+        public ActionResult SendEmailResult()
+        {
+            return View();
         }
     }
 }

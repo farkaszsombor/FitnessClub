@@ -16,7 +16,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    Find: @Html.TextBox("SearchString", null, new { placeholder = "Type Name" })
+                    Find: @Html.TextBox("seachString", null, new { placeholder = "Type Name" })
                 </div>
                 <div class="col-md-2">
                     <input type="submit" value="Search" />
@@ -38,10 +38,11 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
+        @{var i = 1;}
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(i)</td>
                 <td>@Html.Encode(item.Name)</td>
                 <td>@Html.Encode(item.DayNum)</td>
                 <td>@Html.Encode(item.OccasionNum)</td>
@@ -51,7 +52,7 @@
                 <td>@Html.Encode(item.EndHour)</td>
                 <td>@Html.ActionLink("Edit", "EditTicketTypes", item)</td>
                 <td>
-                    @if (!false)//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    @if (!item.IsDeleted)
                     {
                         @Html.ActionLink("Delete", "DeleteTicketType", new { Id = item.Id })
                     }
@@ -61,21 +62,22 @@
                     }
                 </td>
             </tr>
+            ++i;
         }
     </table>
     <br />
     <div class="container">
-        <div class="row">
+        <div class="row vcenter">
             <div class="col-md-2" id="anchor">
                 @Html.ActionLink("Add new type", "CreateTicketType", "Admin", new { id = "mask" })
             </div>
-            <div class="col-md-2 col-md-offset-3">
+            <div class="col-md-2 col-md-offset-3 ">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
                 @Html.PagedListPager(Model, page => Url.Action("ListTicketTypes",
                     new { page }))
             </div>
-            <div class="col-md-2 col-md-offset-3">
+            <div class="col-md-2 col-md-offset-3" id="expi">
                 @using (Html.BeginForm("SaveToXls", "Admin", new { what = "Type" }, FormMethod.Post))
                 {
                     <button id="exp" type="submit">Export</button>

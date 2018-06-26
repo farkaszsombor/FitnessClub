@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-    }
+    }  
 
     <hr />
     <table class="info">
@@ -38,10 +38,11 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
+        @{var i = 1;}
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(i)</td>
                 <td>@Html.Encode(item.Name)</td>
                 <td>@Html.Encode(item.IsDeleted)</td>
                 <td>@Html.Encode(item.Department)</td>
@@ -61,12 +62,13 @@
                     }
                 </td>
             </tr>
+            ++i;
         }
     </table>
     <br />
     <div class="container">
         <div class="row">
-            <div class="col-md-2" id="anchor">
+            <div class="col-md-2 vcenter" id="anchor">
                 @Html.ActionLink("Add new employee", "CreateEmployee", "Admin", new { id = "mask" })
             </div>
             <div class="col-md-2 col-md-offset-3">
