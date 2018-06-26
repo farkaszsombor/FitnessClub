@@ -66,10 +66,11 @@
             <th>Ticket Name</th>
             <th>Deleted </th>
         </tr>
+        @{var i = 1;}
         @foreach (var item in (dynamic)Model)
         {
             <tr>
-                <td>@Html.Encode(item.Id)</td>
+                <td>@Html.Encode(i)</td>
                 <td>@Html.Encode(item.BuyingDate)</td>
                 <td>@Html.Encode(item.StartDate)</td>
                 <td>@Html.Encode(item.Price)</td>
@@ -77,11 +78,12 @@
                 <td>@Html.Encode(item.TicketName)</td>
                 <td>@Html.Encode(item.IsDeleted)</td>
             </tr>
+            ++i;
         }
     </table>
     <br />
     <div class="container">
-        <div class="row">
+        <div class="row vcenter">
             <div class="col-md-2 col-md-offset-5">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
