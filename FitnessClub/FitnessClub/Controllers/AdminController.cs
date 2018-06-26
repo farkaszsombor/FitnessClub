@@ -482,7 +482,7 @@ namespace FitnessClub.Controllers
             int result = 0;
             try
             {
-                GMailer.GmailUsername = "zsomborf96@gmail.com";
+                GMailer.GmailUsername = "pistike@gmail.com";
                 GMailer.GmailPassword = "";
 
                 GMailer mailer = new GMailer();
