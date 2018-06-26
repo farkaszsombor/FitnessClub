@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Web;
+using System.IO;
+using System.Web.Mvc;
 using System.Linq;
 using System.Web;
 using Microsoft.Office.Interop.Excel;
@@ -68,7 +71,7 @@ namespace FitnessClub
                         sheet.Cells[i+2, Convert.ToChar(65+j).ToString()].Value2 += dt.Rows[i][j].ToString();
                     }
                 }
-                workbook.SaveAs("C:\\Users\\Farkas Zsombor\\Source\\Repos\\FitnessClub", XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                workbook.SaveAs(System.Web.HttpContext.Current.Server.MapPath("~/Content/Export"), XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
                 workbook.Close(true);
                 excel.Quit();
             }
