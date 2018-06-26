@@ -429,5 +429,12 @@ namespace FitnessClub.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        //Sign out
+        public ActionResult Logout()
+        {
+            Session["LoginedUser"] = "";
+            return RedirectToAction("Index", "Login");
+        }
     }
 }

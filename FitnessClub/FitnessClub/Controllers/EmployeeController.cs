@@ -152,5 +152,11 @@ namespace FitnessClub.Controllers
                 return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres belepes" });
             }
         }
+
+        public ActionResult Logout()
+        {
+            Session["LoginedUser"] = "";
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
