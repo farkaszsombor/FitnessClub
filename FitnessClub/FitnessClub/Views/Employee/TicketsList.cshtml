@@ -78,7 +78,8 @@
                 || ((item.RemaningLoginNum == -1) && item.EndDate <= DateTime.Now)
                 || (item.RemaningLoginNum == -1) && item.LastLoginDate.Day == DateTime.Now.Day
                 || ((item.RemaningLoginNum != -1) && (item.EndDate != item.BuyingDate) && (item.EndDate <= DateTime.Now || item.RemaningLoginNum <= 0))
-                || (itemType.EndHour <= DateTime.Now.Hour || itemType.StartHour > DateTime.Now.Hour))
+                || (itemType.EndHour <= DateTime.Now.Hour || itemType.StartHour > DateTime.Now.Hour)
+                || (item.StartDate > DateTime.Now))
             {
 
                 <div class="list-item disabled">
@@ -107,43 +108,86 @@
             }
             else
             {
-                <div class="list-item" onclick="location.href='@Url.Action("Enter", "Employee",item)'">
-                    <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
-                    <p>@Html.Encode(item.StartDate)</p>
-                    @if (item.EndDate == item.BuyingDate)
-                    {
-                        <p style="padding-top: 30px;">Alkalmas</p>
-                    }
-                    else
-                    {
-                        if ((item.EndDate - DateTime.Now).TotalDays <= 2)
+                if (((item.RemaningLoginNum == -1) && item.EndDate.AddDays(-2) <= DateTime.Now)|| ((item.EndDate == item.BuyingDate) && item.RemaningLoginNum <= 2)) 
+                {
+                    <div class="list-item deadline-item" onclick="location.href='@Url.Action("Enter", "Employee",item)'">
+                        <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
+                        <p>@Html.Encode(item.StartDate)</p>
+                        @if (item.EndDate == item.BuyingDate)
                         {
-                            <p style="color:red; padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            <p style="padding-top: 30px;">Alkalmas</p>
                         }
                         else
                         {
-                            <p style="padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            if ((item.EndDate - DateTime.Now).TotalDays <= 2)
+                            {
+                                <p style="color:red; padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            }
+                            else
+                            {
+                                <p style="padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            }
                         }
-                    }
-                    <p>@Html.Encode(item.LastLoginDate)</p>
-                    @if (item.RemaningLoginNum == -1)
-                    {
-                        <p style="padding-top: 30px;">Datumos</p>
-                    }
-                    else
-                    {
-                        if (item.RemaningLoginNum <= 2)
+                        <p>@Html.Encode(item.LastLoginDate)</p>
+                        @if (item.RemaningLoginNum == -1)
                         {
-                            <p style="color:red; padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            <p style="padding-top: 30px;">Datumos</p>
                         }
                         else
                         {
-                            <p style="padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            if (item.RemaningLoginNum <= 2)
+                            {
+                                <p style="color:red; padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            }
+                            else
+                            {
+                                <p style="padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            }
                         }
-                    }
-                    <p style="padding-top: 30px;">@Html.Encode(itemType.StartHour)</p>
-                    <p style="padding-top: 30px;">@Html.Encode(itemType.EndHour)</p>
-                </div>
+                        <p style="padding-top: 30px;">@Html.Encode(itemType.StartHour)</p>
+                        <p style="padding-top: 30px;">@Html.Encode(itemType.EndHour)</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="list-item"  onclick="location.href='@Url.Action("Enter", "Employee",item)'">
+                        <p style="padding-top: 30px;">@Html.Encode(item.TicketName)</p>
+                        <p>@Html.Encode(item.StartDate)</p>
+                        @if (item.EndDate == item.BuyingDate)
+                        {
+                            <p style="padding-top: 30px;">Alkalmas</p>
+                        }
+                        else
+                        {
+                            if ((item.EndDate - DateTime.Now).TotalDays <= 2)
+                            {
+                                <p style="color:red; padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            }
+                            else
+                            {
+                                <p style="padding-top: 30px;">@Html.Encode(item.EndDate)</p>
+                            }
+                        }
+                        <p>@Html.Encode(item.LastLoginDate)</p>
+                        @if (item.RemaningLoginNum == -1)
+                        {
+                            <p style="padding-top: 30px;">Datumos</p>
+                        }
+                        else
+                        {
+                            if (item.RemaningLoginNum <= 2)
+                            {
+                                <p style="color:red; padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            }
+                            else
+                            {
+                                <p style="padding-top: 30px;">@Html.Encode(item.RemaningLoginNum)</p>
+                            }
+                        }
+                        <p style="padding-top: 30px;">@Html.Encode(itemType.StartHour)</p>
+                        <p style="padding-top: 30px;">@Html.Encode(itemType.EndHour)</p>
+                    </div>
+                }
             }
         }
     </div>

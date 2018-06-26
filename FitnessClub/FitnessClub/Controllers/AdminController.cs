@@ -8,6 +8,7 @@ using System.Linq;
 using System.Data;
 using System.Web.UI.WebControls;
 using FitnessClub.ViewModel;
+using FitnessClub.Mappings;
 
 namespace FitnessClub.Controllers
 {
@@ -26,9 +27,10 @@ namespace FitnessClub.Controllers
                     TicketsNumberOfMonthNow = StatisticsUtils.GetTicketsNumberOfMonth(DateTime.Now),
                     TicketsNumberOfYearNow = StatisticsUtils.GetTicketsNumberOfYear(DateTime.Now),
                     IncomeOfTheMonthNow = StatisticsUtils.GetIncomeOfTheMonth(DateTime.Now),
-                    IncomeOfTheYearNow = StatisticsUtils.GetIncomeOfTheYear(DateTime.Now)
+                    IncomeOfTheYearNow = StatisticsUtils.GetIncomeOfTheYear(DateTime.Now),
+                    PerformanceEverMap=MappingDtos.EntityEmployeeToModelEmployeeAsDictionary(StatisticsUtils.GetAllEmployeesPerformanceEver()),
+                    PerformanceMapNow=MappingDtos.EntityEmployeeToModelEmployeeAsDictionary(StatisticsUtils.GetAllEmployeesPerformanceByMonth(DateTime.Now))
                 };
-
 
                 return View(statistics);
             }

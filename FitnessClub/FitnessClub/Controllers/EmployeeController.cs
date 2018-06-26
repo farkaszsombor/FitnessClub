@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FitnessClub.ViewModel;
+using System.IO;
 
 namespace FitnessClub.Controllers
 {
@@ -17,7 +18,7 @@ namespace FitnessClub.Controllers
         {
             if ((Session["LoginedUser"] ?? "").ToString() != "")
             {
-                return View();
+                return RedirectToAction("ClientsList", "Employee");
             }
             return RedirectToAction("LoginError","Login");
 
@@ -96,9 +97,19 @@ namespace FitnessClub.Controllers
         {
             return View();
         }
-        public ActionResult Insert(Client user)
+        public ActionResult Insert(Client user, HttpPostedFileBase file)
         {
-            user.InserterName = Session["LoginedUser"].ToString();
+
+            if (file.ContentLength > 0)
+            {
+
+                // code for saving the image file to a physical location.
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/Content/Images"), fileName);
+                file.SaveAs(path);
+                user.ImagePath = "~/Content/Images/"+ fileName;
+            }
+                user.InserterName = Session["LoginedUser"].ToString();
             
             if(ClientUtils.InsertClient(MappingDtos.ModelClientToEntityClient(user)))
             {
@@ -142,15 +153,28 @@ namespace FitnessClub.Controllers
             var ticketId = Int32.Parse(collection.Get("ticketId"));
             var ticketOvner = collection.Get("ticketOvner");
             var modelEvent = new Event { RoomName = room, EmployeeName = Session["LoginedUser"].ToString(), ClientName = ticketOvner, Date = DateTime.Now, TicketId = ticketId, Type = Convert.ToBoolean(type) };
-            if(EventUtils.InsertEvent(MappingDtos.ModelEventToEntityEvent(modelEvent)))
+            var tmp = MappingDtos.ModelEventToEntityEvent(modelEvent);
+            if (EventUtils.InsertEvent(tmp))
             {
                 TicketUtils.EventTriggerUpdate(ticketId);
-                return RedirectToAction("ClientsList", "Employee");
+       //         List<Ticket> tickets = new List<Ticket>();
+                Ticket tick = new Ticket();
+                tick = MappingDtos.EntityTicketToModelTicket(TicketUtils.GetTicketById(ticketId));
+      /*          tickets.Add(tick);
+                Client client = new Client();
+                client = MappingDtos.EntityClientToModelClient(tmp.Card);
+    */            
+                return RedirectToAction("SuccessEnter", "Employee", tick);
             }
             else
             {
                 return RedirectToAction("EmployeeError", "Employee", new { @errorMsg = "Nem sikeres belepes" });
             }
+        }
+        public ActionResult SuccessEnter(Ticket param )
+        {
+           
+            return View(param);
         }
     }
 }

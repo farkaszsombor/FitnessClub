@@ -83,6 +83,181 @@ namespace DataAccessLayer.Utils
             return result;
         }
 
+        public static Dictionary<Employee, int> GetAllEmployeesPerformanceEver()
+        {
+            Dictionary<Employee, int> statisticMap = new Dictionary<Employee, int>();
+            using (var ctx = new NorthwindContext())
+            {
+                var employees = (from emp in ctx.Employees.Include(x=>x.WorkPlace)
+                                 select emp).ToList();
+
+                var events = (from ev in ctx.Events.Include(x=>x.Inserter).Include(x => x.Room)
+                              select ev).ToList();
+
+
+                foreach (var item in employees)
+                {
+                    statisticMap.Add(item, 0);
+                }
+               
+                foreach (var item in events)
+                {
+                    string eventDay;
+                    switch ((int)item.Date.DayOfWeek)
+                    {
+                        case 0:
+                            eventDay = "V";
+                            break;
+
+                        case 1:
+                            eventDay = "H";
+                            break;
+
+                        case 2:
+                            eventDay = "K";
+                            break;
+
+                        case 3:
+                            eventDay = "SZE";
+                            break;
+
+                        case 4:
+                            eventDay = "CS";
+                            break;
+
+                        case 5:
+                            eventDay = "P";
+                            break;
+
+                        default:
+                            eventDay = "SZO";
+                            break;
+                    }
+                    var trainers = (from s in statisticMap
+                             where s.Key.Days.Contains(eventDay)&&
+                             s.Key.WorkPlace.Id==item.Room.Id&&
+                             s.Key.StartHour<=item.Date.Hour&&
+                             s.Key.EndHour > item.Date.Hour
+                             select s).ToList();
+                    var receptionists = (from s in statisticMap
+                                where s.Key.Id == item.Inserter.Id
+                                select s).ToList();
+
+                    foreach (var t in trainers.Union(receptionists))
+                    {
+                        statisticMap[t.Key] ++;
+                    }
+
+                }
+                var ticketInserters = (from i in ctx.Tickets.Include(x => x.Inserter)
+                                       select i.Inserter).ToList();
+
+                var clientInserters = (from i in ctx.Clients.Include(x => x.Inserter)
+                                       select i.Inserter).ToList();
+                foreach (var t in ticketInserters)
+                {
+                    statisticMap[t]++;
+                }
+                foreach (var t in clientInserters)
+                {
+                    statisticMap[t]++;
+                }
+            }
+
+            return statisticMap;
+        }
+
+        public static Dictionary<Employee, int> GetAllEmployeesPerformanceByMonth(DateTime month)
+        {
+            Dictionary<Employee, int> statisticMap = new Dictionary<Employee, int>();
+            using (var ctx = new NorthwindContext())
+            {
+                var employees = (from emp in ctx.Employees.Include(x => x.WorkPlace)
+                                 select emp).ToList();
+
+                 var events = (from ev in ctx.Events.Include(x => x.Inserter).Include(x => x.Room)
+                               select ev).ToList();
+
+
+                foreach (var item in employees)
+                {
+                    statisticMap.Add(item, 0);
+                }
+               
+                foreach (var item in events)
+                {
+                    string eventDay;
+                    switch ((int) item.Date.DayOfWeek)
+                    {
+                        case 0:
+                            eventDay = "V";
+                            break;
+
+                        case 1:
+                            eventDay = "H";
+                            break;
+
+                        case 2:
+                            eventDay = "K";
+                            break;
+
+                        case 3:
+                            eventDay = "SZE";
+                            break;
+
+                        case 4:
+                            eventDay = "CS";
+                            break;
+
+                        case 5:
+                            eventDay = "P";
+                            break;
+
+                        default:
+                            eventDay = "SZO";
+                            break;
+                    }
+                    var trainers = (from s in statisticMap
+                               where s.Key.Days.Contains(eventDay) &&
+                               s.Key.WorkPlace.Id == item.Room.Id &&
+                               s.Key.StartHour <= item.Date.Hour &&
+                               s.Key.EndHour > item.Date.Hour &&
+                               item.Date.Year== month.Year&&
+                               item.Date.Month == month.Month
+                               select s).ToList();
+
+                    var receptionists = (from s in statisticMap
+                                         where s.Key.Id == item.Inserter.Id&&
+                                         item.Date.Year == month.Year &&
+                                         item.Date.Month == month.Month
+                                         select s).ToList();
+
+                    foreach (var t in trainers.Union(receptionists))
+                    {
+                        statisticMap[t.Key]++;
+                    }
+                }
+                var ticketInserters = (from i in ctx.Tickets.Include(x=>x.Inserter)
+                               where i.BuyingDate.Year==month.Year&&
+                               i.BuyingDate.Month==month.Month
+                               select i.Inserter).ToList();
+
+                var clientInserters = (from i in ctx.Clients.Include(x => x.Inserter)
+                                       where i.InsertedDate.Year == month.Year &&
+                                       i.InsertedDate.Year == month.Month
+                                       select i.Inserter).ToList();
+                foreach (var t in ticketInserters)
+                {
+                    statisticMap[t]++;
+                }
+                foreach (var t in clientInserters)
+                {
+                    statisticMap[t]++;
+                }
+            }
+            return statisticMap;
+        }
+
 
     }
 }

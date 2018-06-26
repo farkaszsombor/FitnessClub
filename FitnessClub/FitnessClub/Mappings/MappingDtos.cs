@@ -132,6 +132,16 @@ namespace FitnessClub.Mappings
             }
             return entityEmployeeList;
         }
+        public static Dictionary<FitnessClub.Models.Employee,int> EntityEmployeeToModelEmployeeAsDictionary(Dictionary<DataAccessLayer.Entities.Employee, int> dict)
+        {
+            Dictionary<FitnessClub.Models.Employee, int> dictionary=new Dictionary<FitnessClub.Models.Employee, int>();
+            foreach (var item in dict)
+            {
+                dictionary.Add(EntityEmployeeToModelEmployee(item.Key), item.Value);
+            }
+
+            return dictionary;
+        }
 
         //---------------------------------------EVENT-----------------------------------------
         public static Models.Event EntityEventToModelEvent(DataAccessLayer.Entities.Event entityEvent)
