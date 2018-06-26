@@ -481,7 +481,7 @@ namespace FitnessClub.Controllers
             try
             {
                 GMailer.GmailUsername = "zsomborf96@gmail.com";
-                GMailer.GmailPassword = "szu24mk96";
+                GMailer.GmailPassword = "";
 
                 GMailer mailer = new GMailer();
                 List<DataAccessLayer.Entities.Client> layerClientList = ClientUtils.GetAllClients();

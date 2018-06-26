@@ -177,6 +177,8 @@
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\Ticket.cs" />
+    <Compile Include="ViewModel\RoomTicket.cs" />
+    <Compile Include="ViewModel\StatisticsModel.cs" />
     <Compile Include="ViewModel\TicketsClient.cs" />
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
